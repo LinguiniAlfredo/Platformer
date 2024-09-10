@@ -36,7 +36,7 @@ SDL_Texture* Texture::loadFromFile(string path)
 
 	SDL_Texture* newTexture = nullptr;
 
-	SDL_Surface* surface = IMG_Load(path.c_str());
+	SDL_Surface* surface = IMG_Load(path.c_str());	
 
 	if (surface == nullptr)
 	{
@@ -44,24 +44,22 @@ SDL_Texture* Texture::loadFromFile(string path)
 	}
 	else
 	{
-		SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 0, 0xFF, 0xFF));
-	}
+		// Uncomment for transparency keyframing
+		//SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 0, 0xFF, 0xFF));
 
-	newTexture = SDL_CreateTextureFromSurface(renderer, surface);
-	if (newTexture == NULL)
-	{
-		printf("unable to create texture %s : %s", path.c_str(), SDL_GetError());
+		newTexture = SDL_CreateTextureFromSurface(renderer, surface);
+		if (newTexture == nullptr)
+		{
+			printf("unable to create texture %s : %s", path.c_str(), SDL_GetError());
+		}
+		else
+		{
+			width = surface->w;
+			height = surface->h;
+		}
+		SDL_FreeSurface(surface);
 	}
-	else
-	{
-		width = surface->w;
-		height = surface->h;
-	}
-
-	SDL_FreeSurface(surface);
-
-	texture = newTexture;
-	return texture;
+	return newTexture;
 }
 
 void Texture::render(int x, int y)
@@ -79,6 +77,11 @@ void Texture::free()
 		width = 0;
 		height = 0;
 	}
+}
+
+SDL_Texture* Texture::getTexture()
+{
+	return texture;
 }
 
 int Texture::getWidth()

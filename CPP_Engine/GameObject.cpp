@@ -8,9 +8,10 @@ GameObject::GameObject()
 	width = 0;
 	height = 0;
 	position = { 0,0 };
+	texture = nullptr;
 }
 
-GameObject::GameObject(string n, double w, double h, coordinates p, Texture t)
+GameObject::GameObject(string n, double w, double h, coordinates p, Texture* t)
 {
 	cout << "creating gobj " << n << "\n";
 	name = n;
@@ -32,7 +33,13 @@ GameObject::GameObject(const GameObject& src)
 GameObject::~GameObject()
 {
 	cout << "destroying gobj " << name << "\n";
-	texture.free();
+	delete texture;
+	texture = nullptr;
+}
+
+void GameObject::render(int x, int y)
+{
+	texture->render(x, y);
 }
 
 double GameObject::getWidth()
@@ -55,7 +62,7 @@ coordinates GameObject::getPosition()
 	return position;
 }
 
-Texture GameObject::getTexture()
+Texture* GameObject::getTexture()
 {
 	return texture;
 }
