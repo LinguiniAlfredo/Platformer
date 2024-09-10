@@ -5,18 +5,14 @@ using namespace std;
 GameObject::GameObject()
 {
 	name = "";
-	width = 0;
-	height = 0;
 	position = { 0,0 };
 	texture = nullptr;
 }
 
-GameObject::GameObject(string n, double w, double h, coordinates p, Texture* t)
+GameObject::GameObject(string n, coordinates p, Texture* t)
 {
 	cout << "creating gobj " << n << "\n";
 	name = n;
-	width = w;
-	height = h;
 	texture = t;
 	position = p;
 }
@@ -24,8 +20,6 @@ GameObject::GameObject(string n, double w, double h, coordinates p, Texture* t)
 GameObject::GameObject(const GameObject& src)
 {
 	name = src.name;
-	width = src.width;
-	height = src.height;
 	texture = src.texture;
 	position = src.position;
 }
@@ -40,16 +34,6 @@ GameObject::~GameObject()
 void GameObject::render(int x, int y)
 {
 	texture->render(x, y);
-}
-
-double GameObject::getWidth()
-{
-	return width;
-}
-
-double GameObject::getHeight()
-{
-	return height;
 }
 
 string GameObject::getName()
