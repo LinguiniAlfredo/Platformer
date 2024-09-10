@@ -1,3 +1,4 @@
+#include <iostream>
 #include "GameObject.h"
 using namespace std;
 
@@ -6,25 +7,17 @@ GameObject::GameObject()
 	name = "";
 	width = 0;
 	height = 0;
-	texture = NULL;
-	scaledSize = NULL;
 	position = { 0,0 };
 }
 
-GameObject::GameObject(string n, double w, double h, coordinates p, SDL_Texture* t)
+GameObject::GameObject(string n, double w, double h, coordinates p, Texture t)
 {
+	cout << "creating gobj " << n << "\n";
 	name = n;
 	width = w;
 	height = h;
 	texture = t;
 	position = p;
-
-	SDL_Rect* size = new SDL_Rect();
-	size->x = p.x;
-	size->y = p.y;
-	size->w = w;
-	size->h = h;
-	scaledSize = size;
 }
 
 GameObject::GameObject(const GameObject& src)
@@ -34,15 +27,12 @@ GameObject::GameObject(const GameObject& src)
 	height = src.height;
 	texture = src.texture;
 	position = src.position;
-	scaledSize = src.scaledSize;
 }
 
 GameObject::~GameObject()
 {
-	SDL_DestroyTexture(texture);
-	texture = NULL;
-	delete scaledSize;
-	scaledSize = NULL;
+	cout << "destroying gobj " << name << "\n";
+	texture.free();
 }
 
 double GameObject::getWidth()
@@ -65,12 +55,7 @@ coordinates GameObject::getPosition()
 	return position;
 }
 
-SDL_Texture* GameObject::getTexture()
+Texture GameObject::getTexture()
 {
 	return texture;
-}
-
-SDL_Rect* GameObject::getSize()
-{
-	return scaledSize;
 }

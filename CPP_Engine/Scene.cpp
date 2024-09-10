@@ -18,6 +18,7 @@ Scene::~Scene()
 	for (GameObject* obj : gameObjects)
 	{
 		delete obj;
+		obj = nullptr;
 	}
 	gameObjects.clear();
 

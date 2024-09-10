@@ -1,6 +1,8 @@
+#pragma once
 #include <SDL.h>
 #include <string>
-#pragma once
+#include "Texture.h"
+
 using namespace std;
 
 struct coordinates {
@@ -12,23 +14,24 @@ class GameObject
 {
 public:
 	GameObject();
-	GameObject(string name, double width, double height, coordinates position, SDL_Texture* texture);	
+	GameObject(string name, double width, double height, coordinates position, Texture texture);	
 	GameObject(const GameObject& src);		
 	~GameObject();						
+
+	//void handleEvent(SDL_Event e);
 
 	double getWidth();				
 	double getHeight();
 	string getName();
 	coordinates getPosition();
-	SDL_Texture* getTexture();
-	SDL_Rect* getSize();
+	Texture getTexture();
 
 
-private:
+
+protected:
 	double width;					
 	double height;
 	string name;
 	coordinates position;
-	SDL_Texture* texture;
-	SDL_Rect* scaledSize;
+	Texture texture;
 };
