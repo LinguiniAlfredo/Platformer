@@ -84,8 +84,17 @@ void GameObject::handleEvent(SDL_Event& e)
 void GameObject::move()
 {
 	currentPosition.x += currentVelocity.x;
+	if (currentPosition.x <= (0 - texture->getWidth()/2) || currentPosition.x >= (640 - texture->getWidth()/2))
+	{
+		currentPosition.x -= currentVelocity.x;
+	}
+
 	currentPosition.y += currentVelocity.y;
-	// TODO - Add bounds checking / collision
+	if (currentPosition.y <= (0 - texture->getHeight()/2) || currentPosition.y >= (480 - texture->getHeight()/2))
+	{
+		currentPosition.y -= currentVelocity.y;
+
+	}
 }
 
 string GameObject::getName()
