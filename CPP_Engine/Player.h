@@ -5,7 +5,7 @@ class Player :
 	public GameObject
 {
 public:
-	Player(string name, double width, double height, coordinates position, SDL_Texture* texture);
+	Player(string name, double width, double height, axes position, SDL_Texture* texture);
 	~Player();
 
 	void moveLeft();

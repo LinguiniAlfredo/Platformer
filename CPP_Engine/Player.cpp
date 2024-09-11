@@ -2,7 +2,7 @@
 #include "Player.h"
 using namespace std;
 
-Player::Player(string n, double w, double h, coordinates p, SDL_Texture* t)
+Player::Player(string n, double w, double h, axes p, SDL_Texture* t)
 {
 	cout << "creating player " << n << "\n";
 

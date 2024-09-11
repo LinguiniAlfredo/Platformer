@@ -5,7 +5,7 @@
 
 using namespace std;
 
-struct coordinates {
+struct axes {
 	int x;
 	int y;
 };
@@ -13,22 +13,25 @@ struct coordinates {
 class GameObject
 {
 public:
+	static const int velocity = 10;
+
 	GameObject();
-	GameObject(string name, coordinates position, Texture* texture);	
+	GameObject(string name, axes position, Texture* texture);	
 	GameObject(const GameObject& src);		
 	~GameObject();						
 
-	void render(int x, int y);
-	//void handleEvent(SDL_Event e);
-
 	string getName();
-	coordinates getPosition();
 	Texture* getTexture();
+	axes getPosition();
+
+	void handleEvent(SDL_Event& e); //  TODO - move to inherited Player class
+	void render(int x, int y);
+	void move(); // TODO - move to inherited Player class
 
 
-
-protected:
+private:
 	string name;
-	coordinates position;
 	Texture* texture;
+	axes currentPosition; // TODO - move to inherited Player class
+	axes currentVelocity; // TODO - move to inherited Player class
 };
