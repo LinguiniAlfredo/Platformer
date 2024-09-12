@@ -21,7 +21,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Downloads\01_hello_SDL\01_hello_SDL\main.cpp" />
     <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObject.h" />
     <ClCompile Include="Physics.cpp" />
@@ -39,7 +38,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
-    <ClInclude Include="Collision.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Pickup.h" />
     <ClInclude Include="Player.h" />

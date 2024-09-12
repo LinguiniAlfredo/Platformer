@@ -1,6 +1,5 @@
 #pragma once
 #include "GameObject.h"
-#include "Collision.h"
 #include "Physics.h"
 
 class Player : 
@@ -14,7 +13,7 @@ public:
 	void jump();
 
 private:
-	Collision* collision;
+	SDL_Rect* collision;
 	Physics* physics;
 
 };

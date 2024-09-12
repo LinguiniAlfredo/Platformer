@@ -3,13 +3,12 @@
 #include <string>
 #include "Texture.h"
 #include "Physics.h"
-#include "Collision.h"
 
 using namespace std;
 
 struct axes {
-	float x;
-	float y;
+	int x;
+	int y;
 };
 
 enum state {
@@ -40,17 +39,17 @@ public:
 	Physics* getPhysics();
 	bool hasPhysics();
 
-	Collision* getCollider();
+	SDL_Rect* getCollider();
 	bool hasCollider();
 
-	void handleEvent(SDL_Event& e, float deltaTime);
-	void render(float x, float y);
+	void handleEvent(SDL_Event& e);
+	void render(int x, int y);
 	void move(float deltaTime); 
 
 private:
 	Texture* texture;
 	Physics* physics;
-	Collision* collider;
+	SDL_Rect* collider;
 
 	state currentState;
 	axes currentPosition; 

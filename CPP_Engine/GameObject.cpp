@@ -51,7 +51,7 @@ GameObject::GameObject(string n, axes p, Texture* t, bool ph, bool c)
 	currentPosition = p;
 	currentVelocity = { 0, 0 };
 	physics = ph ? new Physics() : nullptr;
-	collider = c ? new Collision(currentPosition, texture->getWidth(), texture->getHeight()) : nullptr;
+	collider = c ? new SDL_Rect { currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() } : nullptr;
 
 	currentState = AIRBORNE;
 }
@@ -90,12 +90,12 @@ GameObject::~GameObject()
 	}
 }
 
-void GameObject::render(float x, float y)
+void GameObject::render(int x, int y)
 {
-	texture->render((int)x, (int)y);
+	texture->render(x, y);
 }
 
-void GameObject::handleEvent(SDL_Event& e, float deltaTime)
+void GameObject::handleEvent(SDL_Event& e)
 {
 	if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
 	{
@@ -107,6 +107,14 @@ void GameObject::handleEvent(SDL_Event& e, float deltaTime)
 		if (key == SDLK_d)
 		{
 			currentVelocity.x = 1;
+		}
+		if (key == SDLK_w)
+		{
+			currentVelocity.y = -1;
+		}
+		if (key == SDLK_s)
+		{
+			currentVelocity.y = 1;
 		}
 
 	} 
@@ -123,31 +131,48 @@ void GameObject::handleEvent(SDL_Event& e, float deltaTime)
 			if (currentVelocity.x > 0)
 				currentVelocity.x = 0;
 		}
-		
+		if (key == SDLK_w)
+		{
+			if (currentVelocity.y < 0)
+				currentVelocity.y = 0;
+		}
+		if (key == SDLK_s)
+		{
+			if (currentVelocity.y > 0)
+				currentVelocity.y = 0;
+		}
 	}
 }
 
 
 void GameObject::move(float deltaTime)
 {
-	if (physics != nullptr)
+	//if (physics != nullptr)
+	//{
+	//	if (currentState == AIRBORNE)
+	//	{
+	//		currentPosition.y += physics->getGravity();
+	//	}
+	//}
+
+	if (hasCollider())
 	{
-		if (currentState == AIRBORNE)
-		{
-			currentPosition.y += physics->getGravity();
-		}
+		collider->x += currentVelocity.x * deltaTime * speed;
+		collider->x = clamp(collider->x, 0 - (texture->getWidth() / 2), 640 - (texture->getWidth() / 2));
+
+		collider->y += currentVelocity.y * deltaTime * speed;
+		collider->y = clamp(collider->y, 0 - (texture->getHeight() / 2), 480 - (texture->getHeight() / 2));
+
+		currentPosition.x = collider->x;
+		currentPosition.y = collider->y;
 	}
-
-	currentPosition.x += currentVelocity.x * deltaTime * speed;
-	currentPosition.x = clamp(currentPosition.x, 0.f - (texture->getWidth() / 2.f), 640.f - (texture->getWidth() / 2.f));
-
-	currentPosition.y += currentVelocity.y * deltaTime * speed;
-	currentPosition.y = clamp(currentPosition.y, 0.f - (texture->getHeight() / 2.f), 480.f - (texture->getHeight() / 2.f));
-
-	 //do this before moving actual object to check collisions first
-	if (collider != nullptr)
+	else
 	{
-		collider->setPosition(currentPosition);
+		currentPosition.x += currentVelocity.x * deltaTime * speed;
+		currentPosition.x = clamp(currentPosition.x, 0 - (texture->getWidth() / 2), 640 - (texture->getWidth() / 2));
+
+		currentPosition.y += currentVelocity.y * deltaTime * speed;
+		currentPosition.y = clamp(currentPosition.y, 0 - (texture->getHeight() / 2), 480 - (texture->getHeight() / 2));
 	}
 }
 
@@ -181,7 +206,7 @@ bool GameObject::hasCollider()
 	return collider != nullptr;
 }
 
-Collision* GameObject::getCollider()
+SDL_Rect* GameObject::getCollider()
 {
 	return collider;
 }
