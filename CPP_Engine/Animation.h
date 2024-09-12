@@ -3,6 +3,5 @@
 class Animation
 {
 private:
-	SDL_Texture* textures[];
 };
 

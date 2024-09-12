@@ -2,32 +2,26 @@
 #include "Player.h"
 using namespace std;
 
-Player::Player(string n, double w, double h, axes p, SDL_Texture* t)
+Player::Player()
 {
-	cout << "creating player " << n << "\n";
-
-	
-
+	collision = nullptr;
+	physics = nullptr;
 }
 
 Player::~Player()
 {
 	cout << "destroying player \n";
+	delete collision;
+	collision = nullptr;
+	delete physics;
+	physics = nullptr;
 }
 
-void Player::moveLeft()
+void Player::move()
 {
 
 }
-void Player::moveRight()
-{
-
-}
-void Player::moveUp()
-{
-
-}
-void Player::moveDown()
+void Player::jump()
 {
 
 }

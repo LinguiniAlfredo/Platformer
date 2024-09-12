@@ -1,18 +1,21 @@
 #pragma once
 #include "GameObject.h"
+#include "Collision.h"
+#include "Physics.h"
 
 class Player : 
 	public GameObject
 {
 public:
-	Player(string name, double width, double height, axes position, SDL_Texture* texture);
+	Player();
 	~Player();
 
-	void moveLeft();
-	void moveRight();
-	void moveUp();
-	void moveDown();
+	void move();
+	void jump();
 
 private:
+	Collision* collision;
+	Physics* physics;
+
 };
 

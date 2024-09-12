@@ -2,37 +2,58 @@
 #include <SDL.h>
 #include <string>
 #include "Texture.h"
+#include "Physics.h"
+#include "Collision.h"
 
 using namespace std;
 
 struct axes {
-	int x;
-	int y;
+	float x;
+	float y;
 };
+
+enum state {
+	GROUNDED,
+	AIRBORNE
+};
+
+// TODO - Move physics, collision and movement to Player class
 
 class GameObject
 {
 public:
-	static const int speed = 400; // TODO - move to inherited Player class
+	static const int speed = 400; 
 	string name;
 
 	GameObject();
 	GameObject(string name, axes position, Texture* texture);	
+	GameObject(string name, axes position, Texture* texture, bool hasPhysics);	
+	GameObject(string name, axes position, Texture* texture, bool hasPhysics, bool hasCollision);	
 	GameObject(const GameObject& src);		
 	~GameObject();						
 
 	string getName();
-	Texture* getTexture();
 	axes getPosition();
 
-	void handleEvent(SDL_Event& e, float deltaTime); //  TODO - move to inherited Player class
-	void render(int x, int y);
-	void move(float deltaTime); // TODO - move to inherited Player class
+	Texture* getTexture();
 
+	Physics* getPhysics();
+	bool hasPhysics();
+
+	Collision* getCollider();
+	bool hasCollider();
+
+	void handleEvent(SDL_Event& e, float deltaTime);
+	void render(float x, float y);
+	void move(float deltaTime); 
 
 private:
 	Texture* texture;
-	axes currentPosition; // TODO - move to inherited Player class
-	axes currentVelocity; // TODO - move to inherited Player class
+	Physics* physics;
+	Collision* collider;
+
+	state currentState;
+	axes currentPosition; 
+	axes currentVelocity; 
 
 };
