@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include <algorithm>
 
 Scene::Scene()
 {
@@ -34,3 +35,7 @@ vector<GameObject*> Scene::getGameObjects()
 	return gameObjects;
 }
 
+GameObject* Scene::getGameObject(string name)
+{
+	return gameObjects.at(2);
+}

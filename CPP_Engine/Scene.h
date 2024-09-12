@@ -12,6 +12,8 @@ public:
 	void addGameObject(GameObject* obj);
 	vector<GameObject*> getGameObjects();
 
+	GameObject* getGameObject(string name);
+
 private:
 	vector<GameObject*> gameObjects;
 };

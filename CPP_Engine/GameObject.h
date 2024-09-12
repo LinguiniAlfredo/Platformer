@@ -13,7 +13,8 @@ struct axes {
 class GameObject
 {
 public:
-	static const int velocity = 10;
+	static const int speed = 400; // TODO - move to inherited Player class
+	string name;
 
 	GameObject();
 	GameObject(string name, axes position, Texture* texture);	
@@ -24,14 +25,14 @@ public:
 	Texture* getTexture();
 	axes getPosition();
 
-	void handleEvent(SDL_Event& e); //  TODO - move to inherited Player class
+	void handleEvent(SDL_Event& e, float deltaTime); //  TODO - move to inherited Player class
 	void render(int x, int y);
-	void move(); // TODO - move to inherited Player class
+	void move(float deltaTime); // TODO - move to inherited Player class
 
 
 private:
-	string name;
 	Texture* texture;
 	axes currentPosition; // TODO - move to inherited Player class
 	axes currentVelocity; // TODO - move to inherited Player class
+
 };
