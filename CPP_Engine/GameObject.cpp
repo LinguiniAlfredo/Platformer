@@ -13,6 +13,7 @@ GameObject::GameObject()
 	currentVelocity = { 0, 0 };
 	physics = nullptr;
 	collider = nullptr;
+	colliding = false;
 
 	currentState = AIRBORNE;
 }
@@ -26,6 +27,7 @@ GameObject::GameObject(string n, axes p, Texture* t)
 	currentVelocity = { 0, 0 };
 	physics = nullptr;
 	collider = nullptr;
+	colliding = false;
 
 	currentState = AIRBORNE;
 }
@@ -39,6 +41,7 @@ GameObject::GameObject(string n, axes p, Texture* t, bool ph)
 	currentVelocity = { 0, 0 };
 	physics = ph ? new Physics() : nullptr;
 	collider = nullptr;
+	colliding = false;
 	
 	currentState = AIRBORNE;
 }
@@ -52,6 +55,7 @@ GameObject::GameObject(string n, axes p, Texture* t, bool ph, bool c)
 	currentVelocity = { 0, 0 };
 	physics = ph ? new Physics() : nullptr;
 	collider = c ? new SDL_Rect { currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() } : nullptr;
+	colliding = false;
 
 	currentState = AIRBORNE;
 }
@@ -65,6 +69,7 @@ GameObject::GameObject(const GameObject& src)
 	currentVelocity = src.currentVelocity;
 	physics = src.physics;
 	collider = src.collider;
+	colliding = src.colliding;
 
 	currentState = src.currentState;
 }
@@ -201,13 +206,23 @@ Physics* GameObject::getPhysics()
 	return physics;
 }
 
+SDL_Rect* GameObject::getCollider()
+{
+	return collider;
+}
+
 bool GameObject::hasCollider()
 {
 	return collider != nullptr;
 }
 
-SDL_Rect* GameObject::getCollider()
+bool GameObject::isColliding()
 {
-	return collider;
+	return colliding;
+}
+
+void GameObject::setColliding(bool c)
+{
+	colliding = c;
 }
 

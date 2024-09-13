@@ -3,6 +3,7 @@
 #include <string>
 #include "Texture.h"
 #include "Physics.h"
+#include "Collider.h"
 
 using namespace std;
 
@@ -41,6 +42,8 @@ public:
 
 	SDL_Rect* getCollider();
 	bool hasCollider();
+	bool isColliding();
+	void setColliding(bool colliding);
 
 	void handleEvent(SDL_Event& e);
 	void render(int x, int y);
@@ -54,5 +57,7 @@ private:
 	state currentState;
 	axes currentPosition; 
 	axes currentVelocity; 
+
+	bool colliding = false;
 
 };

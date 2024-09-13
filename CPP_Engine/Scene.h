@@ -14,6 +14,8 @@ public:
 
 	GameObject* getGameObject(string name);
 
+	void detectCollisions();
+
 private:
 	vector<GameObject*> gameObjects;
 };

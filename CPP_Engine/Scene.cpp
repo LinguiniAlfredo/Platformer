@@ -39,3 +39,29 @@ GameObject* Scene::getGameObject(string name)
 {
 	return gameObjects.at(2);
 }
+
+void Scene::detectCollisions()
+{
+	for (int i = 0; i < getGameObjects().size(); i++)
+	{
+		GameObject* current = getGameObjects().at(i);
+		for (int j = 0; j < getGameObjects().size(); j++)
+		{
+			if (j != i)
+			{
+				GameObject* next = getGameObjects().at(j);
+				if (SDL_HasIntersection(current->getCollider(), next->getCollider()))
+				{
+					current->setColliding(true);
+					break;
+				}
+				else
+				{
+					current->setColliding(false);
+				}
+			}
+			
+		}
+
+	}
+}
