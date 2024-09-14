@@ -22,7 +22,7 @@ enum state {
 class GameObject
 {
 public:
-	static const int speed = 400; 
+	static const int speed = 300; 
 	string name;
 
 	GameObject();
@@ -54,7 +54,7 @@ private:
 	Physics* physics;
 	SDL_Rect* collider;
 
-	state currentState;
+	int currentState;
 	axes currentPosition; 
 	axes currentVelocity; 
 

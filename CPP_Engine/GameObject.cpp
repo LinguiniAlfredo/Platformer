@@ -152,20 +152,23 @@ void GameObject::handleEvent(SDL_Event& e)
 
 void GameObject::move(float deltaTime)
 {
-	//if (physics != nullptr)
-	//{
-	//	if (currentState == AIRBORNE)
-	//	{
-	//		currentPosition.y += physics->getGravity();
-	//	}
-	//}
+	float xMovement = currentVelocity.x * deltaTime * speed;
+	float yMovement = currentVelocity.y * deltaTime * speed;
 
 	if (hasCollider())
 	{
-		collider->x += currentVelocity.x * deltaTime * speed;
-		collider->x = clamp(collider->x, 0 - (texture->getWidth() / 2), 640 - (texture->getWidth() / 2));
+		collider->x += xMovement;
+		if (isColliding())
+		{
+			collider->x -= xMovement;
+		}
 
-		collider->y += currentVelocity.y * deltaTime * speed;
+		collider->y += yMovement;
+		if (isColliding())
+		{
+			collider->y -= yMovement;
+		}
+		collider->x = clamp(collider->x, 0 - (texture->getWidth() / 2), 640 - (texture->getWidth() / 2));
 		collider->y = clamp(collider->y, 0 - (texture->getHeight() / 2), 480 - (texture->getHeight() / 2));
 
 		currentPosition.x = collider->x;
@@ -173,10 +176,10 @@ void GameObject::move(float deltaTime)
 	}
 	else
 	{
-		currentPosition.x += currentVelocity.x * deltaTime * speed;
+		currentPosition.x += xMovement;
 		currentPosition.x = clamp(currentPosition.x, 0 - (texture->getWidth() / 2), 640 - (texture->getWidth() / 2));
 
-		currentPosition.y += currentVelocity.y * deltaTime * speed;
+		currentPosition.y += yMovement;
 		currentPosition.y = clamp(currentPosition.y, 0 - (texture->getHeight() / 2), 480 - (texture->getHeight() / 2));
 	}
 }
@@ -225,4 +228,3 @@ void GameObject::setColliding(bool c)
 {
 	colliding = c;
 }
-
