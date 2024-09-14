@@ -47,6 +47,7 @@ public:
 
 	void handleEvent(SDL_Event& e);
 	void render(int x, int y);
+	void moveColliders(float deltaTime);
 	void move(float deltaTime); 
 
 private:

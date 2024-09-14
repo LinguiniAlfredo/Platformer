@@ -149,6 +149,17 @@ void GameObject::handleEvent(SDL_Event& e)
 	}
 }
 
+void GameObject::moveColliders(float deltaTime)
+{
+	float xMovement = currentVelocity.x * deltaTime * speed;
+	float yMovement = currentVelocity.y * deltaTime * speed;
+
+	if (hasCollider())
+	{
+		collider->x += xMovement;
+		collider->y += yMovement;
+	}
+}
 
 void GameObject::move(float deltaTime)
 {
@@ -157,30 +168,13 @@ void GameObject::move(float deltaTime)
 
 	if (hasCollider())
 	{
-		collider->x += xMovement;
-		if (isColliding())
+		if (!isColliding())
 		{
-			collider->x -= xMovement;
+			currentPosition.x += xMovement;
+			currentPosition.y += yMovement;
 		}
-
-		collider->y += yMovement;
-		if (isColliding())
-		{
-			collider->y -= yMovement;
-		}
-		collider->x = clamp(collider->x, 0 - (texture->getWidth() / 2), 640 - (texture->getWidth() / 2));
-		collider->y = clamp(collider->y, 0 - (texture->getHeight() / 2), 480 - (texture->getHeight() / 2));
-
-		currentPosition.x = collider->x;
-		currentPosition.y = collider->y;
-	}
-	else
-	{
-		currentPosition.x += xMovement;
-		currentPosition.x = clamp(currentPosition.x, 0 - (texture->getWidth() / 2), 640 - (texture->getWidth() / 2));
-
-		currentPosition.y += yMovement;
-		currentPosition.y = clamp(currentPosition.y, 0 - (texture->getHeight() / 2), 480 - (texture->getHeight() / 2));
+		collider->y = currentPosition.y;
+		collider->x = currentPosition.x;
 	}
 }
 
