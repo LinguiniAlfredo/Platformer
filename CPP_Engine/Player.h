@@ -7,7 +7,8 @@ class Physics;
 
 enum state {
 	GROUNDED,
-	AIRBORNE
+	JUMPING,
+	FALLING
 };
 
 class Player : 
@@ -35,11 +36,11 @@ private:
 
 	static const int groundSpeed = 100;
 	static const int airSpeed = 50;
-	static const int jumpForce = 200;
-	static const int jumpHeight = 20;
+	static const int jumpForce = 300;
+	static const int jumpHeight = 100;
 
 	const std::string textureFile = "resources/textures/guy.png";
-	int currentState = AIRBORNE;
+	int currentState = FALLING;
 	bool colliding = false;
 	vec2 currentVelocity;
 	vec2 currentPosition;

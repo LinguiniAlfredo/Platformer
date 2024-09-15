@@ -5,11 +5,9 @@
 #include "Scene.h"
 #include "Physics.h"
 
-using namespace std;
-
 Player::Player(SDL_Renderer* renderer)
 {
-	cout << "creating player \n";
+	printf("creating player \n");
 	currentVelocity = { 0,0 };
 	currentPosition = { 0,0 };
 	texture = new Texture(renderer, textureFile);
@@ -19,7 +17,7 @@ Player::Player(SDL_Renderer* renderer)
 
 Player::Player(SDL_Renderer* renderer, vec2 pos)
 {
-	cout << "creating player \n";
+	printf("creating player \n");
 	currentVelocity = { 0,0 };
 	currentPosition = pos;
 	texture = new Texture(renderer, textureFile);
@@ -29,7 +27,7 @@ Player::Player(SDL_Renderer* renderer, vec2 pos)
 
 Player::~Player()
 {
-	cout << "destroying player \n";
+	printf("destroying player \n");
 	delete texture;
 	delete collider;
 	delete physics;
@@ -40,6 +38,10 @@ Player::~Player()
 
 void Player::update(float deltaTime)
 {
+	// check floor collisions, set grounded/airborne state
+	// check other collisions
+	// move character based on input and collisions
+
 	checkCollisions(deltaTime); // moves colliders, checks intersects
 	move(deltaTime);
 }
@@ -65,8 +67,11 @@ void Player::handleEvent(SDL_Event& e)
 		}
 		if (key == SDLK_SPACE)
 		{
-			currentVelocity.y = -1;
-			currentState = AIRBORNE;
+			if (currentState == GROUNDED)
+			{
+				currentVelocity.y = -1;
+				currentState = JUMPING;
+			}
 		}
 
 	}
@@ -85,11 +90,8 @@ void Player::handleEvent(SDL_Event& e)
 		}
 		if (key == SDLK_SPACE)
 		{
-			if (currentVelocity.y < 0)
-			{
-				currentVelocity.y = 0;
-			}
-
+			currentVelocity.y = 1;
+			currentState = FALLING;
 		}
 	}
 }
@@ -97,10 +99,19 @@ void Player::handleEvent(SDL_Event& e)
 void Player::checkCollisions(float deltaTime)
 {
 	float xMovement = 0, yMovement = 0;
-	xMovement = currentVelocity.x * deltaTime * groundSpeed;
-	yMovement = currentVelocity.y * deltaTime * jumpForce;
+    xMovement = currentVelocity.x * deltaTime * groundSpeed;
 
-	yMovement += physics->getGravity();
+	if (currentState == JUMPING)
+	{
+		// calculate acceleration up to jumpHeight
+		// once reaches jumpHeight, set FALLING
+		yMovement = currentVelocity.y * deltaTime * jumpForce;
+	} 
+	else if (currentState == FALLING)
+	{
+		currentVelocity.y = 1;
+		yMovement = currentVelocity.y * deltaTime * jumpForce;
+	}
 
 	collider->x += xMovement;
 	collider->y += yMovement;
@@ -115,12 +126,13 @@ void Player::checkCollisions(float deltaTime)
 				colliding = true;
 				if (ent->getPosition().y > currentPosition.y + texture->getHeight() / 2)
 					currentState = GROUNDED;
+				else
+					currentState = FALLING;
 				break;
 			}
 			else
 			{
 				colliding = false;
-				currentState = AIRBORNE;
 			}
 		}
 	}
@@ -128,18 +140,31 @@ void Player::checkCollisions(float deltaTime)
 
 void Player::move(float deltaTime)
 {
+	// TODO - put code that is the same in checkCollisions and this one 
+	//		  into a separate function
+
 	float xMovement = 0, yMovement = 0;
-
 	xMovement = currentVelocity.x * deltaTime * groundSpeed;
-	yMovement = currentVelocity.y * deltaTime * jumpForce;
 
-	yMovement += physics->getGravity();
+	if (currentState == JUMPING)
+	{
+		// calculate acceleration up to jumpHeight
+		// once reaches jumpHeight, set FALLING
+		yMovement = currentVelocity.y * deltaTime * jumpForce;
+	}
+	else if (currentState == FALLING)
+	{
+		currentVelocity.y = 1;
+		yMovement = currentVelocity.y * deltaTime * jumpForce;
+	}
 
-	// if colliding in y, still allow x motion (vice versa)
 	if (!colliding)
 	{
 		currentPosition.x += xMovement;
 		currentPosition.y += yMovement;
+
+		if (currentPosition.y < 180 - jumpHeight)
+			currentState = FALLING;
 	}
 	else if (colliding && yMovement > 0) 
 	{

@@ -1,4 +1,4 @@
-#include "Surface.h"
+#include "Box.h"
 #include "Texture.h"
 #include "Scene.h"
 #include "Entity.h"
@@ -6,43 +6,42 @@
 #include <iostream>
 #include <string>
 
-Surface::Surface(SDL_Renderer* renderer)
+Box::Box(SDL_Renderer* renderer)
 {
-	printf("creating surface \n");
+	std::cout << "creating box \n";
 	currentPosition = { 0, 0 };
 	texture = new Texture(renderer, textureFile);
 	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
 }
 
-Surface::Surface(SDL_Renderer* renderer, string path, vec2 pos)
+Box::Box(SDL_Renderer* renderer, std::string path, vec2 pos)
 {
-	printf("creating surface \n");
+	std::cout << "creating box \n";
 	currentPosition = pos;
 	texture = new Texture(renderer, path);
 	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
 }
 
-Surface::~Surface()
+Box::~Box()
 {
-	printf("destroying surface\n");
+	std::cout << "destroying box\n";
 	delete texture;
 	texture = nullptr;
 	delete collider;
 	collider = nullptr;
 }
 
-void Surface::draw()
+void Box::draw()
 {
 	texture->render(currentPosition.x, currentPosition.y);
 }
 
-void Surface::update(float deltaTime)
+void Box::update(float deltaTime)
 {
 	checkCollisions(deltaTime);
 }
 
-
-void Surface::checkCollisions(float deltaTime)
+void Box::checkCollisions(float deltaTime)
 {
 	// Check collisions on all other entities
 	for (Entity* ent : scene->getEntities())
@@ -62,27 +61,27 @@ void Surface::checkCollisions(float deltaTime)
 	}
 }
 
-void Surface::setScene(Scene* s)
+void Box::setScene(Scene* s)
 {
 	scene = s;
 }
 
-bool Surface::isColliding()
+bool Box::isColliding()
 {
 	return colliding;
 }
 
-bool Surface::hasCollider()
+bool Box::hasCollider()
 {
 	return collider != nullptr;
 }
 
-SDL_Rect* Surface::getCollider()
+SDL_Rect* Box::getCollider()
 {
 	return collider;
 }
 
-vec2 Surface::getPosition()
+vec2 Box::getPosition()
 {
 	return currentPosition;
 }

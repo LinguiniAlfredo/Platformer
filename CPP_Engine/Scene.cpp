@@ -16,7 +16,7 @@ Scene::Scene(Scene& src)
 
 Scene::~Scene()
 {
-	std::cout << "destroying scene\n";
+	printf("destroying scene\n");
 	for (Entity* ent : entities)
 	{
 		delete ent;
