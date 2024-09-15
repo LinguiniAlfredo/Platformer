@@ -29,7 +29,7 @@ private:
 
 	Texture* texture;
 	vec2 currentPosition;
-	const std::string textureFile = "resources/textures/wall.png";
+	const std::string textureFile = "resources/textures/platform.png";
 
 	SDL_Rect* collider;
 	bool colliding = false;

@@ -9,8 +9,8 @@
 Surface::Surface(SDL_Renderer* renderer)
 {
 	std::cout << "creating surface \n";
-	currentPosition = { 300, 200 };
-	texture = new Texture(renderer, textureFile, 20, 200);
+	currentPosition = { 200, 350 };
+	texture = new Texture(renderer, textureFile);
 	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
 }
 

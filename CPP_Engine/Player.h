@@ -15,6 +15,7 @@ class Player :
 {
 public:
 	Player(SDL_Renderer* renderer);
+	Player(SDL_Renderer* renderer, vec2 pos);
 	~Player();
 
 	void draw();
@@ -32,21 +33,21 @@ public:
 private:
 	Scene* scene;
 
-	const std::string textureFile = "resources/textures/bird.png";
-	static const int speed = 300;
+	static const int groundSpeed = 100;
+	static const int airSpeed = 50;
+	static const int jumpForce = 200;
+	static const int jumpHeight = 20;
 
+	const std::string textureFile = "resources/textures/guy.png";
 	int currentState = AIRBORNE;
 	bool colliding = false;
-
 	vec2 currentVelocity;
 	vec2 currentPosition;
-
 	Texture* texture;
 	SDL_Rect* collider;
 	Physics* physics;
 
 	void checkCollisions(float deltaTime);
-	void setState();
 	void move(float deltaTime);
 };
 
