@@ -22,8 +22,10 @@ Player::~Player()
 	cout << "destroying player \n";
 	delete texture;
 	delete collider;
+	delete physics;
 	texture = nullptr;
 	collider = nullptr;
+	physics = nullptr;
 }
 
 void Player::update(float deltaTime)
