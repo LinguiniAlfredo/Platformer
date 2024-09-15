@@ -3,6 +3,7 @@
 #include "vec2.h"
 #include "Scene.h"
 class Texture;
+class Physics;
 
 enum state {
 	GROUNDED,
@@ -26,6 +27,8 @@ public:
 	bool hasCollider();
 	SDL_Rect* getCollider();
 
+	vec2 getPosition();
+
 private:
 	Scene* scene;
 
@@ -40,6 +43,7 @@ private:
 
 	Texture* texture;
 	SDL_Rect* collider;
+	Physics* physics;
 
 	void checkCollisions(float deltaTime);
 	void setState();

@@ -1,6 +1,8 @@
 #pragma once
 #include <SDL.h>
+#include "vec2.h"
 class Scene;
+
 
 class Entity
 {
@@ -18,4 +20,5 @@ public:
 	virtual bool hasCollider() { return false; }
 	virtual SDL_Rect* getCollider() { return nullptr; }
 
+	virtual vec2 getPosition() { return { 0, 0 }; }
 };

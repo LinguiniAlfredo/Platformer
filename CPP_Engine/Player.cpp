@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Texture.h"
 #include "Scene.h"
+#include "Physics.h"
 
 using namespace std;
 
@@ -13,6 +14,7 @@ Player::Player(SDL_Renderer* renderer)
 	currentPosition = { 0,0 };
 	texture = new Texture(renderer, textureFile, 60, 60);
 	collider = new SDL_Rect { currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
+	physics = new Physics();
 }
 
 Player::~Player()
@@ -92,6 +94,9 @@ void Player::checkCollisions(float deltaTime)
 	float xMovement = currentVelocity.x * deltaTime * speed;
 	float yMovement = currentVelocity.y * deltaTime * speed;
 
+	if (currentState == AIRBORNE)
+		yMovement += physics->getGravity();
+
 	collider->x += xMovement;
 	collider->y += yMovement;
 
@@ -103,6 +108,8 @@ void Player::checkCollisions(float deltaTime)
 			if (SDL_HasIntersection(collider, ent->getCollider()))
 			{
 				colliding = true;
+				if (ent->getPosition().y > currentPosition.y + texture->getHeight() / 2)
+					currentState = GROUNDED;
 				break;
 			}
 			else
@@ -116,12 +123,16 @@ void Player::checkCollisions(float deltaTime)
 void Player::setState()
 {
 	// if colliding with floor, set GROUNDED, otherwise AIRBORNE
+
 }
 
 void Player::move(float deltaTime)
 {
 	float xMovement = currentVelocity.x * deltaTime * speed;
 	float yMovement = currentVelocity.y * deltaTime * speed;
+
+	if (currentState == AIRBORNE)
+		yMovement += physics->getGravity();
 
 	if (!colliding)
 	{
@@ -150,4 +161,9 @@ bool Player::hasCollider()
 SDL_Rect* Player::getCollider()
 {
 	return collider;
+}
+
+vec2 Player::getPosition()
+{
+	return currentPosition;
 }

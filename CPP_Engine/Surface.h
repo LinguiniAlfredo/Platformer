@@ -5,12 +5,13 @@
 #include <string>
 class Texture;
 
-class Wall :
+class Surface :
 	public Entity
 {
 public:
-	Wall(SDL_Renderer* renderer);
-	~Wall();
+	Surface(SDL_Renderer* renderer);
+	Surface(SDL_Renderer* renderer, std::string textureFile, vec2 currentPosition);
+	~Surface();
 
 	void draw();
 	void update(float deltaTime);
@@ -20,6 +21,8 @@ public:
 	bool isColliding();
 	bool hasCollider();
 	SDL_Rect* getCollider();
+
+	vec2 getPosition();
 
 private:
 	Scene* scene;

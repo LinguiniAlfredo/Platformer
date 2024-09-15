@@ -18,6 +18,14 @@ Texture::Texture(SDL_Renderer* r)
 	height = 0;
 }
 
+Texture::Texture(SDL_Renderer* r, string path)
+{
+	renderer = r;
+	width = 0;
+	height = 0;
+	texture = loadFromFile(path);
+}
+
 Texture::Texture(SDL_Renderer* r, string path, int w, int h)
 {
 	renderer = r;
@@ -55,8 +63,11 @@ SDL_Texture* Texture::loadFromFile(string path)
 		}
 		else
 		{
-			//width = surface->w;
-			//height = surface->h;
+			if (width == 0 && height == 0)
+			{
+				width = surface->w;
+				height = surface->h;
+			}
 		}
 		SDL_FreeSurface(surface);
 	}

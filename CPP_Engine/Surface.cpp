@@ -1,37 +1,47 @@
-#include "Wall.h"
+#include "Surface.h"
 #include "Texture.h"
 #include "Scene.h"
 #include "Entity.h"
-#include <iostream>
 
-Wall::Wall(SDL_Renderer* renderer)
+#include <iostream>
+#include <string>
+
+Surface::Surface(SDL_Renderer* renderer)
 {
-	std::cout << "creating wall \n";
+	std::cout << "creating surface \n";
 	currentPosition = { 300, 200 };
 	texture = new Texture(renderer, textureFile, 20, 200);
 	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
 }
 
-Wall::~Wall()
+Surface::Surface(SDL_Renderer* renderer, string path, vec2 pos)
 {
-	std::cout << "destroying wall\n";
+	std::cout << "creating surface \n";
+	currentPosition = pos;
+	texture = new Texture(renderer, path);
+	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
+}
+
+Surface::~Surface()
+{
+	std::cout << "destroying surface\n";
 	delete texture;
 	texture = nullptr;
 	delete collider;
 	collider = nullptr;
 }
 
-void Wall::update(float deltaTime)
+void Surface::update(float deltaTime)
 {
 	checkCollisions(deltaTime);
 }
 
-void Wall::draw()
+void Surface::draw()
 {
 	texture->render(currentPosition.x, currentPosition.y);
 }
 
-void Wall::checkCollisions(float deltaTime)
+void Surface::checkCollisions(float deltaTime)
 {
 	// Check collisions on all other entities
 	for (Entity* ent : scene->getEntities())
@@ -51,22 +61,27 @@ void Wall::checkCollisions(float deltaTime)
 	}
 }
 
-void Wall::setScene(Scene* s)
+void Surface::setScene(Scene* s)
 {
 	scene = s;
 }
 
-bool Wall::isColliding()
+bool Surface::isColliding()
 {
 	return colliding;
 }
 
-bool Wall::hasCollider()
+bool Surface::hasCollider()
 {
 	return collider != nullptr;
 }
 
-SDL_Rect* Wall::getCollider()
+SDL_Rect* Surface::getCollider()
 {
 	return collider;
+}
+
+vec2 Surface::getPosition()
+{
+	return currentPosition;
 }

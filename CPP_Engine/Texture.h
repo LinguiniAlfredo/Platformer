@@ -9,6 +9,7 @@ class Texture
 public:
 	Texture();
 	Texture(SDL_Renderer* renderer);
+	Texture(SDL_Renderer* renderer, string path);
 	Texture(SDL_Renderer* renderer, string path, int width, int height);
 	~Texture();
 
