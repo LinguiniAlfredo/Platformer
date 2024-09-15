@@ -1,67 +1,38 @@
+#pragma once
 #include "Scene.h"
+#include "Entity.h"
 #include <algorithm>
+#include <iostream>
 
-Scene::Scene()
+Scene::Scene() {}
+
+Scene::Scene(Scene& src)
 {
-
-}
-
-Scene::Scene(Scene &src)
-{
-	for (GameObject* obj : src.getGameObjects())
+	for (Entity* ent : src.getEntities())
 	{
-		gameObjects.push_back(obj);
+		entities.push_back(ent);
 	}
 }
 
 Scene::~Scene()
 {
-	for (GameObject* obj : gameObjects)
+	std::cout << "destroying scene\n";
+	for (Entity* ent : entities)
 	{
-		delete obj;
-		obj = nullptr;
+		delete ent;
+		ent = nullptr;
 	}
-	gameObjects.clear();
-
+	entities.clear();
 }
 
-void Scene::addGameObject(GameObject* obj)
+void Scene::addEntity(Entity* ent)
 {
-	gameObjects.push_back(obj);
+	ent->setScene(this);
+	entities.push_back(ent);
 }
 
-vector<GameObject*> Scene::getGameObjects()
+std::vector<Entity*> Scene::getEntities()
 {
-	return gameObjects;
+	return entities;
 }
 
-GameObject* Scene::getGameObject(string name)
-{
-	return gameObjects.at(2);
-}
-
-void Scene::detectCollisions()
-{
-	for (int i = 0; i < getGameObjects().size(); i++)
-	{
-		GameObject* current = getGameObjects().at(i);
-		for (int j = 0; j < getGameObjects().size(); j++)
-		{
-			if (j != i)
-			{
-				GameObject* next = getGameObjects().at(j);
-				if (SDL_HasIntersection(current->getCollider(), next->getCollider()))
-				{
-					current->setColliding(true);
-					break;
-				}
-				else
-				{
-					current->setColliding(false);
-				}
-			}
-			
-		}
-
-	}
-}

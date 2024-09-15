@@ -1,19 +1,10 @@
 #include "Physics.h"
 
-Physics::Physics()
-{
+Physics::Physics() {}
 
-}
+Physics::~Physics(){}
 
-Physics::~Physics()
-{
-
-}
-
-void Physics::applyGravity()
-{
-
-}
+void Physics::applyGravity() {}
 
 float Physics::getGravity()
 {

@@ -11,7 +11,7 @@ public:
 	void applyGravity();
 
 private:
-	const float gravity = 9.8f;
+	const float gravity = 5.0f;
 	const float mass = 0;
 };
 

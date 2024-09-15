@@ -1,22 +1,18 @@
 #pragma once
 #include <vector>
-#include "GameObject.h"
+class Entity;
 
 class Scene
 {
 public:
 	Scene();
-	Scene(Scene &src);
+	Scene(Scene& src);
 	~Scene();
 
-	void addGameObject(GameObject* obj);
-	vector<GameObject*> getGameObjects();
-
-	GameObject* getGameObject(string name);
-
-	void detectCollisions();
+	void addEntity(Entity* ent);
+	std::vector<Entity*> getEntities();
 
 private:
-	vector<GameObject*> gameObjects;
+	std::vector<Entity*> entities;
 };
 
