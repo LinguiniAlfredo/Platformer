@@ -34,8 +34,8 @@ public:
 private:
 	Scene* scene;
 
-	static const int groundSpeed = 100;
-	static const int jumpForce = 150;
+	static const int groundSpeed = 63;
+	static const int jumpForce = 200;
 
 	const std::string textureFile = "resources/textures/guy.png";
 	int currentState = AIRBORNE;

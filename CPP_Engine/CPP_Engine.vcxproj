@@ -33,8 +33,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\textures\bird.png" />
+    <Image Include="resources\textures\box_empty.png" />
     <Image Include="resources\textures\clouds.png" />
     <Image Include="resources\textures\floor.png" />
+    <Image Include="resources\textures\flower.png" />
     <Image Include="resources\textures\ground_tile.png" />
     <Image Include="resources\textures\guy.png" />
     <Image Include="resources\textures\platform.png" />

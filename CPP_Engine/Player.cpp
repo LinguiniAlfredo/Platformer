@@ -12,7 +12,7 @@ Player::Player(SDL_Renderer* renderer)
 	currentVelocity = { 0,0 };
 	currentPosition = { 0,0 };
 	texture = new Texture(renderer, textureFile);
-	collider = new SDL_Rect { currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
+	collider = new SDL_Rect { currentPosition.x, currentPosition.y, texture->getWidth() / 2, texture->getHeight() / 2 };
 	physics = new Physics();
 }
 
@@ -22,7 +22,7 @@ Player::Player(SDL_Renderer* renderer, vec2 pos)
 	currentVelocity = { 0,0 };
 	currentPosition = pos;
 	texture = new Texture(renderer, textureFile);
-	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
+	collider = new SDL_Rect{ currentPosition.x + 1, currentPosition.y + 1, texture->getWidth() - 2, texture->getHeight() - 2};
 	physics = new Physics();
 }
 
@@ -89,7 +89,7 @@ void Player::handleEvent(SDL_Event& e)
 		}
 		if (key == SDLK_SPACE)
 		{
-			//currentState = AIRBORNE;
+			currentVelocity.y /= 2;
 		}
 	}
 }
@@ -111,11 +111,11 @@ void Player::checkForFloor()
 	}
 }
 
+// move collider where player will be next frame and check collisions.
 void Player::checkCollisions(float deltaTime)
 {
-	// move collider where player will be next frame and check collisions.
-	collider->x += currentVelocity.x * deltaTime * groundSpeed;
-	collider->y += currentVelocity.y * deltaTime;
+	collider->x += currentVelocity.x * deltaTime * groundSpeed + 1;
+	collider->y += currentVelocity.y * deltaTime + 1;
 
 	if (currentState != GROUNDED)
 		currentVelocity.y += physics->getGravity();
@@ -145,18 +145,7 @@ void Player::checkCollisions(float deltaTime)
 
 void Player::resolveCollision(Entity* ent)
 {
-	// if collision is on the right of player and x velocity is positive
-	if (currentVelocity.x > 0 && ent->getPosition().x > currentPosition.x)
-	{
-		currentPosition.x = ent->getPosition().x - scene->getTileSize();
-		currentVelocity.x = 0;
-	}
-	// if collision is on left of player and x velocity is negative
-	if (currentVelocity.x < 0 && ent->getPosition().x < currentPosition.x)
-	{
-		currentPosition.x = ent->getPosition().x + scene->getTileSize();
-		currentVelocity.x = 0;
-	}
+
 	// if collision below player and y velocity is positive
 	if (currentVelocity.y > 0 && ent->getPosition().y > currentPosition.y)
 	{
@@ -167,14 +156,12 @@ void Player::resolveCollision(Entity* ent)
 	if (currentVelocity.y < 0 && ent->getPosition().y < currentPosition.y)
 	{
 		currentPosition.y = ent->getPosition().y + scene->getTileSize();
-		currentVelocity.y = 1;
+		currentVelocity.y = 0;
 	}
 }
 
 void Player::move(float deltaTime)
 {
-	// TODO - put state changes in a function ?
-
 	// Position += Velocity
 	// Velocity += Acceleration
 
@@ -187,8 +174,8 @@ void Player::move(float deltaTime)
 			currentVelocity.y += physics->getGravity();
 	}
 
-	collider->x = currentPosition.x;
-	collider->y = currentPosition.y;
+	collider->x = currentPosition.x + 1;
+	collider->y = currentPosition.y + 1;
 }
 
 void Player::setScene(Scene* s)
