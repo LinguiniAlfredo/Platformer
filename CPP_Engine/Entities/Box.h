@@ -1,8 +1,8 @@
 #pragma once
 #include <SDL.h>
-#include <string>
 #include "Entity.h"
 #include "Utils/Vec2.h"
+#include <string>
 class Texture;
 
 class Box :

@@ -1,10 +1,10 @@
 #pragma once
 #include <iostream>
-#include <cmath>
 #include "Player.h"
+#include "Texture.h"
 #include "Scene.h"
-#include "Components/Texture.h"
-#include "Components/Physics.h"
+#include "Physics.h"
+#include <cmath>
 
 Player::Player(SDL_Renderer* renderer)
 {
@@ -16,7 +16,7 @@ Player::Player(SDL_Renderer* renderer)
 	physics = new Physics();
 }
 
-Player::Player(SDL_Renderer* renderer, Vec2 pos)
+Player::Player(SDL_Renderer* renderer, vec2 pos)
 {
 	printf("creating player \n");
 	currentVelocity = { 0,0 };
@@ -198,7 +198,7 @@ SDL_Rect* Player::getCollider()
 	return collider;
 }
 
-Vec2 Player::getPosition()
+vec2 Player::getPosition()
 {
 	return currentPosition;
 }

@@ -1,8 +1,8 @@
 #pragma once
 #include "Entity.h"
 #include "Utils/Vec2.h"
-#include "Utils/Timer.h"
 #include "Scene.h"
+#include "Utils/Timer.h"
 class Texture;
 class Physics;
 

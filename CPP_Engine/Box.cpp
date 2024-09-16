@@ -1,5 +1,5 @@
 #include "Box.h"
-#include "Texture.h"
+#include "Components/Texture.h"
 #include "Scene.h"
 #include "Entity.h"
 
@@ -14,7 +14,7 @@ Box::Box(SDL_Renderer* renderer)
 	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
 }
 
-Box::Box(SDL_Renderer* renderer, std::string path, vec2 pos)
+Box::Box(SDL_Renderer* renderer, std::string path, Vec2 pos)
 {
 	std::cout << "creating box \n";
 	currentPosition = pos;
@@ -81,7 +81,7 @@ SDL_Rect* Box::getCollider()
 	return collider;
 }
 
-vec2 Box::getPosition()
+Vec2 Box::getPosition()
 {
 	return currentPosition;
 }
