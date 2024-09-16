@@ -36,3 +36,8 @@ std::vector<Entity*> Scene::getEntities()
 	return entities;
 }
 
+int Scene::getTileSize()
+{
+	return TILESIZE;
+}
+

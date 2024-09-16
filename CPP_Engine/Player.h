@@ -2,13 +2,13 @@
 #include "Entity.h"
 #include "vec2.h"
 #include "Scene.h"
+#include "Timer.h"
 class Texture;
 class Physics;
 
 enum state {
 	GROUNDED,
-	JUMPING,
-	FALLING
+	AIRBORNE
 };
 
 class Player : 
@@ -35,20 +35,21 @@ private:
 	Scene* scene;
 
 	static const int groundSpeed = 100;
-	static const int airSpeed = 50;
-	static const int jumpForce = 300;
-	static const int jumpHeight = 100;
+	static const int jumpForce = 150;
 
 	const std::string textureFile = "resources/textures/guy.png";
-	int currentState = FALLING;
+	int currentState = AIRBORNE;
 	bool colliding = false;
 	vec2 currentVelocity;
 	vec2 currentPosition;
 	Texture* texture;
 	SDL_Rect* collider;
 	Physics* physics;
+	Timer jumpTimer;
 
+	void checkForFloor();
 	void checkCollisions(float deltaTime);
+	void resolveCollision(Entity* ent);
 	void move(float deltaTime);
 };
 

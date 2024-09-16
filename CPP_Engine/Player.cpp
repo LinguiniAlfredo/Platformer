@@ -4,6 +4,7 @@
 #include "Texture.h"
 #include "Scene.h"
 #include "Physics.h"
+#include <cmath>
 
 Player::Player(SDL_Renderer* renderer)
 {
@@ -42,7 +43,8 @@ void Player::update(float deltaTime)
 	// check other collisions
 	// move character based on input and collisions
 
-	checkCollisions(deltaTime); // moves colliders, checks intersects
+	checkForFloor();
+	checkCollisions(deltaTime);
 	move(deltaTime);
 }
 
@@ -65,13 +67,10 @@ void Player::handleEvent(SDL_Event& e)
 		{
 			currentVelocity.x = 1;
 		}
-		if (key == SDLK_SPACE)
+		if (key == SDLK_SPACE && currentState == GROUNDED)
 		{
-			if (currentState == GROUNDED)
-			{
-				currentVelocity.y = -1;
-				currentState = JUMPING;
-			}
+			currentVelocity.y = -1 * jumpForce;
+			currentState = AIRBORNE;
 		}
 
 	}
@@ -90,33 +89,37 @@ void Player::handleEvent(SDL_Event& e)
 		}
 		if (key == SDLK_SPACE)
 		{
-			currentVelocity.y = 1;
-			currentState = FALLING;
+			//currentState = AIRBORNE;
 		}
+	}
+}
+
+void Player::checkForFloor()
+{
+	if (currentState == GROUNDED)
+	{
+		for (Entity* ent : scene->getEntities())
+		{
+			if (ent->getPosition().y - currentPosition.y == scene->getTileSize() &&
+				currentPosition.x + collider->w >= ent->getPosition().x && currentPosition.x < ent->getPosition().x + ent->getCollider()->w)
+			{
+				return;
+			}
+
+		}
+		currentState = AIRBORNE; // if nothing underneath player, set AIRBORNE
 	}
 }
 
 void Player::checkCollisions(float deltaTime)
 {
-	float xMovement = 0, yMovement = 0;
-    xMovement = currentVelocity.x * deltaTime * groundSpeed;
+	// move collider where player will be next frame and check collisions.
+	collider->x += currentVelocity.x * deltaTime * groundSpeed;
+	collider->y += currentVelocity.y * deltaTime;
 
-	if (currentState == JUMPING)
-	{
-		// calculate acceleration up to jumpHeight
-		// once reaches jumpHeight, set FALLING
-		yMovement = currentVelocity.y * deltaTime * jumpForce;
-	} 
-	else if (currentState == FALLING)
-	{
-		currentVelocity.y = 1;
-		yMovement = currentVelocity.y * deltaTime * jumpForce;
-	}
+	if (currentState != GROUNDED)
+		currentVelocity.y += physics->getGravity();
 
-	collider->x += xMovement;
-	collider->y += yMovement;
-
-	// Check collisions on all other entities
 	for (Entity* ent : scene->getEntities())
 	{
 		if (ent->hasCollider() && ent != this)
@@ -124,10 +127,12 @@ void Player::checkCollisions(float deltaTime)
 			if (SDL_HasIntersection(collider, ent->getCollider()))
 			{
 				colliding = true;
-				if (ent->getPosition().y > currentPosition.y + texture->getHeight() / 2)
+				resolveCollision(ent);
+
+				if (ent->getPosition().y > currentPosition.y)
+				{
 					currentState = GROUNDED;
-				else
-					currentState = FALLING;
+				}
 				break;
 			}
 			else
@@ -138,37 +143,48 @@ void Player::checkCollisions(float deltaTime)
 	}
 }
 
+void Player::resolveCollision(Entity* ent)
+{
+	// if collision is on the right of player and x velocity is positive
+	if (currentVelocity.x > 0 && ent->getPosition().x > currentPosition.x)
+	{
+		currentPosition.x = ent->getPosition().x - scene->getTileSize();
+		currentVelocity.x = 0;
+	}
+	// if collision is on left of player and x velocity is negative
+	if (currentVelocity.x < 0 && ent->getPosition().x < currentPosition.x)
+	{
+		currentPosition.x = ent->getPosition().x + scene->getTileSize();
+		currentVelocity.x = 0;
+	}
+	// if collision below player and y velocity is positive
+	if (currentVelocity.y > 0 && ent->getPosition().y > currentPosition.y)
+	{
+		currentPosition.y = ent->getPosition().y - scene->getTileSize();
+		currentVelocity.y = 0;
+	}
+	// if collision above player and y velocity is negative
+	if (currentVelocity.y < 0 && ent->getPosition().y < currentPosition.y)
+	{
+		currentPosition.y = ent->getPosition().y + scene->getTileSize();
+		currentVelocity.y = 1;
+	}
+}
+
 void Player::move(float deltaTime)
 {
-	// TODO - put code that is the same in checkCollisions and this one 
-	//		  into a separate function
+	// TODO - put state changes in a function ?
 
-	float xMovement = 0, yMovement = 0;
-	xMovement = currentVelocity.x * deltaTime * groundSpeed;
-
-	if (currentState == JUMPING)
-	{
-		// calculate acceleration up to jumpHeight
-		// once reaches jumpHeight, set FALLING
-		yMovement = currentVelocity.y * deltaTime * jumpForce;
-	}
-	else if (currentState == FALLING)
-	{
-		currentVelocity.y = 1;
-		yMovement = currentVelocity.y * deltaTime * jumpForce;
-	}
+	// Position += Velocity
+	// Velocity += Acceleration
 
 	if (!colliding)
 	{
-		currentPosition.x += xMovement;
-		currentPosition.y += yMovement;
+		currentPosition.x += currentVelocity.x * deltaTime * groundSpeed;
+		currentPosition.y += currentVelocity.y * deltaTime;
 
-		if (currentPosition.y < 180 - jumpHeight)
-			currentState = FALLING;
-	}
-	else if (colliding && yMovement > 0) 
-	{
-		currentPosition.x += xMovement;
+		if (currentState != GROUNDED)
+			currentVelocity.y += physics->getGravity();
 	}
 
 	collider->x = currentPosition.x;

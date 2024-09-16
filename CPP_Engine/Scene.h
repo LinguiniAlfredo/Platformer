@@ -11,8 +11,10 @@ public:
 
 	void addEntity(Entity* ent);
 	std::vector<Entity*> getEntities();
+	int getTileSize();
 
 private:
 	std::vector<Entity*> entities;
+	const int TILESIZE = 8;
 };
 
