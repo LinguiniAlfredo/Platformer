@@ -5,23 +5,25 @@
 #include "Components/Texture.h"
 #include "Components/Physics.h"
 
-Player::Player(SDL_Renderer* renderer)
+Player::Player(Scene* s)
 {
 	printf("creating player \n");
+	scene = s;
 	currentVelocity = { 0,0 };
 	currentPosition = { 0,0 };
-	texture = new Texture(renderer, textureFile);
+	texture = new Texture(scene->getRenderer(), textureFile);
 	collider = new SDL_Rect { currentPosition.x, currentPosition.y, texture->getWidth() / 2, texture->getHeight() / 2 };
 	physics = new Physics();
 }
 
-Player::Player(SDL_Renderer* renderer, Vec2 pos)
+Player::Player(Scene* s, Vec2 pos)
 {
 	printf("creating player \n");
+	scene = s;
 	currentVelocity = { 0,0 };
 	currentPosition = pos;
-	texture = new Texture(renderer, textureFile);
-	collider = new SDL_Rect{ currentPosition.x + 1, currentPosition.y + 1, texture->getWidth() - 2, texture->getHeight() - 2};
+	texture = new Texture(scene->getRenderer(), textureFile);
+	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight()};
 	physics = new Physics();
 }
 
@@ -113,8 +115,8 @@ void Player::checkForFloor()
 // move collider where player will be next frame and check collisions.
 void Player::checkCollisions(float deltaTime)
 {
-	collider->x += currentVelocity.x * deltaTime * groundSpeed + 1;
-	collider->y += currentVelocity.y * deltaTime + 1;
+	collider->x += currentVelocity.x * deltaTime * groundSpeed;
+	collider->y += currentVelocity.y * deltaTime;
 
 	if (currentState != GROUNDED)
 		currentVelocity.y += physics->getGravity();
@@ -173,8 +175,8 @@ void Player::move(float deltaTime)
 			currentVelocity.y += physics->getGravity();
 	}
 
-	collider->x = currentPosition.x + 1;
-	collider->y = currentPosition.y + 1;
+	collider->x = currentPosition.x;
+	collider->y = currentPosition.y;
 }
 
 void Player::setScene(Scene* s)
@@ -200,4 +202,9 @@ SDL_Rect* Player::getCollider()
 Vec2 Player::getPosition()
 {
 	return currentPosition;
+}
+
+bool Player::hasPhysics()
+{
+	return physics != nullptr;
 }

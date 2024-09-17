@@ -6,28 +6,30 @@
 #include <iostream>
 #include <string>
 
-Box::Box(SDL_Renderer* renderer)
+Box::Box(Scene* s)
 {
 	std::cout << "creating box \n";
+	scene = s;
 	currentPosition = { 0, 0 };
-	texture = new Texture(renderer, textureFile);
+	texture = new Texture(scene->getRenderer(), textureFile);
 	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
 }
 
-Box::Box(SDL_Renderer* renderer, std::string path, Vec2 pos)
+Box::Box(Scene* s, std::string path, Vec2 pos)
 {
 	std::cout << "creating box \n";
+	scene = s;
 	currentPosition = pos;
-	texture = new Texture(renderer, path);
-	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
+	texture = new Texture(scene->getRenderer(), path);
+	collider = new SDL_Rect{ currentPosition.x, currentPosition.y + 1, texture->getWidth(), texture->getHeight() };
 }
 
 Box::~Box()
 {
 	std::cout << "destroying box\n";
 	delete texture;
-	texture = nullptr;
 	delete collider;
+	texture = nullptr;
 	collider = nullptr;
 }
 
@@ -43,14 +45,16 @@ void Box::update(float deltaTime)
 
 void Box::checkCollisions(float deltaTime)
 {
-	// Check collisions on all other entities
+	// Check collisions on player from bottom
 	for (Entity* ent : scene->getEntities())
 	{
-		if (ent->hasCollider() && ent != this)
+		if (ent->hasCollider() && ent->hasPhysics())
 		{
-			if (SDL_HasIntersection(collider, ent->getCollider()))
+			if (SDL_HasIntersection(collider, ent->getCollider()) && ent->getPosition().y > currentPosition.y)
 			{
 				colliding = true;
+				if (currentState == FULL)
+					openBox();
 				break;
 			}
 			else
@@ -59,6 +63,23 @@ void Box::checkCollisions(float deltaTime)
 			}
 		}
 	}
+}
+
+void Box::openBox()
+{
+	// reveal item in box and change texture to empty
+	setTexture("resources/textures/box_empty.png");
+	currentState = EMPTY;
+}
+
+void Box::setTexture(std::string path)
+{
+	if (texture != nullptr)
+	{
+		delete texture;
+		texture = nullptr;
+	}
+	texture = new Texture(scene->getRenderer(), path);
 }
 
 void Box::setScene(Scene* s)

@@ -6,7 +6,7 @@
 class Texture;
 class Physics;
 
-enum state {
+enum playerState {
 	GROUNDED,
 	AIRBORNE
 };
@@ -15,8 +15,8 @@ class Player :
 	public Entity
 {
 public:
-	Player(SDL_Renderer* renderer);
-	Player(SDL_Renderer* renderer, Vec2 pos);
+	Player(Scene* scene);
+	Player(Scene* scene, Vec2 pos);
 	~Player();
 
 	void draw();
@@ -30,6 +30,8 @@ public:
 	SDL_Rect* getCollider();
 
 	Vec2 getPosition();
+
+	bool hasPhysics();
 
 private:
 	Scene* scene;

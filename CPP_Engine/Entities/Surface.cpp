@@ -6,19 +6,21 @@
 #include <iostream>
 #include <string>
 
-Surface::Surface(SDL_Renderer* renderer)
+Surface::Surface(Scene* s)
 {
 	printf("creating surface \n");
+	scene = s;
 	currentPosition = { 0, 0 };
-	texture = new Texture(renderer, textureFile);
+	texture = new Texture(scene->getRenderer(), textureFile);
 	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
 }
 
-Surface::Surface(SDL_Renderer* renderer, string path, Vec2 pos)
+Surface::Surface(Scene* s, string path, Vec2 pos)
 {
 	printf("creating surface \n");
+	scene = s;
 	currentPosition = pos;
-	texture = new Texture(renderer, path);
+	texture = new Texture(scene->getRenderer(), path);
 	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
 }
 
@@ -26,8 +28,8 @@ Surface::~Surface()
 {
 	printf("destroying surface\n");
 	delete texture;
-	texture = nullptr;
 	delete collider;
+	texture = nullptr;
 	collider = nullptr;
 }
 

@@ -4,10 +4,19 @@
 #include <algorithm>
 #include <iostream>
 
-Scene::Scene() {}
+Scene::Scene() 
+{
+	renderer = nullptr;
+}
+
+Scene::Scene(SDL_Renderer* r) 
+{
+	renderer = r;
+}
 
 Scene::Scene(Scene& src)
 {
+	renderer = src.renderer;
 	for (Entity* ent : src.getEntities())
 	{
 		entities.push_back(ent);
@@ -39,5 +48,10 @@ std::vector<Entity*> Scene::getEntities()
 int Scene::getTileSize()
 {
 	return TILESIZE;
+}
+
+SDL_Renderer* Scene::getRenderer()
+{
+	return renderer;
 }
 

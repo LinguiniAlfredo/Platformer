@@ -5,18 +5,24 @@
 #include <string>
 class Texture;
 
+enum boxState {
+	FULL,
+	EMPTY
+};
+
 class Box :
 	public Entity
 {
 public:
-	Box(SDL_Renderer* renderer);
-	Box(SDL_Renderer* renderer, std::string textureFile, Vec2 currentPosition);
+	Box(Scene* scene);
+	Box(Scene* scene, std::string textureFile, Vec2 currentPosition);
 	~Box();
 
 	void draw();
 	void update(float deltaTime);
 
 	void setScene(Scene* scene);
+	void setTexture(std::string path);
 
 	bool isColliding();
 	bool hasCollider();
@@ -26,14 +32,14 @@ public:
 
 private:
 	Scene* scene;
-
 	Texture* texture;
 	Vec2 currentPosition;
-	const std::string textureFile = "resources/textures/platform.png";
-
 	SDL_Rect* collider;
+	const std::string textureFile = "resources/textures/platform.png";
 	bool colliding = false;
+	int currentState = FULL;
 
 	void checkCollisions(float deltaTime);
+	void openBox();
 };
 

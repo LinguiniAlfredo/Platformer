@@ -9,8 +9,8 @@ class Surface :
 	public Entity
 {
 public:
-	Surface(SDL_Renderer* renderer);
-	Surface(SDL_Renderer* renderer, std::string textureFile, Vec2 currentPosition);
+	Surface(Scene* scene);
+	Surface(Scene* scene, std::string textureFile, Vec2 currentPosition);
 	~Surface();
 
 	void draw();
