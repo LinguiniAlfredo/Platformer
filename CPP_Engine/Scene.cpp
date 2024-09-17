@@ -1,6 +1,6 @@
 #pragma once
 #include "Scene.h"
-#include "Entity.h"
+#include "Entities/Entity.h"
 #include <algorithm>
 #include <iostream>
 

@@ -1,7 +1,7 @@
 #include "Surface.h"
-#include "Texture.h"
 #include "Scene.h"
 #include "Entity.h"
+#include "Components/Texture.h"
 
 #include <iostream>
 #include <string>
@@ -14,7 +14,7 @@ Surface::Surface(SDL_Renderer* renderer)
 	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
 }
 
-Surface::Surface(SDL_Renderer* renderer, string path, vec2 pos)
+Surface::Surface(SDL_Renderer* renderer, string path, Vec2 pos)
 {
 	printf("creating surface \n");
 	currentPosition = pos;
@@ -82,7 +82,7 @@ SDL_Rect* Surface::getCollider()
 	return collider;
 }
 
-vec2 Surface::getPosition()
+Vec2 Surface::getPosition()
 {
 	return currentPosition;
 }

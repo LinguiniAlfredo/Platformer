@@ -20,15 +20,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Downloads\01_hello_SDL\01_hello_SDL\main.cpp" />
-    <ClCompile Include="Box.cpp" />
     <ClCompile Include="Components\Physics.cpp" />
     <ClCompile Include="Components\Texture.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Entities\Box.cpp" />
+    <ClCompile Include="Entities\Player.cpp" />
+    <ClCompile Include="Entities\Surface.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Utils\Timer.cpp" />
     <ClCompile Include="Utils\Utils.cpp" />
     <ClCompile Include="Utils\Vec2.cpp" />
-    <ClCompile Include="Surface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\textures\bird.png" />
@@ -41,16 +41,16 @@
     <Image Include="resources\textures\platform.png" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Box.h" />
     <ClInclude Include="Components\Physics.h" />
     <ClInclude Include="Components\Texture.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="Entities\Box.h" />
+    <ClInclude Include="Entities\Entity.h" />
+    <ClInclude Include="Entities\Player.h" />
+    <ClInclude Include="Entities\Surface.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Utils\Timer.h" />
     <ClInclude Include="Utils\Utils.h" />
     <ClInclude Include="Utils\Vec2.h" />
-    <ClInclude Include="Surface.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
