@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <vector>
 class Entity;
+class Player;
 
 class Scene
 {
@@ -17,6 +18,7 @@ public:
 	std::vector<Entity*> getEntities(); // TODO - Make a hash map of indexed entities instead
 	int getTileSize();
 	SDL_Renderer* getRenderer();
+	Entity* getPlayer();
 
 private:
 	std::vector<Entity*> entities;

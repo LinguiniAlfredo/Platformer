@@ -213,3 +213,14 @@ bool Player::hasPhysics()
 {
 	return physics != nullptr;
 }
+
+void Player::setPowerUp(std::string p)
+{
+	power = p;
+	if (texture != nullptr)
+	{
+		delete texture;
+		texture = nullptr;
+	}
+	texture = new Texture(scene->getRenderer(), "resources/textures/guy_" + power + ".png");
+}

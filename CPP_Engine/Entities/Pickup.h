@@ -26,6 +26,7 @@ public:
 	Vec2 getPosition();
 	void setPosition(int x, int y);
 
+
 private:
 	Scene* scene;
 	Texture* texture;
@@ -33,6 +34,7 @@ private:
 	SDL_Rect* collider;
 	bool colliding = false;
 	bool solid = false;
+	std::string type;
 
 	void checkCollisions(float deltaTime);
 };

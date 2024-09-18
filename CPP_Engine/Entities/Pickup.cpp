@@ -1,6 +1,6 @@
 #include "Pickup.h"
 #include "Scene.h"
-#include "Entity.h"
+#include "Player.h"
 #include "Components/Texture.h"
 
 #include <iostream>
@@ -10,6 +10,7 @@ Pickup::Pickup(Scene* s, std::string itemType)
 {
 	std::cout << "creating pickup \n";
 	scene = s;
+	type = itemType;
 	currentPosition = { 0,0 };
 	texture = new Texture(scene->getRenderer(), "resources/textures/" + itemType + ".png");
 	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
@@ -19,6 +20,7 @@ Pickup::Pickup(Scene* s, std::string itemType, Vec2 pos)
 {
 	std::cout << "creating pickup \n";
 	scene = s;
+	type = itemType;
 	currentPosition = pos;
 	texture = new Texture(scene->getRenderer(), "resources/textures/" + itemType + ".png");
 	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
@@ -46,24 +48,18 @@ void Pickup::update(float deltaTime)
 void Pickup::checkCollisions(float deltaTime)
 {
 	// Check collisions on player
-	for (Entity* ent : scene->getEntities())
+	Player* player = dynamic_cast<Player*>(scene->getPlayer());
+
+	if (SDL_HasIntersection(collider, player->getCollider()))
 	{
-		if (ent->hasCollider() && ent->hasPhysics())
-		{
-			if (SDL_HasIntersection(collider, ent->getCollider()))
-			{
-				colliding = true;
-			}
-			else
-			{
-				colliding = false;
-			}
-		}
+		colliding = true;
+		player->setPowerUp(type);
 	}
+	else
+		colliding = false;
+
 	if (colliding)
-	{
 		scene->removeEntity(this);
-	}
 }
 
 

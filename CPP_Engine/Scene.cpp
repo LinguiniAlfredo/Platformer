@@ -73,3 +73,8 @@ SDL_Renderer* Scene::getRenderer()
 	return renderer;
 }
 
+Entity* Scene::getPlayer()
+{
+	return entities.at(0);
+}
+

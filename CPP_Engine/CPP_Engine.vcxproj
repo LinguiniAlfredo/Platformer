@@ -39,6 +39,7 @@
     <Image Include="resources\textures\flower.png" />
     <Image Include="resources\textures\ground_tile.png" />
     <Image Include="resources\textures\guy.png" />
+    <Image Include="Resources\Textures\guy_flower.png" />
     <Image Include="resources\textures\platform.png" />
   </ItemGroup>
   <ItemGroup>

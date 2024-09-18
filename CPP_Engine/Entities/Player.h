@@ -34,6 +34,8 @@ public:
 
 	bool hasPhysics();
 
+	void setPowerUp(std::string power);
+
 private:
 	Scene* scene;
 
@@ -50,6 +52,7 @@ private:
 	Physics* physics;
 	Timer jumpTimer;
 	bool solid = true;
+	std::string power = "none";
 
 	void checkForFloor();
 	void checkCollisions(float deltaTime);
