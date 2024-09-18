@@ -23,6 +23,7 @@
     <ClCompile Include="Components\Physics.cpp" />
     <ClCompile Include="Components\Texture.cpp" />
     <ClCompile Include="Entities\Box.cpp" />
+    <ClCompile Include="Entities\Pickup.cpp" />
     <ClCompile Include="Entities\Player.cpp" />
     <ClCompile Include="Entities\Surface.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -45,6 +46,7 @@
     <ClInclude Include="Components\Texture.h" />
     <ClInclude Include="Entities\Box.h" />
     <ClInclude Include="Entities\Entity.h" />
+    <ClInclude Include="Entities\Pickup.h" />
     <ClInclude Include="Entities\Player.h" />
     <ClInclude Include="Entities\Surface.h" />
     <ClInclude Include="Scene.h" />

@@ -125,7 +125,7 @@ void Player::checkCollisions(float deltaTime)
 	{
 		if (ent->hasCollider() && ent != this)
 		{
-			if (SDL_HasIntersection(collider, ent->getCollider()))
+			if (SDL_HasIntersection(collider, ent->getCollider()) && ent->isSolid())
 			{
 				colliding = true;
 				resolveCollision(ent);
@@ -197,6 +197,11 @@ bool Player::hasCollider()
 SDL_Rect* Player::getCollider()
 {
 	return collider;
+}
+
+bool Player::isSolid()
+{
+	return solid;
 }
 
 Vec2 Player::getPosition()

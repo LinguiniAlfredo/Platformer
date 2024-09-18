@@ -21,6 +21,7 @@ public:
 	virtual bool isColliding() { return false; }
 	virtual bool hasCollider() { return false; }
 	virtual SDL_Rect* getCollider() { return nullptr; }
+	virtual bool isSolid() { return false; }
 
 	virtual Vec2 getPosition() { return { 0, 0 }; }
 

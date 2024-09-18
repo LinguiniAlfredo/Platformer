@@ -32,12 +32,30 @@ Scene::~Scene()
 		ent = nullptr;
 	}
 	entities.clear();
+
+	for (Entity* ent : trashBin)
+	{
+		delete ent;
+		ent = nullptr;
+	}
+	trashBin.clear();
 }
 
 void Scene::addEntity(Entity* ent)
 {
 	ent->setScene(this);
 	entities.push_back(ent);
+}
+
+void Scene::removeEntity(Entity* ent)
+{
+	binIt(ent);
+	entities.erase(std::remove(entities.begin(), entities.end(), ent), entities.end());
+}
+
+void Scene::binIt(Entity* ent)
+{
+	trashBin.push_back(ent);
 }
 
 std::vector<Entity*> Scene::getEntities()

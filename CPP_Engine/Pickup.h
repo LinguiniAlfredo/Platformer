@@ -5,37 +5,37 @@
 #include <string>
 class Texture;
 
-class Surface :
+class Pickup :
 	public Entity
 {
 public:
-	Surface(Scene* scene);
-	Surface(Scene* scene, std::string textureFile, Vec2 currentPosition);
-	~Surface();
+	Pickup(Scene* scene);
+	Pickup(Scene* scene, std::string itemType, Vec2 currentPosition);
+	~Pickup();
 
 	void draw();
 	void update(float deltaTime);
 
 	void setScene(Scene* scene);
+	void setTexture(std::string path);
 
 	bool isColliding();
 	bool hasCollider();
 	SDL_Rect* getCollider();
-	bool isSolid();
 
 	Vec2 getPosition();
 
 private:
 	Scene* scene;
-
 	Texture* texture;
 	Vec2 currentPosition;
-	const std::string textureFile = "resources/textures/platform.png";
-
 	SDL_Rect* collider;
+	const std::string textureFile = "resources/textures/platform.png";
 	bool colliding = false;
-	bool solid = true;
+	int currentState = FULL;
+	Pickup* item;
 
 	void checkCollisions(float deltaTime);
+	void openBox();
 };
 

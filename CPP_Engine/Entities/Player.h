@@ -28,6 +28,7 @@ public:
 	bool isColliding();
 	bool hasCollider();
 	SDL_Rect* getCollider();
+	bool isSolid();
 
 	Vec2 getPosition();
 
@@ -48,6 +49,7 @@ private:
 	SDL_Rect* collider;
 	Physics* physics;
 	Timer jumpTimer;
+	bool solid = true;
 
 	void checkForFloor();
 	void checkCollisions(float deltaTime);

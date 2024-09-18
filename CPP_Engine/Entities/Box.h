@@ -4,6 +4,7 @@
 #include "Utils/Vec2.h"
 #include <string>
 class Texture;
+class Pickup;
 
 enum boxState {
 	FULL,
@@ -14,8 +15,7 @@ class Box :
 	public Entity
 {
 public:
-	Box(Scene* scene);
-	Box(Scene* scene, std::string textureFile, Vec2 currentPosition);
+	Box(Scene* scene, std::string textureFile, Pickup* item, Vec2 currentPosition);
 	~Box();
 
 	void draw();
@@ -27,6 +27,7 @@ public:
 	bool isColliding();
 	bool hasCollider();
 	SDL_Rect* getCollider();
+	bool isSolid();
 
 	Vec2 getPosition();
 
@@ -38,8 +39,11 @@ private:
 	const std::string textureFile = "resources/textures/platform.png";
 	bool colliding = false;
 	int currentState = FULL;
+	Pickup* item;
+	bool solid = true;
 
 	void checkCollisions(float deltaTime);
 	void openBox();
+	void revealItem();
 };
 

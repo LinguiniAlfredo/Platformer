@@ -84,6 +84,11 @@ SDL_Rect* Surface::getCollider()
 	return collider;
 }
 
+bool Surface::isSolid()
+{
+	return solid;
+}
+
 Vec2 Surface::getPosition()
 {
 	return currentPosition;

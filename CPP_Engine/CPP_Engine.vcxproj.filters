@@ -66,6 +66,9 @@
     <ClCompile Include="Entities\Surface.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\Pickup.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\textures\clouds.png">
@@ -122,6 +125,9 @@
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Entities\Surface.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Pickup.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>

@@ -12,12 +12,15 @@ public:
 	~Scene();
 
 	void addEntity(Entity* ent);
+	void removeEntity(Entity* ent);
+	void binIt(Entity* ent);
 	std::vector<Entity*> getEntities(); // TODO - Make a hash map of indexed entities instead
 	int getTileSize();
 	SDL_Renderer* getRenderer();
 
 private:
 	std::vector<Entity*> entities;
+	std::vector<Entity*> trashBin;
 	const int TILESIZE = 8;
 	SDL_Renderer* renderer;
 };
