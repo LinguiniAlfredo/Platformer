@@ -49,7 +49,7 @@ void Scene::addEntity(Entity* ent)
 
 void Scene::removeEntity(Entity* ent)
 {
-	binIt(ent);
+	binIt(ent); // TODO - Find better way to handle trash objects, may fall over at large numbers?
 	entities.erase(std::remove(entities.begin(), entities.end(), ent), entities.end());
 }
 

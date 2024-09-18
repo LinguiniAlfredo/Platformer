@@ -53,7 +53,10 @@ void Pickup::checkCollisions(float deltaTime)
 	if (SDL_HasIntersection(collider, player->getCollider()))
 	{
 		colliding = true;
-		player->setPowerUp(type);
+		if (type == "flower")
+			player->setPowerUp(1);
+		if (type == "skull")
+			player->setPowerUp(0);
 	}
 	else
 		colliding = false;

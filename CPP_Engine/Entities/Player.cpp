@@ -214,13 +214,27 @@ bool Player::hasPhysics()
 	return physics != nullptr;
 }
 
-void Player::setPowerUp(std::string p)
+void Player::setPowerUp(int p)
 {
-	power = p;
-	if (texture != nullptr)
+	if (power != p)
 	{
-		delete texture;
-		texture = nullptr;
+		power = p;
+		if (texture != nullptr)
+		{
+			delete texture;
+			texture = nullptr;
+		}
+
+		switch (power)
+		{
+		case FLOWER:
+			texture = new Texture(scene->getRenderer(), "resources/textures/guy_flower.png");
+			jumpForce = 400;
+			break;
+		case NONE:
+			texture = new Texture(scene->getRenderer(), "resources/textures/guy.png");
+			jumpForce = 200;
+			break;
+		}
 	}
-	texture = new Texture(scene->getRenderer(), "resources/textures/guy_" + power + ".png");
 }

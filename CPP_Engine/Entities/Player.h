@@ -11,6 +11,11 @@ enum playerState {
 	AIRBORNE
 };
 
+enum power {
+	NONE,
+	FLOWER
+};
+
 class Player : 
 	public Entity
 {
@@ -34,13 +39,13 @@ public:
 
 	bool hasPhysics();
 
-	void setPowerUp(std::string power);
+	void setPowerUp(int power);
 
 private:
 	Scene* scene;
 
 	static const int groundSpeed = 63;
-	static const int jumpForce = 200;
+	int jumpForce = 200;
 
 	const std::string textureFile = "resources/textures/guy.png";
 	int currentState = AIRBORNE;
@@ -52,7 +57,7 @@ private:
 	Physics* physics;
 	Timer jumpTimer;
 	bool solid = true;
-	std::string power = "none";
+	int power = NONE;
 
 	void checkForFloor();
 	void checkCollisions(float deltaTime);

@@ -41,6 +41,7 @@
     <Image Include="resources\textures\guy.png" />
     <Image Include="Resources\Textures\guy_flower.png" />
     <Image Include="resources\textures\platform.png" />
+    <Image Include="Resources\Textures\skull.png" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\Physics.h" />

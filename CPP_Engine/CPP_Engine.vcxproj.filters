@@ -98,6 +98,9 @@
     <Image Include="Resources\Textures\guy_flower.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
+    <Image Include="Resources\Textures\skull.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
