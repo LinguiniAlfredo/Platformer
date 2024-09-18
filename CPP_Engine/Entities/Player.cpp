@@ -214,27 +214,27 @@ bool Player::hasPhysics()
 	return physics != nullptr;
 }
 
-void Player::setPowerUp(int p)
+void Player::setPowerLevel(int p)
 {
-	if (power != p)
+	power += p;
+	if (texture != nullptr)
 	{
-		power = p;
-		if (texture != nullptr)
-		{
-			delete texture;
-			texture = nullptr;
-		}
+		delete texture;
+		texture = nullptr;
+	}
 
-		switch (power)
-		{
-		case FLOWER:
-			texture = new Texture(scene->getRenderer(), "resources/textures/guy_flower.png");
-			jumpForce = 400;
-			break;
-		case NONE:
-			texture = new Texture(scene->getRenderer(), "resources/textures/guy.png");
-			jumpForce = 200;
-			break;
-		}
+	switch (power)
+	{
+	case FLOWER:
+		texture = new Texture(scene->getRenderer(), "resources/textures/guy_flower.png");
+		jumpForce = 400;
+		break;
+	case NONE:
+		texture = new Texture(scene->getRenderer(), "resources/textures/guy.png");
+		jumpForce = 200;
+		break;
+	default:
+		scene->removeEntity(this);
+		break;
 	}
 }

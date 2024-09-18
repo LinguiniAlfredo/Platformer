@@ -39,7 +39,7 @@ public:
 
 	bool hasPhysics();
 
-	void setPowerUp(int power);
+	void setPowerLevel(int power);
 
 private:
 	Scene* scene;

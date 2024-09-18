@@ -54,9 +54,9 @@ void Pickup::checkCollisions(float deltaTime)
 	{
 		colliding = true;
 		if (type == "flower")
-			player->setPowerUp(1);
+			player->setPowerLevel(1);
 		if (type == "skull")
-			player->setPowerUp(0);
+			player->setPowerLevel(-1);
 	}
 	else
 		colliding = false;
