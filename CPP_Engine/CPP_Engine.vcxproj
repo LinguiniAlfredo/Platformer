@@ -34,6 +34,8 @@
   <ItemGroup>
     <Image Include="resources\textures\bird.png" />
     <Image Include="resources\textures\box_empty.png" />
+    <Image Include="Resources\Textures\clock.png" />
+    <Image Include="Resources\Textures\clock2.png" />
     <Image Include="resources\textures\clouds.png" />
     <Image Include="resources\textures\floor.png" />
     <Image Include="resources\textures\flower.png" />
