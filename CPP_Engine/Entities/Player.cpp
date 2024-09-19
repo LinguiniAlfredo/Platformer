@@ -235,6 +235,7 @@ void Player::setPowerLevel(int p)
 		break;
 	default:
 		scene->removeEntity(this);
+		//scene->gameOver();
 		break;
 	}
 }
