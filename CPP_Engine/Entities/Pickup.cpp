@@ -49,21 +49,23 @@ void Pickup::checkCollisions(float deltaTime)
 {
 	// Check collisions on player
 	Player* player = dynamic_cast<Player*>(scene->getPlayer());
-	if (player != nullptr)
-	{
-		if (SDL_HasIntersection(collider, player->getCollider()))
-		{
+	if (player != nullptr) {
+		if (SDL_HasIntersection(collider, player->getCollider())) {
 			colliding = true;
-			if (type == "flower")
+			if (type == "flower") {
 				player->setPowerLevel(1);
-			if (type == "skull")
+			}
+			if (type == "skull") {
 				player->setPowerLevel(-1);
+			}
 		}
-		else
+		else {
 			colliding = false;
+		}
 
-		if (colliding)
+		if (colliding) {
 			scene->removeEntity(this);
+		}
 	}
 }
 

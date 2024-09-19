@@ -47,17 +47,13 @@ void Surface::update(float deltaTime)
 void Surface::checkCollisions(float deltaTime)
 {
 	// Check collisions on all other entities
-	for (Entity* ent : scene->getEntities())
-	{
-		if (ent->hasCollider() && ent != this)
-		{
-			if (SDL_HasIntersection(collider, ent->getCollider()))
-			{
+	for (Entity* ent : scene->getEntities()) {
+		if (ent->hasCollider() && ent != this) {
+			if (SDL_HasIntersection(collider, ent->getCollider())) {
 				colliding = true;
 				break;
 			}
-			else
-			{
+			else {
 				colliding = false;
 			}
 		}

@@ -47,24 +47,19 @@ SDL_Texture* Texture::loadFromFile(string path)
 
 	SDL_Surface* surface = IMG_Load(path.c_str());	
 
-	if (surface == nullptr)
-	{
+	if (surface == nullptr) {
 		printf("unable to load image %s : %s", path.c_str(), IMG_GetError());
 	}
-	else
-	{
+	else {
 		// Uncomment for transparency keyframing
 		//SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 0, 0xFF, 0xFF));
 
 		newTexture = SDL_CreateTextureFromSurface(renderer, surface);
-		if (newTexture == nullptr)
-		{
+		if (newTexture == nullptr) {
 			printf("unable to create texture %s : %s", path.c_str(), SDL_GetError());
 		}
-		else
-		{
-			if (width == 0 && height == 0)
-			{
+		else {
+			if (width == 0 && height == 0) {
 				width = surface->w;
 				height = surface->h;
 			}
@@ -82,8 +77,7 @@ void Texture::render(int x, int y)
 
 void Texture::free()
 {
-	if (texture != nullptr)
-	{
+	if (texture != nullptr) {
 		SDL_DestroyTexture(texture);
 		texture = nullptr;
 		width = 0;

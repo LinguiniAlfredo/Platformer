@@ -17,8 +17,7 @@ Scene::Scene(SDL_Renderer* r)
 Scene::Scene(Scene& src)
 {
 	renderer = src.renderer;
-	for (Entity* ent : src.getEntities())
-	{
+	for (Entity* ent : src.getEntities()) {
 		entities.push_back(ent);
 	}
 }
@@ -26,15 +25,13 @@ Scene::Scene(Scene& src)
 Scene::~Scene()
 {
 	printf("destroying scene\n");
-	for (Entity* ent : entities)
-	{
+	for (Entity* ent : entities) {
 		delete ent;
 		ent = nullptr;
 	}
 	entities.clear();
 
-	for (Entity* ent : trashBin)
-	{
+	for (Entity* ent : trashBin) {
 		delete ent;
 		ent = nullptr;
 	}

@@ -25,8 +25,7 @@ Box::~Box()
 	texture = nullptr;
 	collider = nullptr;
 
-	if (item != nullptr)
-	{
+	if (item != nullptr) {
 		delete item;
 		item = nullptr;
 	}
@@ -45,19 +44,16 @@ void Box::update(float deltaTime)
 void Box::checkCollisions(float deltaTime)
 {
 	// Check collisions on player from bottom
-	for (Entity* ent : scene->getEntities())
-	{
-		if (ent->hasCollider() && ent->hasPhysics())
-		{
-			if (SDL_HasIntersection(collider, ent->getCollider()) && ent->getPosition().y > currentPosition.y)
-			{
+	for (Entity* ent : scene->getEntities()) {
+		if (ent->hasCollider() && ent->hasPhysics()) {
+			if (SDL_HasIntersection(collider, ent->getCollider()) && ent->getPosition().y > currentPosition.y) {
 				colliding = true;
-				if (currentState == FULL)
+				if (currentState == FULL) {
 					openBox();
+				}
 				break;
 			}
-			else
-			{
+			else {
 				colliding = false;
 			}
 		}
@@ -81,8 +77,7 @@ void Box::revealItem()
 
 void Box::setTexture(std::string path)
 {
-	if (texture != nullptr)
-	{
+	if (texture != nullptr) {
 		delete texture;
 		texture = nullptr;
 	}

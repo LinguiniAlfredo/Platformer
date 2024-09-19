@@ -57,39 +57,31 @@ void Player::draw()
 
 void Player::handleEvent(SDL_Event& e)
 {
-	if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
-	{
+	if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
 		SDL_Keycode key = e.key.keysym.sym;
-		if (key == SDLK_a)
-		{
+		if (key == SDLK_a) {
 			currentVelocity.x = -1;
 		}
-		if (key == SDLK_d)
-		{
+		if (key == SDLK_d) {
 			currentVelocity.x = 1;
 		}
-		if (key == SDLK_SPACE && currentState == GROUNDED)
-		{
+		if (key == SDLK_SPACE && currentState == GROUNDED) {
 			currentVelocity.y = -1 * jumpForce;
 			currentState = AIRBORNE;
 		}
 
 	}
-	if (e.type == SDL_KEYUP && e.key.repeat == 0)
-	{
+	if (e.type == SDL_KEYUP && e.key.repeat == 0) {
 		SDL_Keycode key = e.key.keysym.sym;
-		if (key == SDLK_a)
-		{
+		if (key == SDLK_a) {
 			if (currentVelocity.x < 0)
 				currentVelocity.x = 0;
 		}
-		if (key == SDLK_d)
-		{
+		if (key == SDLK_d) {
 			if (currentVelocity.x > 0)
 				currentVelocity.x = 0;
 		}
-		if (key == SDLK_SPACE)
-		{
+		if (key == SDLK_SPACE) {
 			currentVelocity.y /= 2;
 		}
 	}
@@ -97,10 +89,8 @@ void Player::handleEvent(SDL_Event& e)
 
 void Player::checkForFloor()
 {
-	if (currentState == GROUNDED)
-	{
-		for (Entity* ent : scene->getEntities())
-		{
+	if (currentState == GROUNDED) {
+		for (Entity* ent : scene->getEntities()) {
 			if (ent->getPosition().y - currentPosition.y == scene->getTileSize() &&
 				currentPosition.x + collider->w >= ent->getPosition().x && currentPosition.x < ent->getPosition().x + ent->getCollider()->w)
 			{
@@ -118,26 +108,22 @@ void Player::checkCollisions(float deltaTime)
 	collider->x += currentVelocity.x * deltaTime * groundSpeed;
 	collider->y += currentVelocity.y * deltaTime;
 
-	if (currentState != GROUNDED)
+	if (currentState != GROUNDED) {
 		currentVelocity.y += physics->getGravity();
+	}
 
-	for (Entity* ent : scene->getEntities())
-	{
-		if (ent->hasCollider() && ent != this)
-		{
-			if (SDL_HasIntersection(collider, ent->getCollider()) && ent->isSolid())
-			{
+	for (Entity* ent : scene->getEntities()) {
+		if (ent->hasCollider() && ent != this) {
+			if (SDL_HasIntersection(collider, ent->getCollider()) && ent->isSolid()) {
 				colliding = true;
 				resolveCollision(ent);
 
-				if (ent->getPosition().y > currentPosition.y)
-				{
+				if (ent->getPosition().y > currentPosition.y) {
 					currentState = GROUNDED;
 				}
 				break;
 			}
-			else
-			{
+			else {
 				colliding = false;
 			}
 		}
@@ -148,14 +134,12 @@ void Player::resolveCollision(Entity* ent)
 {
 
 	// if collision below player and y velocity is positive
-	if (currentVelocity.y > 0 && ent->getPosition().y > currentPosition.y)
-	{
+	if (currentVelocity.y > 0 && ent->getPosition().y > currentPosition.y) {
 		currentPosition.y = ent->getPosition().y - scene->getTileSize();
 		currentVelocity.y = 0;
 	}
 	// if collision above player and y velocity is negative
-	if (currentVelocity.y < 0 && ent->getPosition().y < currentPosition.y)
-	{
+	if (currentVelocity.y < 0 && ent->getPosition().y < currentPosition.y) {
 		currentPosition.y = ent->getPosition().y + scene->getTileSize();
 		currentVelocity.y = 0;
 	}
@@ -166,13 +150,13 @@ void Player::move(float deltaTime)
 	// Position += Velocity
 	// Velocity += Acceleration
 
-	if (!colliding)
-	{
+	if (!colliding) {
 		currentPosition.x += currentVelocity.x * deltaTime * groundSpeed;
 		currentPosition.y += currentVelocity.y * deltaTime;
 
-		if (currentState != GROUNDED)
+		if (currentState != GROUNDED) {
 			currentVelocity.y += physics->getGravity();
+		}
 	}
 
 	collider->x = currentPosition.x;
@@ -217,25 +201,23 @@ bool Player::hasPhysics()
 void Player::setPowerLevel(int p)
 {
 	power += p;
-	if (texture != nullptr)
-	{
+	if (texture != nullptr) {
 		delete texture;
 		texture = nullptr;
 	}
 
-	switch (power)
-	{
-	case FLOWER:
-		texture = new Texture(scene->getRenderer(), "resources/textures/guy_flower.png");
-		jumpForce = 400;
-		break;
-	case NONE:
-		texture = new Texture(scene->getRenderer(), "resources/textures/guy.png");
-		jumpForce = 200;
-		break;
-	default:
-		scene->removeEntity(this);
-		//scene->gameOver();
-		break;
+	switch (power) {
+		case FLOWER:
+			texture = new Texture(scene->getRenderer(), "resources/textures/guy_flower.png");
+			jumpForce = 400;
+			break;
+		case NONE:
+			texture = new Texture(scene->getRenderer(), "resources/textures/guy.png");
+			jumpForce = 200;
+			break;
+		default:
+			scene->removeEntity(this);
+			//scene->gameOver();
+			break;
 	}
 }
