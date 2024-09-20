@@ -161,6 +161,11 @@ void Player::move(float deltaTime)
 
 	collider->x = currentPosition.x;
 	collider->y = currentPosition.y;
+
+	// kill player if falls below floor
+	if (currentPosition.y > 180) {
+		scene->removeEntity(this);
+	}
 }
 
 void Player::setScene(Scene* s)
@@ -217,7 +222,7 @@ void Player::setPowerLevel(int p)
 			break;
 		default:
 			scene->removeEntity(this);
-			//scene->gameOver();
+			//scene->respawnPlayer();
 			break;
 	}
 }
