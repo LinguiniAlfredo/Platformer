@@ -23,6 +23,16 @@ Surface::Surface(Scene* s, string path, Vec2 pos)
 	texture = new Texture(scene->getRenderer(), path);
 	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
 }
+Surface::Surface(Scene* s, string path, Vec2 pos, bool solid)
+{
+	printf("creating surface \n");
+	scene = s;
+	currentPosition = pos;
+	texture = new Texture(scene->getRenderer(), path);
+	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
+	this->solid = solid;
+}
+
 
 Surface::~Surface()
 {

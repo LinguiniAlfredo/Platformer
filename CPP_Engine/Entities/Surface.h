@@ -11,6 +11,7 @@ class Surface :
 public:
 	Surface(Scene* scene);
 	Surface(Scene* scene, std::string textureFile, Vec2 currentPosition);
+	Surface(Scene* scene, std::string textureFile, Vec2 currentPosition, bool solid);
 	~Surface();
 
 	void draw();
