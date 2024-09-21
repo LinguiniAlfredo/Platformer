@@ -4,7 +4,6 @@
 #include "Utils/Vec2.h"
 class Scene;
 
-
 class Entity
 {
 public:
@@ -22,8 +21,11 @@ public:
 	virtual bool hasCollider() { return false; }
 	virtual SDL_Rect* getCollider() { return nullptr; }
 	virtual bool isSolid() { return false; }
+	virtual void setSolid(bool solid) {}
 
 	virtual Vec2 getPosition() { return { 0, 0 }; }
 
 	virtual bool hasPhysics() { return false; }
+
+private:
 };

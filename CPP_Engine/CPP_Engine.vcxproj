@@ -26,6 +26,7 @@
     <ClCompile Include="Entities\Pickup.cpp" />
     <ClCompile Include="Entities\Player.cpp" />
     <ClCompile Include="Entities\Surface.cpp" />
+    <ClCompile Include="Entities\Switch.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Utils\Timer.cpp" />
     <ClCompile Include="Utils\Utils.cpp" />
@@ -33,9 +34,11 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\textures\bird.png" />
-    <Image Include="resources\textures\box_empty.png" />
+    <Image Include="Resources\Textures\block_blue.png" />
+    <Image Include="Resources\Textures\block_red.png" />
+    <Image Include="Resources\Textures\box.png" />
+    <Image Include="Resources\Textures\box_empty.png" />
     <Image Include="Resources\Textures\clock.png" />
-    <Image Include="Resources\Textures\clock2.png" />
     <Image Include="resources\textures\clouds.png" />
     <Image Include="resources\textures\floor.png" />
     <Image Include="resources\textures\flower.png" />
@@ -46,6 +49,11 @@
     <Image Include="resources\textures\platform.png" />
     <Image Include="Resources\Textures\sign.png" />
     <Image Include="Resources\Textures\skull.png" />
+    <Image Include="Resources\Textures\switch.png" />
+    <Image Include="Resources\Textures\switch_off.png" />
+    <Image Include="Resources\Textures\switch_red.png" />
+    <Image Include="Resources\Textures\trans_block_blue.png" />
+    <Image Include="Resources\Textures\trans_block_red.png" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\Physics.h" />
@@ -55,6 +63,7 @@
     <ClInclude Include="Entities\Pickup.h" />
     <ClInclude Include="Entities\Player.h" />
     <ClInclude Include="Entities\Surface.h" />
+    <ClInclude Include="Entities\Switch.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Utils\Timer.h" />
     <ClInclude Include="Utils\Utils.h" />

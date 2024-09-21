@@ -15,6 +15,7 @@ public:
 	void addEntity(Entity* ent);
 	void removeEntity(Entity* ent);
 	void binIt(Entity* ent);
+	void clearTrash();
 	std::vector<Entity*> getEntities(); // TODO - Make a hash map of indexed entities instead
 	int getTileSize();
 	SDL_Renderer* getRenderer();

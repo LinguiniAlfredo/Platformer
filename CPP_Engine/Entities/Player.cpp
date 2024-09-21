@@ -40,10 +40,6 @@ Player::~Player()
 
 void Player::update(float deltaTime)
 {
-	// check floor collisions, set grounded/airborne state
-	// check other collisions
-	// move character based on input and collisions
-
 	checkForFloor();
 	checkCollisions(deltaTime);
 	move(deltaTime);
@@ -91,7 +87,7 @@ void Player::checkForFloor()
 {
 	if (currentState == GROUNDED) {
 		for (Entity* ent : scene->getEntities()) {
-			if (ent->getPosition().y - currentPosition.y == scene->getTileSize() &&
+			if (ent->isSolid() && ent->getPosition().y - currentPosition.y == scene->getTileSize() &&
 				currentPosition.x + collider->w >= ent->getPosition().x && currentPosition.x < ent->getPosition().x + ent->getCollider()->w)
 			{
 				return;

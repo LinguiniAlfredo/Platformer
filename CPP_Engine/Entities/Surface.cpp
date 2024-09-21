@@ -15,20 +15,22 @@ Surface::Surface(Scene* s)
 	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
 }
 
-Surface::Surface(Scene* s, string path, Vec2 pos)
+Surface::Surface(Scene* s, string textureFile, Vec2 pos)
 {
 	printf("creating surface \n");
 	scene = s;
 	currentPosition = pos;
-	texture = new Texture(scene->getRenderer(), path);
+	this->textureFile = textureFile;
+	texture = new Texture(scene->getRenderer(), textureFile);
 	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
 }
-Surface::Surface(Scene* s, string path, Vec2 pos, bool solid)
+Surface::Surface(Scene* s, string textureFile , Vec2 pos, bool solid)
 {
 	printf("creating surface \n");
 	scene = s;
 	currentPosition = pos;
-	texture = new Texture(scene->getRenderer(), path);
+	this->textureFile = textureFile;
+	texture = new Texture(scene->getRenderer(), textureFile);
 	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
 	this->solid = solid;
 }
@@ -95,7 +97,21 @@ bool Surface::isSolid()
 	return solid;
 }
 
+void Surface::setSolid(bool solid)
+{
+	this->solid = solid;
+}
+
 Vec2 Surface::getPosition()
 {
 	return currentPosition;
+}
+
+void Surface::setTexture(std::string path)
+{
+	if (texture != nullptr) {
+		delete texture;
+		texture = nullptr;
+	}
+	texture = new Texture(scene->getRenderer(), path);
 }

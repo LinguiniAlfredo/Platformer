@@ -69,6 +69,9 @@
     <ClCompile Include="Entities\Pickup.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\Switch.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\textures\clouds.png">
@@ -92,9 +95,6 @@
     <Image Include="resources\textures\flower.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
-    <Image Include="resources\textures\box_empty.png">
-      <Filter>Resource Files\Textures</Filter>
-    </Image>
     <Image Include="Resources\Textures\guy_flower.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
@@ -104,13 +104,37 @@
     <Image Include="Resources\Textures\clock.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
-    <Image Include="Resources\Textures\clock2.png">
-      <Filter>Resource Files\Textures</Filter>
-    </Image>
     <Image Include="Resources\Textures\sign.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\grass_1.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\switch.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\switch_off.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\box.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\box_empty.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\trans_block_blue.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\block_blue.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\switch_red.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\trans_block_red.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\block_red.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>
@@ -146,6 +170,9 @@
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Entities\Pickup.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Switch.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>

@@ -43,19 +43,19 @@ public:
 
 private:
 	Scene* scene;
+	Texture* texture;
+	SDL_Rect* collider;
+	Physics* physics;
+	Vec2 currentVelocity;
+	Vec2 currentPosition;
 
+	std::string name = "player";
 	static const int groundSpeed = 63;
 	int jumpForce = 200;
 
 	const std::string textureFile = "resources/textures/guy.png";
 	int currentState = AIRBORNE;
 	bool colliding = false;
-	Vec2 currentVelocity;
-	Vec2 currentPosition;
-	Texture* texture;
-	SDL_Rect* collider;
-	Physics* physics;
-	Timer jumpTimer;
 	bool solid = true;
 	int power = NONE;
 

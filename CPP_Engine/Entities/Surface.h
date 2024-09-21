@@ -18,6 +18,8 @@ public:
 	void update(float deltaTime);
 
 	void setScene(Scene* scene);
+	void setSolid(bool solid);
+	void setTexture(std::string texture);
 
 	bool isColliding();
 	bool hasCollider();
@@ -31,7 +33,7 @@ private:
 
 	Texture* texture;
 	Vec2 currentPosition;
-	const std::string textureFile = "resources/textures/platform.png";
+	std::string textureFile = "resources/textures/platform.png";
 
 	SDL_Rect* collider;
 	bool colliding = false;

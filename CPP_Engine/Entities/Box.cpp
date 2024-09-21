@@ -7,13 +7,13 @@
 #include <iostream>
 #include <string>
 
-Box::Box(Scene* s, std::string path, Pickup* i, Vec2 pos)
+Box::Box(Scene* s, Pickup* i, Vec2 pos)
 {
 	std::cout << "creating box \n";
 	scene = s;
 	currentPosition = pos;
 	item = i;
-	texture = new Texture(scene->getRenderer(), path);
+	texture = new Texture(scene->getRenderer(), textureFile);
 	collider = new SDL_Rect{ currentPosition.x, currentPosition.y + 1, texture->getWidth(), texture->getHeight() };
 }
 

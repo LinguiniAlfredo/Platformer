@@ -46,13 +46,23 @@ void Scene::addEntity(Entity* ent)
 
 void Scene::removeEntity(Entity* ent)
 {
-	binIt(ent); // TODO - Find better way to handle trash objects, may fall over at large numbers?
+	binIt(ent);
 	entities.erase(std::remove(entities.begin(), entities.end(), ent), entities.end());
 }
 
 void Scene::binIt(Entity* ent)
 {
 	trashBin.push_back(ent);
+}
+
+void Scene::clearTrash()
+{
+	for (Entity* ent : trashBin) {
+		delete ent;
+		ent = nullptr;
+	}
+
+	trashBin.clear();
 }
 
 std::vector<Entity*> Scene::getEntities()
@@ -72,6 +82,12 @@ SDL_Renderer* Scene::getRenderer()
 
 Entity* Scene::getPlayer()
 {
+	//auto it = std::find_if(entities.begin(), entities.end(), 
+	//	[] (Entity* ent) {
+	//		return ent->name == "player";
+	//	});
+	//int index = std::distance(entities.begin(), it);
 	return entities.at(0);
 }
+
 

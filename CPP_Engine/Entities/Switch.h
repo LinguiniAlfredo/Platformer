@@ -3,20 +3,18 @@
 #include "Entity.h"
 #include "Utils/Vec2.h"
 #include <string>
+#include <vector>
 class Texture;
 class Pickup;
+class Surface;
 
-enum boxState {
-	FULL,
-	EMPTY
-};
-
-class Box :
+class Switch :
 	public Entity
 {
 public:
-	Box(Scene* scene, Pickup* item, Vec2 currentPosition);
-	~Box();
+	Switch(Scene* scene, std::vector<Surface*> switchBlocks, Vec2 currentPosition);
+	Switch(Scene* scene, std::vector<Surface*> switchBlocks, std::string color, Vec2 currentPosition);
+	~Switch();
 
 	void draw();
 	void update(float deltaTime);
@@ -31,15 +29,22 @@ public:
 
 	Vec2 getPosition();
 
+	void onOff();
+
 private:
 	Scene* scene;
 	Texture* texture;
-	Vec2 currentPosition;
 	SDL_Rect* collider;
-	const std::string textureFile = "resources/textures/box.png";
+	Vec2 currentPosition;
+
+	std::string color = "blue";
+	std::string onTexture = "resources/textures/switch_blue.png";
+	std::string offTexture = "resources/textures/switch_off.png";
+
+	std::vector<Surface*> switchBlocks;
+
 	bool colliding = false;
-	int currentState = FULL;
-	Pickup* item;
+	bool on = false;
 	bool solid = true;
 
 	void checkCollisions(float deltaTime);
