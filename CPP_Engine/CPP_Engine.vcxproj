@@ -35,6 +35,7 @@
   <ItemGroup>
     <Image Include="resources\textures\bird.png" />
     <Image Include="Resources\Textures\block_blue.png" />
+    <Image Include="Resources\Textures\block_green.png" />
     <Image Include="Resources\Textures\block_red.png" />
     <Image Include="Resources\Textures\box.png" />
     <Image Include="Resources\Textures\box_empty.png" />
@@ -46,13 +47,19 @@
     <Image Include="resources\textures\ground_tile.png" />
     <Image Include="resources\textures\guy.png" />
     <Image Include="Resources\Textures\guy_flower.png" />
+    <Image Include="Resources\Textures\key.png" />
     <Image Include="resources\textures\platform.png" />
     <Image Include="Resources\Textures\sign.png" />
     <Image Include="Resources\Textures\skull.png" />
     <Image Include="Resources\Textures\switch.png" />
+    <Image Include="Resources\Textures\switch_blue_lit.png" />
+    <Image Include="Resources\Textures\switch_green.png" />
+    <Image Include="Resources\Textures\switch_green_lit.png" />
     <Image Include="Resources\Textures\switch_off.png" />
     <Image Include="Resources\Textures\switch_red.png" />
+    <Image Include="Resources\Textures\switch_red_lit.png" />
     <Image Include="Resources\Textures\trans_block_blue.png" />
+    <Image Include="Resources\Textures\trans_block_green.png" />
     <Image Include="Resources\Textures\trans_block_red.png" />
   </ItemGroup>
   <ItemGroup>

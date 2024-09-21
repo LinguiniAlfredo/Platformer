@@ -18,6 +18,7 @@ Switch::Switch(Scene* scene, std::vector<Surface*> switchBlocks, Vec2 currentPos
 		scene->addEntity(block);
 	}
 }
+
 Switch::Switch(Scene* scene, std::vector<Surface*> switchBlocks, std::string color, Vec2 currentPosition)
 {
 	printf("creating switch\n");
@@ -25,6 +26,30 @@ Switch::Switch(Scene* scene, std::vector<Surface*> switchBlocks, std::string col
 	this->scene = scene;
 	this->currentPosition = currentPosition;
 	this->color = color;
+	onTexture = "resources/textures/switch_" + color + ".png";
+	texture = on ? new Texture(scene->getRenderer(), onTexture) : new Texture(scene->getRenderer(), offTexture);
+	if (texture == nullptr)
+	{
+		printf("switch color not supported");
+		texture = new Texture(scene->getRenderer(), offTexture);
+
+	}
+	collider = new SDL_Rect{ currentPosition.x, currentPosition.y + 1, texture->getWidth(), texture->getHeight() };
+
+	this->switchBlocks = switchBlocks;
+	for (Surface* block : switchBlocks) {
+		scene->addEntity(block);
+	}
+}
+
+Switch::Switch(Scene* scene, std::vector<Surface*> switchBlocks, std::string color, Vec2 currentPosition, bool on)
+{
+	printf("creating switch\n");
+
+	this->scene = scene;
+	this->currentPosition = currentPosition;
+	this->color = color;
+	this->on = on;
 	onTexture = "resources/textures/switch_" + color + ".png";
 	texture = on ? new Texture(scene->getRenderer(), onTexture) : new Texture(scene->getRenderer(), offTexture);
 	if (texture == nullptr)
@@ -78,9 +103,11 @@ void Switch::checkCollisions(float deltaTime)
 		}
 		if (SDL_HasIntersection(collider, player->getCollider()) && player->getPosition().y > currentPosition.y) {
 			colliding = true;
+			setTexture("resources/textures/switch_" + color + "_lit.png");
 		}
 		else {
 			colliding = false;
+			setTexture("resources/textures/switch_" + color + ".png");
 		}
 	}
 }
@@ -97,7 +124,6 @@ void Switch::onOff()
 		}
 	}
 	else {
-		setTexture(offTexture);
 		for (Surface* block : switchBlocks) {
 			block->setSolid(false);
 			block->setTexture("resources/textures/trans_block_" + color + ".png");

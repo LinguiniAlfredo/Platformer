@@ -14,6 +14,7 @@ class Switch :
 public:
 	Switch(Scene* scene, std::vector<Surface*> switchBlocks, Vec2 currentPosition);
 	Switch(Scene* scene, std::vector<Surface*> switchBlocks, std::string color, Vec2 currentPosition);
+	Switch(Scene* scene, std::vector<Surface*> switchBlocks, std::string color, Vec2 currentPosition, bool on);
 	~Switch();
 
 	void draw();

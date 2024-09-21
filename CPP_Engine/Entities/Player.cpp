@@ -210,7 +210,7 @@ void Player::setPowerLevel(int p)
 	switch (power) {
 		case FLOWER:
 			texture = new Texture(scene->getRenderer(), "resources/textures/guy_flower.png");
-			jumpForce = 400;
+			//jumpForce = 400;
 			break;
 		case NONE:
 			texture = new Texture(scene->getRenderer(), "resources/textures/guy.png");
