@@ -36,9 +36,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Downloads\01_hello_SDL\01_hello_SDL\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -71,6 +68,15 @@
     </ClCompile>
     <ClCompile Include="Entities\Switch.cpp">
       <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Lift.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\Collision.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +164,15 @@
     <Image Include="Resources\Textures\key.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
+    <Image Include="Resources\Textures\lift.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\collision_red.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\collision_green.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -195,6 +210,12 @@
     </ClInclude>
     <ClInclude Include="Entities\Switch.h">
       <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Lift.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Collision.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

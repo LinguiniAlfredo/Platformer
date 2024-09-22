@@ -25,7 +25,7 @@ public:
 
 	bool isColliding();
 	bool hasCollider();
-	SDL_Rect* getCollider();
+	Collision* getCollider();
 	bool isSolid();
 
 	Vec2 getPosition();
@@ -35,7 +35,7 @@ public:
 private:
 	Scene* scene;
 	Texture* texture;
-	SDL_Rect* collider;
+	Collision* collider;
 	Vec2 currentPosition;
 
 	std::string color = "blue";

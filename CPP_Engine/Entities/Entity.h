@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <string>
 #include "Utils/Vec2.h"
+class Collision;
 class Scene;
 
 class Entity
@@ -17,9 +18,9 @@ public:
 	virtual void setScene(Scene* s) {}
 	virtual void setTexture(std::string path) {}
 
+	virtual Collision* getCollider() { return nullptr; }
 	virtual bool isColliding() { return false; }
 	virtual bool hasCollider() { return false; }
-	virtual SDL_Rect* getCollider() { return nullptr; }
 	virtual bool isSolid() { return false; }
 	virtual void setSolid(bool solid) {}
 

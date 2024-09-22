@@ -19,14 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Downloads\01_hello_SDL\01_hello_SDL\main.cpp" />
+    <ClCompile Include="Components\Collision.cpp" />
     <ClCompile Include="Components\Physics.cpp" />
     <ClCompile Include="Components\Texture.cpp" />
     <ClCompile Include="Entities\Box.cpp" />
+    <ClCompile Include="Entities\Lift.cpp" />
     <ClCompile Include="Entities\Pickup.cpp" />
     <ClCompile Include="Entities\Player.cpp" />
     <ClCompile Include="Entities\Surface.cpp" />
     <ClCompile Include="Entities\Switch.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Utils\Timer.cpp" />
     <ClCompile Include="Utils\Utils.cpp" />
@@ -41,6 +43,8 @@
     <Image Include="Resources\Textures\box_empty.png" />
     <Image Include="Resources\Textures\clock.png" />
     <Image Include="resources\textures\clouds.png" />
+    <Image Include="Resources\Textures\collision_green.png" />
+    <Image Include="Resources\Textures\collision_red.png" />
     <Image Include="resources\textures\floor.png" />
     <Image Include="resources\textures\flower.png" />
     <Image Include="Resources\Textures\grass_1.png" />
@@ -48,6 +52,7 @@
     <Image Include="resources\textures\guy.png" />
     <Image Include="Resources\Textures\guy_flower.png" />
     <Image Include="Resources\Textures\key.png" />
+    <Image Include="Resources\Textures\lift.png" />
     <Image Include="resources\textures\platform.png" />
     <Image Include="Resources\Textures\sign.png" />
     <Image Include="Resources\Textures\skull.png" />
@@ -63,10 +68,12 @@
     <Image Include="Resources\Textures\trans_block_red.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\Collision.h" />
     <ClInclude Include="Components\Physics.h" />
     <ClInclude Include="Components\Texture.h" />
     <ClInclude Include="Entities\Box.h" />
     <ClInclude Include="Entities\Entity.h" />
+    <ClInclude Include="Entities\Lift.h" />
     <ClInclude Include="Entities\Pickup.h" />
     <ClInclude Include="Entities\Player.h" />
     <ClInclude Include="Entities\Surface.h" />

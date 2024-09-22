@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Components/Texture.h"
 #include "Components/Physics.h"
+#include "Components/Collision.h"
 
 #include <iostream>
 #include <string>
@@ -14,7 +15,7 @@ Pickup::Pickup(Scene* s, std::string itemType, bool physics)
 	type = itemType;
 	currentPosition = { 0,0 };
 	texture = new Texture(scene->getRenderer(), "resources/textures/" + itemType + ".png");
-	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
+	collider = new Collision(scene->getRenderer(), currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight());
 	this->physics = nullptr;
 	if (physics) {
 		this->physics = new Physics();
@@ -28,7 +29,7 @@ Pickup::Pickup(Scene* s, std::string itemType, Vec2 pos, bool physics)
 	type = itemType;
 	currentPosition = pos;
 	texture = new Texture(scene->getRenderer(), "resources/textures/" + itemType + ".png");
-	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
+	collider = new Collision(scene->getRenderer(), currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight());
 	this->physics = nullptr;
 	if (physics) {
 		this->physics = new Physics();
@@ -64,8 +65,8 @@ void Pickup::move(float deltaTime)
 		currentVelocity.y += physics->getGravity();
 	}
 
-	collider->x = currentPosition.x;
-	collider->y = currentPosition.y;
+	collider->getBox()->x = currentPosition.x;
+	collider->getBox()->y = currentPosition.y;
 
 	// kill if falls below floor
 	if (currentPosition.y > 180) {
@@ -78,7 +79,7 @@ void Pickup::checkForFloor()
 	if (currentState == GROUNDED) {
 		for (Entity* ent : scene->getEntities()) {
 			if (ent->isSolid() && ent->getPosition().y - currentPosition.y == scene->getTileSize() &&
-				currentPosition.x + collider->w >= ent->getPosition().x && currentPosition.x < ent->getPosition().x + ent->getCollider()->w)
+				currentPosition.x + collider->getBox()->w >= ent->getPosition().x && currentPosition.x < ent->getPosition().x + ent->getCollider()->getBox()->w)
 			{
 				return;
 			}
@@ -93,7 +94,7 @@ void Pickup::checkCollisions(float deltaTime)
 	// Check collisions on player
 	Player* player = dynamic_cast<Player*>(scene->getPlayer());
 	if (player != nullptr) {
-		if (SDL_HasIntersection(collider, player->getCollider())) {
+		if (SDL_HasIntersection(collider->getBox(), player->getCollider()->getBox())) {
 			colliding = true;
 			if (type == "flower") {
 				player->setPowerLevel(1);
@@ -112,7 +113,7 @@ void Pickup::checkCollisions(float deltaTime)
 	}
 
 	if (physics) {
-		collider->y += currentVelocity.y * deltaTime;
+		collider->getBox()->y += currentVelocity.y * deltaTime;
 		currentPosition.y += currentVelocity.y * deltaTime;
 		if (currentState != GROUNDED) {
 			currentVelocity.y += physics->getGravity();
@@ -120,7 +121,7 @@ void Pickup::checkCollisions(float deltaTime)
 
 		for (Entity* ent : scene->getEntities()) {
 			if (ent->hasCollider() && ent != this) {
-				if (SDL_HasIntersection(collider, ent->getCollider()) && ent->isSolid()) {
+				if (SDL_HasIntersection(collider->getBox(), ent->getCollider()->getBox()) && ent->isSolid()) {
 					colliding = true;
 					resolveCollision(ent);
 
@@ -169,7 +170,7 @@ bool Pickup::hasCollider()
 	return collider != nullptr;
 }
 
-SDL_Rect* Pickup::getCollider()
+Collision* Pickup::getCollider()
 {
 	return collider;
 }
@@ -188,6 +189,6 @@ void Pickup::setPosition(int x, int y)
 {
 	currentPosition.x = x;
 	currentPosition.y = y;
-	collider->x = x;
-	collider->y = y;
+	collider->getBox()->x = x;
+	collider->getBox()->y = y;
 }

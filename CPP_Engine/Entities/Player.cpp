@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "Components/Texture.h"
 #include "Components/Physics.h"
+#include "Components/Collision.h"
 
 Player::Player(Scene* s)
 {
@@ -12,7 +13,7 @@ Player::Player(Scene* s)
 	currentVelocity = { 0,0 };
 	currentPosition = { 0,0 };
 	texture = new Texture(scene->getRenderer(), textureFile);
-	collider = new SDL_Rect { currentPosition.x, currentPosition.y, texture->getWidth() / 2, texture->getHeight() / 2 };
+	collider = new Collision (scene->getRenderer(), currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight());
 	physics = new Physics();
 }
 
@@ -23,7 +24,7 @@ Player::Player(Scene* s, Vec2 pos)
 	currentVelocity = { 0,0 };
 	currentPosition = pos;
 	texture = new Texture(scene->getRenderer(), textureFile);
-	collider = new SDL_Rect{ currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight()};
+	collider = new Collision { scene->getRenderer(), currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
 	physics = new Physics();
 }
 
@@ -88,7 +89,7 @@ void Player::checkForFloor()
 	if (currentState == GROUNDED) {
 		for (Entity* ent : scene->getEntities()) {
 			if (ent->isSolid() && ent->getPosition().y - currentPosition.y == scene->getTileSize() &&
-				currentPosition.x + collider->w >= ent->getPosition().x && currentPosition.x < ent->getPosition().x + ent->getCollider()->w)
+				currentPosition.x + collider->getBox()->w >= ent->getPosition().x && currentPosition.x < ent->getPosition().x + ent->getCollider()->getBox()->w)
 			{
 				return;
 			}
@@ -101,8 +102,8 @@ void Player::checkForFloor()
 // move collider where player will be next frame and check collisions.
 void Player::checkCollisions(float deltaTime)
 {
-	collider->x += currentVelocity.x * deltaTime * groundSpeed;
-	collider->y += currentVelocity.y * deltaTime;
+	collider->getBox()->x += currentVelocity.x * deltaTime * groundSpeed;
+	collider->getBox()->y += currentVelocity.y * deltaTime;
 
 	if (currentState != GROUNDED) {
 		currentVelocity.y += physics->getGravity();
@@ -110,7 +111,7 @@ void Player::checkCollisions(float deltaTime)
 
 	for (Entity* ent : scene->getEntities()) {
 		if (ent->hasCollider() && ent != this) {
-			if (SDL_HasIntersection(collider, ent->getCollider()) && ent->isSolid()) {
+			if (SDL_HasIntersection(collider->getBox(), ent->getCollider()->getBox()) && ent->isSolid()) {
 				colliding = true;
 				resolveCollision(ent);
 
@@ -128,7 +129,6 @@ void Player::checkCollisions(float deltaTime)
 
 void Player::resolveCollision(Entity* ent)
 {
-
 	// if collision below player and y velocity is positive
 	if (currentVelocity.y > 0 && ent->getPosition().y > currentPosition.y) {
 		currentPosition.y = ent->getPosition().y - scene->getTileSize();
@@ -155,8 +155,8 @@ void Player::move(float deltaTime)
 		}
 	}
 
-	collider->x = currentPosition.x;
-	collider->y = currentPosition.y;
+	collider->getBox()->x = currentPosition.x;
+	collider->getBox()->y = currentPosition.y;
 
 	// kill player if falls below floor
 	if (currentPosition.y > 180) {
@@ -179,7 +179,7 @@ bool Player::hasCollider()
 	return collider != nullptr;
 }
 
-SDL_Rect* Player::getCollider()
+Collision* Player::getCollider()
 {
 	return collider;
 }

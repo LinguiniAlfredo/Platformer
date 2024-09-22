@@ -12,6 +12,8 @@
 #include "Entities/Box.h"
 #include "Entities/Pickup.h"
 #include "Entities/Switch.h"
+#include "Entities/Lift.h"
+#include "Components/Collision.h"
 
 using namespace std;
 
@@ -21,7 +23,7 @@ using namespace std;
 			- Map system. Text file with tiled numbers representing texture/object
 			- Entity hashmap in scene with indexing
 			- Port to OpenGL for custom shaders
-			- Animaion system
+			- Animation system
 			- Editor
 			- Refactor Scene to be entity manager and handle all memory allocations
 		Bugs:
@@ -34,8 +36,8 @@ using namespace std;
 
 */
 
-const int SCREEN_WIDTH = 1920;
-const int SCREEN_HEIGHT = 1080;
+const int SCREEN_WIDTH = 1920 / 2;
+const int SCREEN_HEIGHT = 1080 / 2;
 const int INTERNAL_SCREEN_WIDTH = 320;
 const int INTERNAL_SCREEN_HEIGHT = 180;
 const int CENTER_X = INTERNAL_SCREEN_WIDTH / 2;
@@ -170,16 +172,18 @@ void initLevelOne()
 	for (int i = 0; i < 3; i++) {
 		redSwitchBlocks.push_back(new Surface(level1, "resources/textures/trans_block_red.png", { NUM_TILES_WIDE / 2 + 10 + i, NUM_TILES_HIGH - 7 }, false));
 	}
-	level1->addEntity(new Switch(level1, redSwitchBlocks, "red", { NUM_TILES_WIDE / 2 + 6, NUM_TILES_HIGH - 7 }));
+	level1->addEntity(new Switch(level1, redSwitchBlocks, "red", { NUM_TILES_WIDE / 2 + 4, NUM_TILES_HIGH - 7 }));
 
 	// create array of blocks to attach to switch object
 	std::vector<Surface*> greenSwitchBlocks;
 	for (int i = 0; i < 3; i++) {
 		greenSwitchBlocks.push_back(new Surface(level1, "resources/textures/block_green.png", { NUM_TILES_WIDE - 6 + i, 5 }, true));
 	}
-	level1->addEntity(new Switch(level1, greenSwitchBlocks, "green", { 2, NUM_TILES_HIGH - 4 }, true));
+	level1->addEntity(new Switch(level1, greenSwitchBlocks, "green", { 2, 3 }, true));
 
 	level1->addEntity(new Pickup(level1, "key", { NUM_TILES_WIDE - 5, 3 }, true));
+
+	level1->addEntity(new Lift(level1, "resources/textures/lift.png", { 0, NUM_TILES_HIGH - 5 }));
 
 	currentScene = level1;
 }
@@ -232,22 +236,6 @@ void close()
 
 	IMG_Quit();
 	SDL_Quit();
-}
-
-void drawColliders() 
-{
-	for (Entity* ent : currentScene->getEntities()) {
-		if (ent->isColliding()) {
-			SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
-
-		}
-		else {
-			SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
-
-		}
-		SDL_RenderDrawRect(renderer, ent->getCollider());
-
-	}
 }
 
 void toggleDebug()
@@ -318,7 +306,7 @@ int main( int argc, char* args[] )
 					ent->draw();
 
 					if (debug) {
-						drawColliders();
+						ent->getCollider()->render(ent->isColliding());
 					}
 				}
 				currentScene->clearTrash();
@@ -329,7 +317,7 @@ int main( int argc, char* args[] )
 				totalTime = frameTimer.getTicks() / 1000.f;
 				deltaTime = deltaTimer.getTicks() / 1000.f;
 				fps = countedFrames / totalTime;
-				//printf("%.3g FPS\n", fps); // TODO - display frames on screen
+				printf("%.3g FPS\n", fps); // TODO - display frames on screen
 				countedFrames++;
 				deltaTimer.start();
 			}

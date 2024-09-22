@@ -1,11 +1,12 @@
+#include <iostream>
+#include <string>
+
 #include "Box.h"
 #include "Scene.h"
 #include "Entity.h"
 #include "Pickup.h"
 #include "Components/Texture.h"
-
-#include <iostream>
-#include <string>
+#include "Components/Collision.h"
 
 Box::Box(Scene* s, Pickup* i, Vec2 pos)
 {
@@ -14,7 +15,7 @@ Box::Box(Scene* s, Pickup* i, Vec2 pos)
 	currentPosition = pos;
 	item = i;
 	texture = new Texture(scene->getRenderer(), textureFile);
-	collider = new SDL_Rect{ currentPosition.x, currentPosition.y + 1, texture->getWidth(), texture->getHeight() };
+	collider = new Collision(scene->getRenderer(), currentPosition.x, currentPosition.y + 1, texture->getWidth(), texture->getHeight());
 }
 
 Box::~Box()
@@ -46,7 +47,7 @@ void Box::checkCollisions(float deltaTime)
 	// Check collisions on player from bottom
 	for (Entity* ent : scene->getEntities()) {
 		if (ent->hasCollider() && ent->hasPhysics()) {
-			if (SDL_HasIntersection(collider, ent->getCollider()) && ent->getPosition().y > currentPosition.y) {
+			if (SDL_HasIntersection(collider->getBox(), ent->getCollider()->getBox()) && ent->getPosition().y > currentPosition.y) {
 				colliding = true;
 				if (currentState == FULL) {
 					openBox();
@@ -99,7 +100,7 @@ bool Box::hasCollider()
 	return collider != nullptr;
 }
 
-SDL_Rect* Box::getCollider()
+Collision* Box::getCollider()
 {
 	return collider;
 }

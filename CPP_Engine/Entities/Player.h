@@ -3,6 +3,7 @@
 #include "Utils/Vec2.h"
 #include "Scene.h"
 #include "Utils/Timer.h"
+
 class Texture;
 class Physics;
 
@@ -29,22 +30,21 @@ public:
 	void handleEvent(SDL_Event& e);
 
 	void setScene(Scene* scene);
-
-	bool isColliding();
-	bool hasCollider();
-	SDL_Rect* getCollider();
-	bool isSolid();
+	void setPowerLevel(int power);
 
 	Vec2 getPosition();
+	Collision* getCollider();
 
+	bool isColliding();
+	bool isSolid();
+
+	bool hasCollider();
 	bool hasPhysics();
-
-	void setPowerLevel(int power);
 
 private:
 	Scene* scene;
 	Texture* texture;
-	SDL_Rect* collider;
+	Collision* collider;
 	Physics* physics;
 	Vec2 currentVelocity;
 	Vec2 currentPosition;

@@ -20,10 +20,14 @@ public:
 	void setScene(Scene* scene);
 	void setSolid(bool solid);
 	void setTexture(std::string texture);
+	void setColliding(bool colliding);
+	void setPosition(Vec2 position);
+	void setColliderPosition(Vec2 position);
 
+	Scene* getScene();
+	Collision* getCollider();
 	bool isColliding();
 	bool hasCollider();
-	SDL_Rect* getCollider();
 	bool isSolid();
 
 	Vec2 getPosition();
@@ -35,7 +39,7 @@ private:
 	Vec2 currentPosition;
 	std::string textureFile = "resources/textures/platform.png";
 
-	SDL_Rect* collider;
+	Collision* collider;
 	bool colliding = false;
 	bool solid = true;
 

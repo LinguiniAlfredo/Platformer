@@ -5,6 +5,7 @@
 #include <string>
 class Texture;
 class Pickup;
+class Collision;
 
 enum boxState {
 	FULL,
@@ -26,7 +27,7 @@ public:
 
 	bool isColliding();
 	bool hasCollider();
-	SDL_Rect* getCollider();
+	Collision* getCollider();
 	bool isSolid();
 
 	Vec2 getPosition();
@@ -35,7 +36,7 @@ private:
 	Scene* scene;
 	Texture* texture;
 	Vec2 currentPosition;
-	SDL_Rect* collider;
+	Collision* collider;
 	const std::string textureFile = "resources/textures/box.png";
 	bool colliding = false;
 	int currentState = FULL;

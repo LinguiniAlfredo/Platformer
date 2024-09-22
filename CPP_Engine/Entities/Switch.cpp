@@ -1,8 +1,9 @@
 #include "Switch.h"
 #include "Scene.h"
-#include "Components/Texture.h"
 #include "Player.h"
 #include "Surface.h"
+#include "Components/Collision.h"
+#include "Components/Texture.h"
 
 Switch::Switch(Scene* scene, std::vector<Surface*> switchBlocks, Vec2 currentPosition)
 {
@@ -11,7 +12,7 @@ Switch::Switch(Scene* scene, std::vector<Surface*> switchBlocks, Vec2 currentPos
 	this->scene = scene;
 	this->currentPosition = currentPosition;
 	texture = on ? new Texture(scene->getRenderer(), onTexture) : new Texture(scene->getRenderer(), offTexture);
-	collider = new SDL_Rect{ currentPosition.x, currentPosition.y + 1, texture->getWidth(), texture->getHeight() };
+	collider = new Collision(scene->getRenderer(), currentPosition.x, currentPosition.y + 1, texture->getWidth(), texture->getHeight());
 
 	this->switchBlocks = switchBlocks;
 	for (Surface* block : switchBlocks) {
@@ -34,7 +35,7 @@ Switch::Switch(Scene* scene, std::vector<Surface*> switchBlocks, std::string col
 		texture = new Texture(scene->getRenderer(), offTexture);
 
 	}
-	collider = new SDL_Rect{ currentPosition.x, currentPosition.y + 1, texture->getWidth(), texture->getHeight() };
+	collider = new Collision(scene->getRenderer(), currentPosition.x, currentPosition.y + 1, texture->getWidth(), texture->getHeight());
 
 	this->switchBlocks = switchBlocks;
 	for (Surface* block : switchBlocks) {
@@ -58,7 +59,7 @@ Switch::Switch(Scene* scene, std::vector<Surface*> switchBlocks, std::string col
 		texture = new Texture(scene->getRenderer(), offTexture);
 
 	}
-	collider = new SDL_Rect{ currentPosition.x, currentPosition.y + 1, texture->getWidth(), texture->getHeight() };
+	collider = new Collision(scene->getRenderer(), currentPosition.x, currentPosition.y + 1, texture->getWidth(), texture->getHeight());
 
 	this->switchBlocks = switchBlocks;
 	for (Surface* block : switchBlocks) {
@@ -98,10 +99,10 @@ void Switch::checkCollisions(float deltaTime)
 	// Check player leaving collision box for switch so it doesn't happen each frame
 	Player* player = dynamic_cast<Player*>(scene->getPlayer());
 	if (player != nullptr) {
-		if (colliding && !(SDL_HasIntersection(collider, player->getCollider()) && player->getPosition().y > currentPosition.y)) {
+		if (colliding && !(SDL_HasIntersection(collider->getBox(), player->getCollider()->getBox()) && player->getPosition().y > currentPosition.y)) {
 			onOff();
 		}
-		if (SDL_HasIntersection(collider, player->getCollider()) && player->getPosition().y > currentPosition.y) {
+		if (SDL_HasIntersection(collider->getBox(), player->getCollider()->getBox()) && player->getPosition().y > currentPosition.y) {
 			colliding = true;
 			setTexture("resources/textures/switch_" + color + "_lit.png");
 		}
@@ -156,7 +157,7 @@ bool Switch::hasCollider()
 	return collider != nullptr;
 }
 
-SDL_Rect* Switch::getCollider()
+Collision* Switch::getCollider()
 {
 	return collider;
 }

@@ -22,7 +22,7 @@ public:
 
 	bool isColliding();
 	bool hasCollider();
-	SDL_Rect* getCollider();
+	Collision* getCollider();
 	bool isSolid();
 
 	Vec2 getPosition();
@@ -34,7 +34,7 @@ private:
 	Texture* texture;
 	Vec2 currentPosition;
 	Vec2 currentVelocity;
-	SDL_Rect* collider;
+	Collision* collider;
 	Physics* physics;
 
 	int currentState = AIRBORNE;
