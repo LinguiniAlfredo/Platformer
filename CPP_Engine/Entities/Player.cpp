@@ -8,7 +8,7 @@
 
 Player::Player(Scene* s)
 {
-	printf("creating player \n");
+	//printf("creating player \n");
 	scene = s;
 	currentVelocity = { 0,0 };
 	currentPosition = { 0,0 };
@@ -19,7 +19,7 @@ Player::Player(Scene* s)
 
 Player::Player(Scene* s, Vec2 pos)
 {
-	printf("creating player \n");
+	//printf("creating player \n");
 	scene = s;
 	currentVelocity = { 0,0 };
 	currentPosition = pos;
@@ -30,7 +30,7 @@ Player::Player(Scene* s, Vec2 pos)
 
 Player::~Player()
 {
-	printf("destroying player \n");
+	//printf("destroying player \n");
 	delete texture;
 	delete collider;
 	delete physics;

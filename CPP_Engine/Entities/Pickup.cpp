@@ -10,7 +10,7 @@
 
 Pickup::Pickup(Scene* s, std::string itemType, bool physics)
 {
-	std::cout << "creating pickup \n";
+	//std::cout << "creating pickup \n";
 	scene = s;
 	type = itemType;
 	currentPosition = { 0,0 };
@@ -24,7 +24,7 @@ Pickup::Pickup(Scene* s, std::string itemType, bool physics)
 
 Pickup::Pickup(Scene* s, std::string itemType, Vec2 pos, bool physics)
 {
-	std::cout << "creating pickup \n";
+	//std::cout << "creating pickup \n";
 	scene = s;
 	type = itemType;
 	currentPosition = pos;
@@ -38,7 +38,7 @@ Pickup::Pickup(Scene* s, std::string itemType, Vec2 pos, bool physics)
 
 Pickup::~Pickup()
 {
-	std::cout << "destroying pickup\n";
+	//std::cout << "destroying pickup\n";
 	delete texture;
 	delete collider;
 	texture = nullptr;

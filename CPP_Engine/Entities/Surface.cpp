@@ -9,7 +9,7 @@
 
 Surface::Surface(Scene* s)
 {
-	printf("creating surface \n");
+	//printf("creating surface \n");
 	scene = s;
 	currentPosition = { 0, 0 };
 	texture = new Texture(scene->getRenderer(), textureFile);
@@ -18,7 +18,7 @@ Surface::Surface(Scene* s)
 
 Surface::Surface(Scene* s, string textureFile, Vec2 pos)
 {
-	printf("creating surface \n");
+	//printf("creating surface \n");
 	scene = s;
 	currentPosition = pos;
 	this->textureFile = textureFile;
@@ -27,7 +27,7 @@ Surface::Surface(Scene* s, string textureFile, Vec2 pos)
 }
 Surface::Surface(Scene* s, string textureFile , Vec2 pos, bool solid)
 {
-	printf("creating surface \n");
+	//printf("creating surface \n");
 	scene = s;
 	currentPosition = pos;
 	this->textureFile = textureFile;
@@ -39,7 +39,7 @@ Surface::Surface(Scene* s, string textureFile , Vec2 pos, bool solid)
 
 Surface::~Surface()
 {
-	printf("destroying surface\n");
+	//printf("destroying surface\n");
 	delete texture;
 	delete collider;
 	texture = nullptr;

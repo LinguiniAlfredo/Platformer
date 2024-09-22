@@ -7,7 +7,7 @@
 
 Switch::Switch(Scene* scene, std::vector<Surface*> switchBlocks, Vec2 currentPosition)
 {
-	printf("creating switch\n");
+	//printf("creating switch\n");
 
 	this->scene = scene;
 	this->currentPosition = currentPosition;
@@ -22,7 +22,7 @@ Switch::Switch(Scene* scene, std::vector<Surface*> switchBlocks, Vec2 currentPos
 
 Switch::Switch(Scene* scene, std::vector<Surface*> switchBlocks, std::string color, Vec2 currentPosition)
 {
-	printf("creating switch\n");
+	//printf("creating switch\n");
 
 	this->scene = scene;
 	this->currentPosition = currentPosition;
@@ -45,7 +45,7 @@ Switch::Switch(Scene* scene, std::vector<Surface*> switchBlocks, std::string col
 
 Switch::Switch(Scene* scene, std::vector<Surface*> switchBlocks, std::string color, Vec2 currentPosition, bool on)
 {
-	printf("creating switch\n");
+	//printf("creating switch\n");
 
 	this->scene = scene;
 	this->currentPosition = currentPosition;
@@ -69,7 +69,7 @@ Switch::Switch(Scene* scene, std::vector<Surface*> switchBlocks, std::string col
 
 Switch::~Switch()
 {
-	printf("destroying switch\n");
+	//printf("destroying switch\n");
 
 	delete texture;
 	texture = nullptr;

@@ -10,7 +10,7 @@
 
 Box::Box(Scene* s, Pickup* i, Vec2 pos)
 {
-	std::cout << "creating box \n";
+	//std::cout << "creating box \n";
 	scene = s;
 	currentPosition = pos;
 	item = i;
@@ -20,7 +20,7 @@ Box::Box(Scene* s, Pickup* i, Vec2 pos)
 
 Box::~Box()
 {
-	std::cout << "destroying box\n";
+	//std::cout << "destroying box\n";
 	delete texture;
 	delete collider;
 	texture = nullptr;

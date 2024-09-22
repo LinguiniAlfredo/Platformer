@@ -3,6 +3,8 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include <string>
+#include <cstdint>
+#include <iostream>
 
 #include "Scene.h"
 #include "Utils/Timer.h"
@@ -238,6 +240,17 @@ void close()
 	SDL_Quit();
 }
 
+void renderCollider(Entity* ent)
+{
+	if (ent->isColliding()) {
+		SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
+	}
+	else {
+		SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
+	}
+	SDL_RenderDrawRect(renderer, ent->getCollider()->getBox());
+}
+
 void toggleDebug()
 {
 	debug = !debug;
@@ -245,6 +258,8 @@ void toggleDebug()
 
 int main( int argc, char* args[] )
 {
+	uint64_t start, end, cycles, totalCycles;
+	totalCycles = 0;
 
 	if (!init()) {
 		printf("failed to init");
@@ -270,6 +285,8 @@ int main( int argc, char* args[] )
 
 
 			while (!quit) {
+				start = __rdtsc();
+
 				while (SDL_PollEvent(&e) != 0) {
 					if (e.type == SDL_QUIT) {
 						quit = true;
@@ -306,7 +323,8 @@ int main( int argc, char* args[] )
 					ent->draw();
 
 					if (debug) {
-						ent->getCollider()->render(ent->isColliding());
+						renderCollider(ent);
+						//ent->getCollider()->render(ent->isColliding());
 					}
 				}
 				currentScene->clearTrash();
@@ -317,10 +335,16 @@ int main( int argc, char* args[] )
 				totalTime = frameTimer.getTicks() / 1000.f;
 				deltaTime = deltaTimer.getTicks() / 1000.f;
 				fps = countedFrames / totalTime;
-				printf("%.3g FPS\n", fps); // TODO - display frames on screen
+				//printf("%.3g FPS\n", fps); // TODO - display frames on screen
 				countedFrames++;
 				deltaTimer.start();
+
+				end = __rdtsc();
+				cycles = end - start;
+				totalCycles += cycles;
 			}
+			std::cout << "Avg Cycles: " << totalCycles / countedFrames << std::endl;
+
 		}
 	}
 	close();
