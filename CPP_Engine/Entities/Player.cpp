@@ -10,8 +10,8 @@ Player::Player(Scene* s)
 {
 	//printf("creating player \n");
 	scene = s;
-	currentVelocity = { 0,0 };
-	currentPosition = { 0,0 };
+	currentVelocity = { 0, 0 };
+	currentPosition = { 0, 0 };
 	texture = new Texture(scene->getRenderer(), textureFile);
 	collider = new Collision (scene->getRenderer(), currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight());
 	physics = new Physics();
@@ -21,7 +21,7 @@ Player::Player(Scene* s, Vec2 pos)
 {
 	//printf("creating player \n");
 	scene = s;
-	currentVelocity = { 0,0 };
+	currentVelocity = { 0, 0 };
 	currentPosition = pos;
 	texture = new Texture(scene->getRenderer(), textureFile);
 	collider = new Collision { scene->getRenderer(), currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
@@ -102,11 +102,11 @@ void Player::checkForFloor()
 // move collider where player will be next frame and check collisions.
 void Player::checkCollisions(float deltaTime)
 {
-	collider->getBox()->x += currentVelocity.x * deltaTime * groundSpeed;
-	collider->getBox()->y += currentVelocity.y * deltaTime;
+	collider->getBox()->x += static_cast<int>(round(currentVelocity.x * deltaTime * groundSpeed));
+	collider->getBox()->y += static_cast<int>(round(currentVelocity.y * deltaTime));
 
 	if (currentState != GROUNDED) {
-		currentVelocity.y += physics->getGravity();
+		static_cast<int>(round(currentVelocity.y += physics->getGravity()));
 	}
 
 	for (Entity* ent : scene->getEntities()) {
@@ -146,12 +146,13 @@ void Player::move(float deltaTime)
 	// Position += Velocity
 	// Velocity += Acceleration
 
+	// must cast to int to prevent floating point errors (causes mystery collision problems)
 	if (!colliding) {
-		currentPosition.x += currentVelocity.x * deltaTime * groundSpeed;
-		currentPosition.y += currentVelocity.y * deltaTime;
+		currentPosition.x += static_cast<int>(round(currentVelocity.x * deltaTime * groundSpeed)); 
+		currentPosition.y += static_cast<int>(round(currentVelocity.y * deltaTime));
 
 		if (currentState != GROUNDED) {
-			currentVelocity.y += physics->getGravity();
+			currentVelocity.y += static_cast<int>(round(physics->getGravity()));
 		}
 	}
 

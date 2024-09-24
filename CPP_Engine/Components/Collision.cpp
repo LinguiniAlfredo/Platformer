@@ -4,10 +4,10 @@
 Collision::Collision(SDL_Renderer* renderer, int x, int y, int w, int h)
 {
 	this->renderer = renderer;
-	this->box = new SDL_Rect{ x, y, w, h };
+	this->box = new SDL_Rect{ x, y, w, h};
 
-	this->collidingTexture = new Texture(renderer, "resources/textures/collision_red.png");
-	this->notCollidingTexture= new Texture(renderer, "resources/textures/collision_green.png");
+	this->collidingTexture = new Texture(renderer, "resources/textures/collision_red.png", w, h);
+	this->notCollidingTexture= new Texture(renderer, "resources/textures/collision_green.png", w, h);
 }
 
 Collision::~Collision()

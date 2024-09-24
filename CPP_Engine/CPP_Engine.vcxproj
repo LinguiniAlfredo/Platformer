@@ -26,6 +26,7 @@
     <ClCompile Include="Entities\Lift.cpp" />
     <ClCompile Include="Entities\Pickup.cpp" />
     <ClCompile Include="Entities\Player.cpp" />
+    <ClCompile Include="Entities\Portal.cpp" />
     <ClCompile Include="Entities\Surface.cpp" />
     <ClCompile Include="Entities\Switch.cpp" />
     <ClCompile Include="main.cpp" />
@@ -54,6 +55,7 @@
     <Image Include="Resources\Textures\key.png" />
     <Image Include="Resources\Textures\lift.png" />
     <Image Include="resources\textures\platform.png" />
+    <Image Include="Resources\Textures\portal.png" />
     <Image Include="Resources\Textures\sign.png" />
     <Image Include="Resources\Textures\skull.png" />
     <Image Include="Resources\Textures\switch.png" />
@@ -76,6 +78,7 @@
     <ClInclude Include="Entities\Lift.h" />
     <ClInclude Include="Entities\Pickup.h" />
     <ClInclude Include="Entities\Player.h" />
+    <ClInclude Include="Entities\Portal.h" />
     <ClInclude Include="Entities\Surface.h" />
     <ClInclude Include="Entities\Switch.h" />
     <ClInclude Include="Scene.h" />

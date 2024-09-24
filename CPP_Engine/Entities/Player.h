@@ -51,7 +51,7 @@ private:
 
 	std::string name = "player";
 	static const int groundSpeed = 63;
-	int jumpForce = 200;
+	int jumpForce = 250;
 
 	const std::string textureFile = "resources/textures/guy.png";
 	int currentState = AIRBORNE;

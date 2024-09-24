@@ -43,6 +43,6 @@ private:
 	bool colliding = false;
 	bool solid = true;
 
-	void checkCollisions(float deltaTime);
+	void checkCollisions();
 };
 

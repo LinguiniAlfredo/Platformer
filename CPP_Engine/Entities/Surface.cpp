@@ -53,10 +53,10 @@ void Surface::draw()
 
 void Surface::update(float deltaTime)
 {
-	checkCollisions(deltaTime);
+	checkCollisions();
 }
 
-void Surface::checkCollisions(float deltaTime)
+void Surface::checkCollisions()
 {
 	// Check collisions on all other entities
 	for (Entity* ent : scene->getEntities()) {

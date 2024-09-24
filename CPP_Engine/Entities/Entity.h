@@ -25,6 +25,7 @@ public:
 	virtual void setSolid(bool solid) {}
 
 	virtual Vec2 getPosition() { return { 0, 0 }; }
+	virtual void setPosition(Vec2 position) {}
 
 	virtual bool hasPhysics() { return false; }
 

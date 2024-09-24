@@ -3,8 +3,6 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include <string>
-#include <cstdint>
-#include <iostream>
 
 #include "Scene.h"
 #include "Utils/Timer.h"
@@ -22,6 +20,7 @@ using namespace std;
 /*
 	TODO:
 		Engine:
+			- **** Figure out how to remove common methods from Entity classes
 			- Map system. Text file with tiled numbers representing texture/object
 			- Entity hashmap in scene with indexing
 			- Port to OpenGL for custom shaders
@@ -29,12 +28,13 @@ using namespace std;
 			- Editor
 			- Refactor Scene to be entity manager and handle all memory allocations
 		Bugs:
-			- X+ movement bug
+			- **** X+ movement bug
 		Game Features:
 			- Day/Night cycle
 			- Key/Door system
 			- Interactable object (sign, etc)
 			- Moving platforms
+
 
 */
 
@@ -152,8 +152,8 @@ void initLevelOne()
 
 	level1->addEntity(new Surface(level1, "resources/textures/platform.png", { NUM_TILES_WIDE / 2, NUM_TILES_HIGH - 4}));
 
-	for (int i = 0; i < 16; i++) {
-		level1->addEntity(new Surface(level1, "resources/textures/grass_1.png", { 17 + i, NUM_TILES_HIGH - 2 }, false));
+	for (int i = 0; i < 14; i++) {
+		level1->addEntity(new Surface(level1, "resources/textures/grass_1.png", { 18 + i, NUM_TILES_HIGH - 2 }, false));
 	}
 	
 	level1->addEntity(new Box(level1, new Pickup(level1, "flower", false), { 10, NUM_TILES_HIGH - 4}));
@@ -240,17 +240,6 @@ void close()
 	SDL_Quit();
 }
 
-void renderCollider(Entity* ent)
-{
-	if (ent->isColliding()) {
-		SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
-	}
-	else {
-		SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
-	}
-	SDL_RenderDrawRect(renderer, ent->getCollider()->getBox());
-}
-
 void toggleDebug()
 {
 	debug = !debug;
@@ -285,8 +274,6 @@ int main( int argc, char* args[] )
 
 
 			while (!quit) {
-				start = __rdtsc();
-
 				while (SDL_PollEvent(&e) != 0) {
 					if (e.type == SDL_QUIT) {
 						quit = true;
@@ -323,13 +310,11 @@ int main( int argc, char* args[] )
 					ent->draw();
 
 					if (debug) {
-						renderCollider(ent);
-						//ent->getCollider()->render(ent->isColliding());
+						ent->getCollider()->render(ent->isColliding());
 					}
 				}
 				currentScene->clearTrash();
 
-				//SDL_RenderSetScale(renderer, 6, 6); // upscale resolution
 				SDL_RenderPresent(renderer);
 
 				totalTime = frameTimer.getTicks() / 1000.f;
@@ -338,13 +323,7 @@ int main( int argc, char* args[] )
 				//printf("%.3g FPS\n", fps); // TODO - display frames on screen
 				countedFrames++;
 				deltaTimer.start();
-
-				end = __rdtsc();
-				cycles = end - start;
-				totalCycles += cycles;
 			}
-			std::cout << "Avg Cycles: " << totalCycles / countedFrames << std::endl;
-
 		}
 	}
 	close();
