@@ -1,6 +1,6 @@
 #include "Lift.h"
-#include "Scene.h"
-#include "Components/Collision.h"
+#include "../Scene.h"
+#include "../Components/Collision.h"
 #include <cmath>
 
 void Lift::update(float deltaTime)

@@ -2,11 +2,11 @@
 #include <string>
 
 #include "Box.h"
-#include "Scene.h"
 #include "Entity.h"
 #include "Pickup.h"
-#include "Components/Texture.h"
-#include "Components/Collision.h"
+#include "../Scene.h"
+#include "../Components/Texture.h"
+#include "../Components/Collision.h"
 
 Box::Box(Scene* s, Pickup* i, Vec2 pos)
 {

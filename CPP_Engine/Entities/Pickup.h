@@ -1,9 +1,9 @@
 #pragma once
 #include <SDL.h>
-#include "Entity.h"
-#include "Utils/Vec2.h"
 #include <string>
+#include "Entity.h"
 #include "Player.h"
+#include "../Utils/Vec2.h"
 class Texture;
 class Physics;
 

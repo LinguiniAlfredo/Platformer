@@ -247,9 +247,6 @@ void toggleDebug()
 
 int main( int argc, char* args[] )
 {
-	uint64_t start, end, cycles, totalCycles;
-	totalCycles = 0;
-
 	if (!init()) {
 		printf("failed to init");
 	}
@@ -320,7 +317,7 @@ int main( int argc, char* args[] )
 				totalTime = frameTimer.getTicks() / 1000.f;
 				deltaTime = deltaTimer.getTicks() / 1000.f;
 				fps = countedFrames / totalTime;
-				//printf("%.3g FPS\n", fps); // TODO - display frames on screen
+				printf("%.3g FPS\n", fps); // TODO - display frames on screen
 				countedFrames++;
 				deltaTimer.start();
 			}

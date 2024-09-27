@@ -1,7 +1,7 @@
 #include "Portal.h"
-#include "Scene.h"
-#include "Components/Collision.h"
-#include "Components/Texture.h"
+#include "../Scene.h"
+#include "../Components/Collision.h"
+#include "../Components/Texture.h"
 
 Portal::Portal()
 {

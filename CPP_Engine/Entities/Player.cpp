@@ -1,10 +1,10 @@
 #include <iostream>
 #include <cmath>
 #include "Player.h"
-#include "Scene.h"
-#include "Components/Texture.h"
-#include "Components/Physics.h"
-#include "Components/Collision.h"
+#include "../Scene.h"
+#include "../Components/Texture.h"
+#include "../Components/Physics.h"
+#include "../Components/Collision.h"
 
 Player::Player(Scene* s)
 {

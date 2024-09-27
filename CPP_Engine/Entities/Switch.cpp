@@ -1,9 +1,9 @@
 #include "Switch.h"
-#include "Scene.h"
 #include "Player.h"
 #include "Surface.h"
-#include "Components/Collision.h"
-#include "Components/Texture.h"
+#include "../Scene.h"f
+#include "../Components/Collision.h"
+#include "../Components/Texture.h"
 
 Switch::Switch(Scene* scene, std::vector<Surface*> switchBlocks, Vec2 currentPosition)
 {

@@ -1,7 +1,8 @@
 #pragma once
 #include <SDL.h>
 #include <string>
-#include "Utils/Vec2.h"
+#include "../Utils/Vec2.h"
+
 class Collision;
 class Scene;
 
