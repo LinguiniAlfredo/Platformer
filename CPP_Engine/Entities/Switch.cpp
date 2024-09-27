@@ -1,7 +1,7 @@
 #include "Switch.h"
 #include "Player.h"
 #include "Surface.h"
-#include "../Scene.h"f
+#include "../Scene.h"
 #include "../Components/Collision.h"
 #include "../Components/Texture.h"
 
