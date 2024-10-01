@@ -1,8 +1,8 @@
 #include "Surface.h"
-#include "Scene.h"
 #include "Entity.h"
-#include "Components/Texture.h"
-#include "Components/Collision.h"
+#include "../Scene.h"
+#include "../Components/Texture.h"
+#include "../Components/Collision.h"
 
 #include <iostream>
 #include <string>

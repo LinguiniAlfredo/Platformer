@@ -1,9 +1,9 @@
 #include "Pickup.h"
-#include "Scene.h"
+#include "../Scene.h"
 #include "Player.h"
-#include "Components/Texture.h"
-#include "Components/Physics.h"
-#include "Components/Collision.h"
+#include "../Components/Texture.h"
+#include "../Components/Physics.h"
+#include "../Components/Collision.h"
 
 #include <iostream>
 #include <string>

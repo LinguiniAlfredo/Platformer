@@ -1,7 +1,7 @@
 #pragma once
 #include "SDL.h"
 #include "Texture.h"
-#include "Utils/Vec2.h"
+#include "../Utils/Timer.h"
 
 class Collision
 {

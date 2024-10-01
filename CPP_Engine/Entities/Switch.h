@@ -1,9 +1,9 @@
 #pragma once
 #include <SDL.h>
-#include "Entity.h"
-#include "Utils/Vec2.h"
 #include <string>
 #include <vector>
+#include "Entity.h"
+#include "../Utils/Vec2.h"
 class Texture;
 class Pickup;
 class Surface;
