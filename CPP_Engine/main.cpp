@@ -20,22 +20,14 @@ using namespace std;
 /*
 	TODO:
 		Engine:
-			- **** Figure out how to remove common methods from Entity classes
-			- Map system. Text file with tiled numbers representing texture/object
+			- Do Inheritance better
+			- Stop using pointers so much
+			- Tilemap implementation
 			- Entity hashmap in scene with indexing
 			- Port to OpenGL for custom shaders
 			- Animation system
 			- Editor
 			- Refactor Scene to be entity manager and handle all memory allocations
-		Bugs:
-			- **** X+ movement bug
-		Game Features:
-			- Day/Night cycle
-			- Key/Door system
-			- Interactable object (sign, etc)
-			- Moving platforms
-
-
 */
 
 const int SCREEN_WIDTH = 1920 / 2;
@@ -69,8 +61,8 @@ enum entityType {
 bool init();
 
 void initMainMenu();
-
 void initLevelOne();
+void initLevelTwo();
 
 bool changeScene(int scene);
 
@@ -101,6 +93,7 @@ bool changeScene(int scene)
 			break;
 
 		case LEVEL_2:
+			initLevelTwo();
 			break;
 
 		case LEVEL_3:
@@ -127,67 +120,81 @@ void initMainMenu()
 
 void initLevelOne()
 {
-	Scene* level1 = new Scene(renderer);
+	Scene* level = new Scene(renderer);
 
-	level1->addEntity(new Player(level1, {7, NUM_TILES_HIGH - 4}));
+	level->addEntity(new Player(level, "resources/textures/guy.png", { 7, NUM_TILES_HIGH - 4 }));
+
+	// add floor across bottom
+	for (int i = 0; i < NUM_TILES_WIDE; i++) {
+		level->addEntity(new Surface(level, "resources/textures/ground_tile.png", { i, NUM_TILES_HIGH - 1 }));
+	}
+
+	currentScene = level;
+}
+
+void initLevelTwo()
+{
+	Scene* level = new Scene(renderer);
+
+	level->addEntity(new Player(level, "resources/textures/guy.png", { 7, NUM_TILES_HIGH - 4 }));
 
 	// add floor across bottom
 	for (int i = 0; i < NUM_TILES_WIDE; i++) {
 		if (i > NUM_TILES_WIDE - 8 && i < NUM_TILES_WIDE - 2) {
 			continue;
 		}
-		level1->addEntity(new Surface(level1, "resources/textures/ground_tile.png", { i, NUM_TILES_HIGH - 1 }));
+		level->addEntity(new Surface(level, "resources/textures/ground_tile.png", { i, NUM_TILES_HIGH - 1 }));
 	}
 
 	// add steps up to platform
 	for (int i = 14; i < 17; i++) {
-		level1->addEntity(new Surface(level1, "resources/textures/ground_tile.png", { i, NUM_TILES_HIGH - 2 }));
+		level->addEntity(new Surface(level, "resources/textures/ground_tile.png", { i, NUM_TILES_HIGH - 2 }));
 		if (i != 14) {
-			level1->addEntity(new Surface(level1, "resources/textures/ground_tile.png", { i, NUM_TILES_HIGH - 3 }));
+			level->addEntity(new Surface(level, "resources/textures/ground_tile.png", { i, NUM_TILES_HIGH - 3 }));
 		}
 		if (i == 16) {
-			level1->addEntity(new Surface(level1, "resources/textures/ground_tile.png", { i, NUM_TILES_HIGH - 4 }));
+			level->addEntity(new Surface(level, "resources/textures/ground_tile.png", { i, NUM_TILES_HIGH - 4 }));
 		}
 	}
 
-	level1->addEntity(new Surface(level1, "resources/textures/platform.png", { NUM_TILES_WIDE / 2, NUM_TILES_HIGH - 4}));
+	level->addEntity(new Surface(level, "resources/textures/platform.png", { NUM_TILES_WIDE / 2, NUM_TILES_HIGH - 4 }));
 
 	for (int i = 0; i < 14; i++) {
-		level1->addEntity(new Surface(level1, "resources/textures/grass_1.png", { 18 + i, NUM_TILES_HIGH - 2 }, false));
+		level->addEntity(new Surface(level, "resources/textures/grass_1.png", { 18 + i, NUM_TILES_HIGH - 2 }, false));
 	}
-	
-	level1->addEntity(new Box(level1, new Pickup(level1, "flower", false), { 10, NUM_TILES_HIGH - 4}));
-	
-	level1->addEntity(new Surface(level1, "resources/textures/sign.png", { NUM_TILES_WIDE - 2, NUM_TILES_HIGH - 2 }, false));
+
+	level->addEntity(new Box(level, new Pickup(level, "flower", false), { 10, NUM_TILES_HIGH - 4 }));
+
+	level->addEntity(new Surface(level, "resources/textures/sign.png", { NUM_TILES_WIDE - 2, NUM_TILES_HIGH - 2 }, false));
 
 
 	// TODO - Find better API for switches/blocks
 	// create array of blocks to attach to switch object
 	std::vector<Surface*> blueSwitchBlocks;
 	for (int i = 0; i < 5; i++) {
-		blueSwitchBlocks.push_back(new Surface(level1, "resources/textures/trans_block_blue.png", { NUM_TILES_WIDE - 7 + i, NUM_TILES_HIGH - 1 }, false));
+		blueSwitchBlocks.push_back(new Surface(level, "resources/textures/trans_block_blue.png", { NUM_TILES_WIDE - 7 + i, NUM_TILES_HIGH - 1 }, false));
 	}
-	level1->addEntity(new Switch(level1, blueSwitchBlocks, { NUM_TILES_WIDE / 2 + 11, NUM_TILES_HIGH - 10 }));
+	level->addEntity(new Switch(level, blueSwitchBlocks, { NUM_TILES_WIDE / 2 + 11, NUM_TILES_HIGH - 10 }));
 
 	// create array of blocks to attach to switch object
 	std::vector<Surface*> redSwitchBlocks;
 	for (int i = 0; i < 3; i++) {
-		redSwitchBlocks.push_back(new Surface(level1, "resources/textures/trans_block_red.png", { NUM_TILES_WIDE / 2 + 10 + i, NUM_TILES_HIGH - 7 }, false));
+		redSwitchBlocks.push_back(new Surface(level, "resources/textures/trans_block_red.png", { NUM_TILES_WIDE / 2 + 10 + i, NUM_TILES_HIGH - 7 }, false));
 	}
-	level1->addEntity(new Switch(level1, redSwitchBlocks, "red", { NUM_TILES_WIDE / 2 + 4, NUM_TILES_HIGH - 7 }));
+	level->addEntity(new Switch(level, redSwitchBlocks, "red", { NUM_TILES_WIDE / 2 + 4, NUM_TILES_HIGH - 7 }));
 
 	// create array of blocks to attach to switch object
 	std::vector<Surface*> greenSwitchBlocks;
 	for (int i = 0; i < 3; i++) {
-		greenSwitchBlocks.push_back(new Surface(level1, "resources/textures/block_green.png", { NUM_TILES_WIDE - 6 + i, 5 }, true));
+		greenSwitchBlocks.push_back(new Surface(level, "resources/textures/block_green.png", { NUM_TILES_WIDE - 6 + i, 5 }, true));
 	}
-	level1->addEntity(new Switch(level1, greenSwitchBlocks, "green", { 2, 3 }, true));
+	level->addEntity(new Switch(level, greenSwitchBlocks, "green", { 2, 3 }, true));
 
-	level1->addEntity(new Pickup(level1, "key", { NUM_TILES_WIDE - 5, 3 }, true));
+	level->addEntity(new Pickup(level, "key", { NUM_TILES_WIDE - 5, 3 }, true));
 
-	level1->addEntity(new Lift(level1, "resources/textures/lift.png", { 0, NUM_TILES_HIGH - 5 }));
+	level->addEntity(new Lift(level, "resources/textures/lift.png", { 0, NUM_TILES_HIGH - 5 }));
 
-	currentScene = level1;
+	currentScene = level;
 }
 
 bool init()
@@ -247,14 +254,11 @@ void toggleDebug()
 
 int main( int argc, char* args[] )
 {
-	uint64_t start, end, cycles, totalCycles;
-	totalCycles = 0;
-
 	if (!init()) {
 		printf("failed to init");
 	}
 	else {
-		if (!changeScene(LEVEL_1)) {
+		if (!changeScene(LEVEL_2)) {
 			printf("failed to load entities");
 		}
 		else {
@@ -286,6 +290,9 @@ int main( int argc, char* args[] )
 								break;
 							case SDLK_1:
 								changeScene(LEVEL_1);
+								break;
+							case SDLK_2:
+								changeScene(LEVEL_2);
 								break;
 							case SDLK_BACKQUOTE:
 								toggleDebug();

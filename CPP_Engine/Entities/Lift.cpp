@@ -27,11 +27,9 @@ void Lift::checkCollisions(float deltaTime)
 
 void Lift::move(float deltaTime)
 {
-	//float deltaY = range * sin(deltaTime);
-	//currentVelocity.y = deltaY * speed;
-	//setPosition({ getPosition().x, getPosition().y + getVelocity().y});
-	//setColliderPosition(getPosition());
-	//frameCount++;
+	for (Vec2 node : path.nodes) {
+	
+	}
 }
 
 Vec2 Lift::getVelocity()

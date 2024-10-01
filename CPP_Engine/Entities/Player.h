@@ -21,46 +21,29 @@ class Player :
 	public Entity
 {
 public:
-	Player(Scene* scene);
-	Player(Scene* scene, Vec2 pos);
-	~Player();
+	using Entity::Entity;
 
-	void draw();
 	void update(float deltaTime);
 	void handleEvent(SDL_Event& e);
 
-	void setScene(Scene* scene);
 	void setPowerLevel(int power);
 
-	Vec2 getPosition();
-	Collision* getCollider();
-
-	bool isColliding();
-	bool isSolid();
-
-	bool hasCollider();
-	bool hasPhysics();
-
 private:
-	Scene* scene;
-	Texture* texture;
-	Collision* collider;
-	Physics* physics;
-	Vec2 currentVelocity;
-	Vec2 currentPosition;
+	static const int maxRunSpeed = 5;
+	static const int minRunSpeed = 1;
+	static const int runAccel    = 1;
+	int groundSpeed				 = 63;
+	int jumpForce				 = 250;
 
-	std::string name = "player";
-	static const int groundSpeed = 63;
-	int jumpForce = 250;
-
-	const std::string textureFile = "resources/textures/guy.png";
 	int currentState = AIRBORNE;
-	bool colliding = false;
-	bool solid = true;
-	int power = NONE;
+	int power        = NONE;
+	bool colliding	 = false;
+	bool solid		 = true;
+	bool running	 = false;
+
+	void checkCollisions(float deltaTime) override;
 
 	void checkForFloor();
-	void checkCollisions(float deltaTime);
 	void resolveCollision(Entity* ent);
 	void move(float deltaTime);
 };

@@ -6,51 +6,12 @@
 #include "Components/Physics.h"
 #include "Components/Collision.h"
 
-Player::Player(Scene* s)
-{
-	//printf("creating player \n");
-	scene = s;
-	currentVelocity = { 0, 0 };
-	currentPosition = { 0, 0 };
-	texture = new Texture(scene->getRenderer(), textureFile);
-	collider = new Collision (scene->getRenderer(), currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight());
-	physics = new Physics();
-}
-
-Player::Player(Scene* s, Vec2 pos)
-{
-	//printf("creating player \n");
-	scene = s;
-	currentVelocity = { 0, 0 };
-	currentPosition = pos;
-	texture = new Texture(scene->getRenderer(), textureFile);
-	collider = new Collision { scene->getRenderer(), currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight() };
-	physics = new Physics();
-}
-
-Player::~Player()
-{
-	//printf("destroying player \n");
-	delete texture;
-	delete collider;
-	delete physics;
-	texture = nullptr;
-	collider = nullptr;
-	physics = nullptr;
-}
-
 void Player::update(float deltaTime)
 {
 	checkForFloor();
 	checkCollisions(deltaTime);
 	move(deltaTime);
 }
-
-void Player::draw()
-{
-	texture->render(currentPosition.x, currentPosition.y);
-}
-
 
 void Player::handleEvent(SDL_Event& e)
 {
@@ -65,6 +26,9 @@ void Player::handleEvent(SDL_Event& e)
 		if (key == SDLK_SPACE && currentState == GROUNDED) {
 			currentVelocity.y = -1 * jumpForce;
 			currentState = AIRBORNE;
+		}
+		if (key == SDLK_LSHIFT && currentVelocity.x != 0) {
+			running = true;
 		}
 
 	}
@@ -81,6 +45,9 @@ void Player::handleEvent(SDL_Event& e)
 		if (key == SDLK_SPACE) {
 			currentVelocity.y /= 2;
 		}
+		if (key == SDLK_LSHIFT) {
+			running = false;
+		}
 	}
 }
 
@@ -93,7 +60,6 @@ void Player::checkForFloor()
 			{
 				return;
 			}
-
 		}
 		currentState = AIRBORNE; // if nothing underneath player, set AIRBORNE
 	}
@@ -113,11 +79,11 @@ void Player::checkCollisions(float deltaTime)
 		if (ent->hasCollider() && ent != this) {
 			if (SDL_HasIntersection(collider->getBox(), ent->getCollider()->getBox()) && ent->isSolid()) {
 				colliding = true;
-				resolveCollision(ent);
-
 				if (ent->getPosition().y > currentPosition.y) {
 					currentState = GROUNDED;
 				}
+				resolveCollision(ent);
+
 				break;
 			}
 			else {
@@ -125,10 +91,12 @@ void Player::checkCollisions(float deltaTime)
 			}
 		}
 	}
+
 }
 
 void Player::resolveCollision(Entity* ent)
 {
+
 	// if collision below player and y velocity is positive
 	if (currentVelocity.y > 0 && ent->getPosition().y > currentPosition.y) {
 		currentPosition.y = ent->getPosition().y - scene->getTileSize();
@@ -145,15 +113,24 @@ void Player::move(float deltaTime)
 {
 	// Position += Velocity
 	// Velocity += Acceleration
+	static int currentDir;
+	float speedX = currentVelocity.x * deltaTime * groundSpeed;
+	float speedY = currentVelocity.y * deltaTime;
 
-	// must cast to int to prevent floating point errors (causes mystery collision problems)
 	if (!colliding) {
-		currentPosition.x += static_cast<int>(round(currentVelocity.x * deltaTime * groundSpeed)); 
-		currentPosition.y += static_cast<int>(round(currentVelocity.y * deltaTime));
+		currentPosition.x += (int)round(speedX);
+		currentPosition.y += (int)round(speedY);
 
 		if (currentState != GROUNDED) {
-			currentVelocity.y += static_cast<int>(round(physics->getGravity()));
+			currentVelocity.y += (int)round(physics->getGravity());
 		}
+
+	/*	if (running && abs(currentVelocity.x) < maxRunSpeed) {
+			currentVelocity.x += runAccel;
+		}
+		else if (!running && abs(currentVelocity.x) > minRunSpeed) {
+			currentVelocity.x -= runAccel;
+		}*/
 	}
 
 	collider->getBox()->x = currentPosition.x;
@@ -163,41 +140,12 @@ void Player::move(float deltaTime)
 	if (currentPosition.y > 180) {
 		scene->removeEntity(this);
 	}
-}
 
-void Player::setScene(Scene* s)
-{
-	scene = s;
-}
-
-bool Player::isColliding()
-{
-	return colliding;
-}
-
-bool Player::hasCollider()
-{
-	return collider != nullptr;
-}
-
-Collision* Player::getCollider()
-{
-	return collider;
-}
-
-bool Player::isSolid()
-{
-	return solid;
-}
-
-Vec2 Player::getPosition()
-{
-	return currentPosition;
-}
-
-bool Player::hasPhysics()
-{
-	return physics != nullptr;
+	//// reset groundSpeed if changing direction
+	//if (currentDir != currentVelocity.x) {
+	//	groundSpeed = minRunSpeed;
+	//}
+	//currentDir = currentVelocity.x;
 }
 
 void Player::setPowerLevel(int p)
@@ -211,7 +159,7 @@ void Player::setPowerLevel(int p)
 	switch (power) {
 		case FLOWER:
 			texture = new Texture(scene->getRenderer(), "resources/textures/guy_flower.png");
-			//jumpForce = 400;
+			// add some power logic
 			break;
 		case NONE:
 			texture = new Texture(scene->getRenderer(), "resources/textures/guy.png");

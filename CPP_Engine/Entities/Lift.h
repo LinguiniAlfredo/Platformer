@@ -1,5 +1,6 @@
 #pragma once
 #include "Surface.h"
+#include "Utils/Utils.h"
 
 enum pattern {
 	UPDOWN
@@ -17,11 +18,10 @@ public:
 	void setVelocity(Vec2 velocity);
 
 private:
-	const int speed = 1;
-	const int range = 10;
+	Path path;
+	Vec2 currentVelocity;
 
-	Vec2 currentVelocity = { 0, 1 };
-	int frameCount = 0;
+	const int speed = 1;
 
 	void checkCollisions(float deltaTime);
 	void move(float deltaTime);

@@ -23,6 +23,7 @@
     <ClCompile Include="Components\Physics.cpp" />
     <ClCompile Include="Components\Texture.cpp" />
     <ClCompile Include="Entities\Box.cpp" />
+    <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="Entities\Lift.cpp" />
     <ClCompile Include="Entities\Pickup.cpp" />
     <ClCompile Include="Entities\Player.cpp" />

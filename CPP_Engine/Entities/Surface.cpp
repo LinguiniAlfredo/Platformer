@@ -36,16 +36,6 @@ Surface::Surface(Scene* s, string textureFile , Vec2 pos, bool solid)
 	this->solid = solid;
 }
 
-
-Surface::~Surface()
-{
-	//printf("destroying surface\n");
-	delete texture;
-	delete collider;
-	texture = nullptr;
-	collider = nullptr;
-}
-
 void Surface::draw()
 {
 	texture->render(currentPosition.x, currentPosition.y);
