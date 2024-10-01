@@ -1,5 +1,5 @@
 #pragma once
-#include "Surface.h"
+#include "Entity.h"
 #include "Utils/Utils.h"
 
 enum pattern {
@@ -7,23 +7,19 @@ enum pattern {
 };
 
 class Lift :
-	public Surface
+	public Entity
 {
 public:
-	using Surface::Surface;
+	using Entity::Entity;
 
-	void update(float deltaTime);
-
-	Vec2 getVelocity();
-	void setVelocity(Vec2 velocity);
+	void update(float deltaTime) override;
 
 private:
 	Path path;
-	Vec2 currentVelocity;
 
 	const int speed = 1;
 
-	void checkCollisions(float deltaTime);
+	void checkCollisions(float deltaTime) override;
 	void move(float deltaTime);
 };
 

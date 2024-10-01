@@ -31,13 +31,3 @@ void Lift::move(float deltaTime)
 	
 	}
 }
-
-Vec2 Lift::getVelocity()
-{
-	return currentVelocity;
-}
-
-void Lift::setVelocity(Vec2 velocity)
-{
-	this->currentVelocity = velocity;
-}

@@ -13,11 +13,24 @@ Entity::Entity(Scene* scene, std::string textureFile, Vec2 position)
 {
 	this->scene = scene;
 	this->texture = new Texture(scene->getRenderer(), textureFile);
-	this->collider = new Collision(scene->getRenderer(), currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight());
+	this->collider = new Collision(scene->getRenderer(), position.x, position.y, texture->getWidth(), texture->getHeight());
 	this->physics = new Physics();
 
 	this->currentVelocity = { 0,0 };
 	this->currentPosition = position;
+}
+
+Entity::Entity(Scene* scene, std::string textureFile, Vec2 position, bool solid)
+{
+	this->scene = scene;
+	this->texture = new Texture(scene->getRenderer(), textureFile);
+	this->collider = new Collision(scene->getRenderer(), position.x, position.y, texture->getWidth(), texture->getHeight());
+	this->physics = new Physics();
+
+	this->currentVelocity = { 0,0 };
+	this->currentPosition = position;
+
+	this->solid = solid;
 }
 
 Entity::~Entity()
@@ -54,17 +67,15 @@ void Entity::handleEvent(SDL_Event& e)
 
 void Entity::checkCollisions(float deltaTime)
 {
-	if (scene != nullptr) {
-		// Check collisions on all other entities
-		for (Entity* ent : scene->getEntities()) {
-			if (ent->hasCollider() && ent != this) {
-				if (SDL_HasIntersection(collider->getBox(), ent->getCollider()->getBox())) {
-					colliding = true;
-					break;
-				}
-				else {
-					colliding = false;
-				}
+	// Check collisions on all other entities
+	for (Entity* ent : scene->getEntities()) {
+		if (ent->hasCollider() && ent != this) {
+			if (SDL_HasIntersection(collider->getBox(), ent->getCollider()->getBox())) {
+				colliding = true;
+				break;
+			}
+			else {
+				colliding = false;
 			}
 		}
 	}
@@ -127,6 +138,17 @@ void Entity::setSolid(bool solid)
 void Entity::setPosition(Vec2 position)
 {
 	this->currentPosition = position;
+}
+
+void Entity::setColliderPosition(Vec2 position)
+{
+	collider->getBox()->x = position.x;
+	collider->getBox()->y = position.y;
+}
+
+void Entity::setColliding(bool colliding)
+{
+	this->colliding = colliding;
 }
 
 bool Entity::hasCollider()

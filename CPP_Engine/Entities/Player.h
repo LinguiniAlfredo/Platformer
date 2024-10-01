@@ -37,8 +37,6 @@ private:
 
 	int currentState = AIRBORNE;
 	int power        = NONE;
-	bool colliding	 = false;
-	bool solid		 = true;
 	bool running	 = false;
 
 	void checkCollisions(float deltaTime) override;

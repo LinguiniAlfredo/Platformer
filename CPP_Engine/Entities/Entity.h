@@ -13,6 +13,7 @@ class Entity
 public:
 	Entity();
 	Entity(Scene* scene, std::string textureFile, Vec2 position);
+	Entity(Scene* scene, std::string textureFile, Vec2 position, bool solid);
 	virtual ~Entity();
 
 	virtual void draw();
@@ -29,6 +30,8 @@ public:
 	virtual void setTexture(std::string path);
 	virtual void setSolid(bool solid);
 	virtual void setPosition(Vec2 position);
+	virtual void setColliderPosition(Vec2 position);
+	virtual void setColliding(bool colliding);
 
 	virtual bool isColliding();
 	virtual bool isSolid();
@@ -44,7 +47,7 @@ protected:
 	Vec2 currentVelocity;
 	Vec2 currentPosition;
 
-	bool solid = false;
+	bool solid = true;
 	bool colliding = false;
 
 	virtual void checkCollisions(float deltaTime);
