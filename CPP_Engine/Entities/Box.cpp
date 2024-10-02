@@ -62,8 +62,8 @@ void Box::openBox()
 
 void Box::revealItem()
 {
-	item->setPosition({ currentPosition.x, currentPosition.y - scene->getTileSize() });
-	item->setColliderPosition({ currentPosition.x, currentPosition.y - scene->getTileSize() });
+	item->setPosition(currentPosition.x, currentPosition.y - scene->getTileSize());
+	item->setColliderPosition(currentPosition.x, currentPosition.y - scene->getTileSize());
 	scene->addEntity(item);
 	item = nullptr;
 }

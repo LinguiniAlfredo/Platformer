@@ -138,15 +138,16 @@ void Entity::setSolid(bool solid)
 	this->solid = solid;
 }
 
-void Entity::setPosition(Vec2 position)
+void Entity::setPosition(int x, int y)
 {
-	this->currentPosition = position;
+	this->currentPosition.x = x;
+	this->currentPosition.y = y;
 }
 
-void Entity::setColliderPosition(Vec2 position)
+void Entity::setColliderPosition(int x, int y)
 {
-	this->collider->getBox()->x = position.x;
-	this->collider->getBox()->y = position.y;
+	this->collider->getBox()->x = x;
+	this->collider->getBox()->y = y;
 }
 
 void Entity::setColliding(bool colliding)

@@ -8,32 +8,35 @@
 #include <iostream>
 #include <string>
 
-Pickup::Pickup(Scene* s, std::string itemType, bool physics)
+Pickup::Pickup(Scene* scene, std::string itemType, bool physics)
 {
 	//std::cout << "creating pickup \n";
-	scene = s;
-	type = itemType;
-	currentPosition = { 0,0 };
-	texture = new Texture(scene->getRenderer(), "resources/textures/" + itemType + ".png");
-	collider = new Collision(scene->getRenderer(), currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight());
+	this->scene = scene;
+	this->type = itemType;
+	this->currentPosition = { 0,0 };
+	this->texture = new Texture(scene->getRenderer(), "resources/textures/" + itemType + ".png");
+	this->collider = new Collision(scene->getRenderer(), currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight());
 	this->physics = nullptr;
 	if (physics) {
 		this->physics = new Physics();
 	}
+	this->solid = false;
 }
 
-Pickup::Pickup(Scene* s, std::string itemType, Vec2 pos, bool physics)
+Pickup::Pickup(Scene* scene, std::string itemType, Vec2 pos, bool physics)
 {
 	//std::cout << "creating pickup \n";
-	scene = s;
-	type = itemType;
-	currentPosition = pos;
-	texture = new Texture(scene->getRenderer(), "resources/textures/" + itemType + ".png");
-	collider = new Collision(scene->getRenderer(), currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight());
+	this->scene = scene;
+	this->type = itemType;
+	this->currentPosition = pos;
+	this->texture = new Texture(scene->getRenderer(), "resources/textures/" + itemType + ".png");
+	this->collider = new Collision(scene->getRenderer(), currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight());
 	this->physics = nullptr;
 	if (physics) {
 		this->physics = new Physics();
 	}
+	this->solid = false;
+
 }
 
 Pickup::~Pickup()

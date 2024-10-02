@@ -29,8 +29,8 @@ public:
 	virtual void setScene(Scene* s);
 	virtual void setTexture(std::string path);
 	virtual void setSolid(bool solid);
-	virtual void setPosition(Vec2 position);
-	virtual void setColliderPosition(Vec2 position);
+	virtual void setPosition(int x, int y);
+	virtual void setColliderPosition(int x, int y);
 	virtual void setColliding(bool colliding);
 
 	virtual bool isColliding();
