@@ -15,12 +15,10 @@
 #include "Entities/Lift.h"
 #include "Components/Collision.h"
 
-using namespace std;
-
 /*
 	TODO:
 		Engine:
-			- Do Inheritance better
+			- ***Implement new inheritance to each entity
 			- Stop using pointers so much
 			- Tilemap implementation
 			- Entity hashmap in scene with indexing

@@ -9,22 +9,6 @@ void Lift::update(float deltaTime)
 	move(deltaTime);
 }
 
-void Lift::checkCollisions(float deltaTime)
-{
-	// Check collisions on all other entities
-	for (Entity* ent : getScene()->getEntities()) {
-		if (ent->hasCollider() && ent != this) {
-			if (SDL_HasIntersection(getCollider()->getBox(), ent->getCollider()->getBox())) {
-				setColliding(true);
-				break;
-			}
-			else {
-				setColliding(false);
-			}
-		}
-	}
-}
-
 void Lift::move(float deltaTime)
 {
 	for (Vec2 node : path.nodes) {

@@ -2,10 +2,6 @@
 #include "Entity.h"
 #include "Utils/Utils.h"
 
-enum pattern {
-	UPDOWN
-};
-
 class Lift :
 	public Entity
 {
@@ -16,10 +12,8 @@ public:
 
 private:
 	Path path;
-
 	const int speed = 1;
 
-	void checkCollisions(float deltaTime) override;
 	void move(float deltaTime);
 };
 

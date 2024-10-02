@@ -96,7 +96,6 @@ void Player::checkCollisions(float deltaTime)
 
 void Player::resolveCollision(Entity* ent)
 {
-
 	// if collision below player and y velocity is positive
 	if (currentVelocity.y > 0 && ent->getPosition().y > currentPosition.y) {
 		currentPosition.y = ent->getPosition().y - scene->getTileSize();
@@ -163,7 +162,6 @@ void Player::setPowerLevel(int p)
 			break;
 		case NONE:
 			texture = new Texture(scene->getRenderer(), "resources/textures/guy.png");
-			jumpForce = 200;
 			break;
 		default:
 			scene->removeEntity(this);

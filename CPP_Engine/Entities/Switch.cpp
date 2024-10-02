@@ -84,16 +84,6 @@ Switch::~Switch()
 	}
 }
 
-void Switch::draw()
-{
-	texture->render(currentPosition.x, currentPosition.y);
-}
-
-void Switch::update(float deltaTime)
-{
-	checkCollisions(deltaTime);
-}
-
 void Switch::checkCollisions(float deltaTime)
 {
 	// Check player leaving collision box for switch so it doesn't happen each frame
@@ -131,43 +121,4 @@ void Switch::onOff()
 		}
 	}
 
-}
-
-void Switch::setTexture(std::string path)
-{
-	if (texture != nullptr) {
-		delete texture;
-		texture = nullptr;
-	}
-	texture = new Texture(scene->getRenderer(), path);
-}
-
-void Switch::setScene(Scene* s)
-{
-	scene = s;
-}
-
-bool Switch::isColliding()
-{
-	return colliding;
-}
-
-bool Switch::hasCollider()
-{
-	return collider != nullptr;
-}
-
-Collision* Switch::getCollider()
-{
-	return collider;
-}
-
-bool Switch::isSolid()
-{
-	return solid;
-}
-
-Vec2 Switch::getPosition()
-{
-	return currentPosition;
 }

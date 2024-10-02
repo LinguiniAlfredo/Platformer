@@ -6,7 +6,10 @@
 
 Entity::Entity()
 {
-
+	scene = nullptr;
+	texture = nullptr;
+	collider = nullptr;
+	physics = nullptr;
 }
 
 Entity::Entity(Scene* scene, std::string textureFile, Vec2 position)
@@ -142,8 +145,8 @@ void Entity::setPosition(Vec2 position)
 
 void Entity::setColliderPosition(Vec2 position)
 {
-	collider->getBox()->x = position.x;
-	collider->getBox()->y = position.y;
+	this->collider->getBox()->x = position.x;
+	this->collider->getBox()->y = position.y;
 }
 
 void Entity::setColliding(bool colliding)

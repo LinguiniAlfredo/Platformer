@@ -16,6 +16,8 @@ Box::Box(Scene* s, Pickup* i, Vec2 pos)
 	item = i;
 	texture = new Texture(scene->getRenderer(), textureFile);
 	collider = new Collision(scene->getRenderer(), currentPosition.x, currentPosition.y + 1, texture->getWidth(), texture->getHeight());
+
+	currentState = item == nullptr;
 }
 
 Box::~Box()
@@ -30,16 +32,6 @@ Box::~Box()
 		delete item;
 		item = nullptr;
 	}
-}
-
-void Box::draw()
-{
-	texture->render(currentPosition.x, currentPosition.y);
-}
-
-void Box::update(float deltaTime)
-{
-	checkCollisions(deltaTime);
 }
 
 void Box::checkCollisions(float deltaTime)
@@ -63,7 +55,6 @@ void Box::checkCollisions(float deltaTime)
 
 void Box::openBox()
 {
-	// reveal item in box and change texture to empty
 	revealItem();
 	setTexture("resources/textures/box_empty.png");
 	currentState = EMPTY;
@@ -71,46 +62,8 @@ void Box::openBox()
 
 void Box::revealItem()
 {
-	item->setPosition(currentPosition.x, currentPosition.y - scene->getTileSize());
+	item->setPosition({ currentPosition.x, currentPosition.y - scene->getTileSize() });
+	item->setColliderPosition({ currentPosition.x, currentPosition.y - scene->getTileSize() });
 	scene->addEntity(item);
 	item = nullptr;
-}
-
-void Box::setTexture(std::string path)
-{
-	if (texture != nullptr) {
-		delete texture;
-		texture = nullptr;
-	}
-	texture = new Texture(scene->getRenderer(), path);
-}
-
-void Box::setScene(Scene* s)
-{
-	scene = s;
-}
-
-bool Box::isColliding()
-{
-	return colliding;
-}
-
-bool Box::hasCollider()
-{
-	return collider != nullptr;
-}
-
-Collision* Box::getCollider()
-{
-	return collider;
-}
-
-bool Box::isSolid()
-{
-	return solid;
-}
-
-Vec2 Box::getPosition()
-{
-	return currentPosition;
 }

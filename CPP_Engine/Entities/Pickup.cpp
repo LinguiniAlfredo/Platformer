@@ -43,11 +43,11 @@ Pickup::~Pickup()
 	delete collider;
 	texture = nullptr;
 	collider = nullptr;
-}
 
-void Pickup::draw()
-{
-	texture->render(currentPosition.x, currentPosition.y);
+	if (physics) {
+		delete physics;
+		physics = nullptr;
+	}
 }
 
 void Pickup::update(float deltaTime)
@@ -150,45 +150,4 @@ void Pickup::resolveCollision(Entity* ent)
 		currentPosition.y = ent->getPosition().y + scene->getTileSize();
 		currentVelocity.y = 0;
 	}
-}
-
-// TODO - These functions are in everything
-//        Do I need to override them every time?
-
-void Pickup::setScene(Scene* s)
-{
-	scene = s;
-}
-
-bool Pickup::isColliding()
-{
-	return colliding;
-}
-
-bool Pickup::hasCollider()
-{
-	return collider != nullptr;
-}
-
-Collision* Pickup::getCollider()
-{
-	return collider;
-}
-
-bool Pickup::isSolid()
-{
-	return solid;
-}
-
-Vec2 Pickup::getPosition()
-{
-	return currentPosition;
-}
-
-void Pickup::setPosition(int x, int y)
-{
-	currentPosition.x = x;
-	currentPosition.y = y;
-	collider->getBox()->x = x;
-	collider->getBox()->y = y;
 }
