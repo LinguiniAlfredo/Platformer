@@ -24,7 +24,7 @@ public:
 	virtual Texture* getTexture();
 	virtual Collision* getCollider();
 	virtual Vec2 getPosition();
-	virtual Vec2 getVelocity();
+	virtual Vec2f getVelocity();
 
 	virtual void setScene(Scene* s);
 	virtual void setTexture(std::string path);
@@ -44,8 +44,8 @@ protected:
 	Texture* texture;
 	Collision* collider;
 	Physics* physics;
-	Vec2 currentVelocity;
-	Vec2 currentPosition;
+	Vec2f velocity;
+	Vec2 position;
 
 	bool solid = true;
 	bool colliding = false;

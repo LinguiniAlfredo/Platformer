@@ -8,3 +8,13 @@ struct Vec2
 	int y;
 };
 
+struct Vec2f
+{
+	Vec2f();
+	Vec2f(float x, float y);
+
+	float x;
+	float y;
+};
+
+

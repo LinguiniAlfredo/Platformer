@@ -19,8 +19,8 @@ Entity::Entity(Scene* scene, std::string textureFile, Vec2 position)
 	this->collider = new Collision(scene->getRenderer(), position.x, position.y, texture->getWidth(), texture->getHeight());
 	this->physics = new Physics();
 
-	this->currentVelocity = { 0,0 };
-	this->currentPosition = position;
+	this->velocity = { 0,0 };
+	this->position = position;
 }
 
 Entity::Entity(Scene* scene, std::string textureFile, Vec2 position, bool solid)
@@ -30,15 +30,15 @@ Entity::Entity(Scene* scene, std::string textureFile, Vec2 position, bool solid)
 	this->collider = new Collision(scene->getRenderer(), position.x, position.y, texture->getWidth(), texture->getHeight());
 	this->physics = new Physics();
 
-	this->currentVelocity = { 0,0 };
-	this->currentPosition = position;
+	this->velocity = { 0,0 };
+	this->position = position;
 
 	this->solid = solid;
 }
 
 Entity::~Entity()
 {
-	printf("destroying entity\n");
+	//printf("destroying entity\n");
 	if (texture != nullptr) {
 		delete texture;
 		texture = nullptr;
@@ -55,7 +55,7 @@ Entity::~Entity()
 
 void Entity::draw()
 {
-	texture->render(currentPosition.x, currentPosition.y);
+	texture->render(position.x, position.y);
 }
 
 void Entity::update(float deltaTime)
@@ -101,12 +101,12 @@ Collision* Entity::getCollider()
 
 Vec2 Entity::getPosition()
 {
-	return currentPosition;
+	return position;
 }
 
-Vec2 Entity::getVelocity()
+Vec2f Entity::getVelocity()
 {
-	return currentVelocity;
+	return velocity;
 }
 
 bool Entity::isColliding()
@@ -140,8 +140,8 @@ void Entity::setSolid(bool solid)
 
 void Entity::setPosition(int x, int y)
 {
-	this->currentPosition.x = x;
-	this->currentPosition.y = y;
+	this->position.x = x;
+	this->position.y = y;
 }
 
 void Entity::setColliderPosition(int x, int y)

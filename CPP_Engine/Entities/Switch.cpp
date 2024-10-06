@@ -10,7 +10,7 @@ Switch::Switch(Scene* scene, std::vector<Surface*> switchBlocks, Vec2 currentPos
 	//printf("creating switch\n");
 
 	this->scene = scene;
-	this->currentPosition = currentPosition;
+	this->position = currentPosition;
 	texture = on ? new Texture(scene->getRenderer(), onTexture) : new Texture(scene->getRenderer(), offTexture);
 	collider = new Collision(scene->getRenderer(), currentPosition.x, currentPosition.y + 1, texture->getWidth(), texture->getHeight());
 
@@ -25,7 +25,7 @@ Switch::Switch(Scene* scene, std::vector<Surface*> switchBlocks, std::string col
 	//printf("creating switch\n");
 
 	this->scene = scene;
-	this->currentPosition = currentPosition;
+	this->position = currentPosition;
 	this->color = color;
 	onTexture = "resources/textures/switch_" + color + ".png";
 	texture = on ? new Texture(scene->getRenderer(), onTexture) : new Texture(scene->getRenderer(), offTexture);
@@ -48,7 +48,7 @@ Switch::Switch(Scene* scene, std::vector<Surface*> switchBlocks, std::string col
 	//printf("creating switch\n");
 
 	this->scene = scene;
-	this->currentPosition = currentPosition;
+	this->position = currentPosition;
 	this->color = color;
 	this->on = on;
 	onTexture = "resources/textures/switch_" + color + ".png";
@@ -89,10 +89,10 @@ void Switch::checkCollisions(float deltaTime)
 	// Check player leaving collision box for switch so it doesn't happen each frame
 	Player* player = dynamic_cast<Player*>(scene->getPlayer());
 	if (player != nullptr) {
-		if (colliding && !(SDL_HasIntersection(collider->getBox(), player->getCollider()->getBox()) && player->getPosition().y > currentPosition.y)) {
+		if (colliding && !(SDL_HasIntersection(collider->getBox(), player->getCollider()->getBox()) && player->getPosition().y > position.y)) {
 			onOff();
 		}
-		if (SDL_HasIntersection(collider->getBox(), player->getCollider()->getBox()) && player->getPosition().y > currentPosition.y) {
+		if (SDL_HasIntersection(collider->getBox(), player->getCollider()->getBox()) && player->getPosition().y > position.y) {
 			colliding = true;
 			setTexture("resources/textures/switch_" + color + "_lit.png");
 		}

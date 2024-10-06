@@ -18,8 +18,6 @@
 /*
 	TODO:
 		Engine:
-			- ***Implement new inheritance to each entity
-			- Stop using pointers so much
 			- Tilemap implementation
 			- Entity hashmap in scene with indexing
 			- Port to OpenGL for custom shaders
@@ -61,6 +59,7 @@ bool init();
 void initMainMenu();
 void initLevelOne();
 void initLevelTwo();
+void initLevelThree();
 
 bool changeScene(int scene);
 
@@ -95,6 +94,7 @@ bool changeScene(int scene)
 			break;
 
 		case LEVEL_3:
+			initLevelThree();
 			break;
 
 		case GAME_OVER:
@@ -195,6 +195,15 @@ void initLevelTwo()
 	currentScene = level;
 }
 
+void initLevelThree()
+{
+	Scene* level3 = new Scene();
+
+	
+
+	currentScene = level3;
+}
+
 bool init()
 {
 	bool success = true;
@@ -292,6 +301,9 @@ int main( int argc, char* args[] )
 							case SDLK_2:
 								changeScene(LEVEL_2);
 								break;
+							case SDLK_3:
+								changeScene(LEVEL_3);
+								break;
 							case SDLK_BACKQUOTE:
 								toggleDebug();
 								break;
@@ -325,7 +337,7 @@ int main( int argc, char* args[] )
 				totalTime = frameTimer.getTicks() / 1000.f;
 				deltaTime = deltaTimer.getTicks() / 1000.f;
 				fps = countedFrames / totalTime;
-				printf("%.3g FPS\n", fps); // TODO - display frames on screen
+				//printf("%.3g FPS\n", fps); // TODO - display frames on screen
 				countedFrames++;
 				deltaTimer.start();
 			}

@@ -13,9 +13,9 @@ Pickup::Pickup(Scene* scene, std::string itemType, bool physics)
 	//std::cout << "creating pickup \n";
 	this->scene = scene;
 	this->type = itemType;
-	this->currentPosition = { 0,0 };
+	this->position = { 0,0 };
 	this->texture = new Texture(scene->getRenderer(), "resources/textures/" + itemType + ".png");
-	this->collider = new Collision(scene->getRenderer(), currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight());
+	this->collider = new Collision(scene->getRenderer(), position.x, position.y, texture->getWidth(), texture->getHeight());
 	this->physics = nullptr;
 	if (physics) {
 		this->physics = new Physics();
@@ -28,9 +28,9 @@ Pickup::Pickup(Scene* scene, std::string itemType, Vec2 pos, bool physics)
 	//std::cout << "creating pickup \n";
 	this->scene = scene;
 	this->type = itemType;
-	this->currentPosition = pos;
+	this->position = pos;
 	this->texture = new Texture(scene->getRenderer(), "resources/textures/" + itemType + ".png");
-	this->collider = new Collision(scene->getRenderer(), currentPosition.x, currentPosition.y, texture->getWidth(), texture->getHeight());
+	this->collider = new Collision(scene->getRenderer(), position.x, position.y, texture->getWidth(), texture->getHeight());
 	this->physics = nullptr;
 	if (physics) {
 		this->physics = new Physics();
@@ -65,14 +65,14 @@ void Pickup::update(float deltaTime)
 void Pickup::move(float deltaTime)
 {
 	if (!colliding && currentState != GROUNDED) {
-		currentVelocity.y += physics->getGravity();
+		velocity.y += physics->getGravity();
 	}
 
-	collider->getBox()->x = currentPosition.x;
-	collider->getBox()->y = currentPosition.y;
+	collider->getBox()->x = position.x;
+	collider->getBox()->y = position.y;
 
 	// kill if falls below floor
-	if (currentPosition.y > 180) {
+	if (position.y > 180) {
 		scene->removeEntity(this);
 	}
 }
@@ -81,8 +81,8 @@ void Pickup::checkForFloor()
 {
 	if (currentState == GROUNDED) {
 		for (Entity* ent : scene->getEntities()) {
-			if (ent->isSolid() && ent->getPosition().y - currentPosition.y == scene->getTileSize() &&
-				currentPosition.x + collider->getBox()->w >= ent->getPosition().x && currentPosition.x < ent->getPosition().x + ent->getCollider()->getBox()->w)
+			if (ent->isSolid() && ent->getPosition().y - position.y == scene->getTileSize() &&
+				position.x + collider->getBox()->w >= ent->getPosition().x && position.x < ent->getPosition().x + ent->getCollider()->getBox()->w)
 			{
 				return;
 			}
@@ -116,10 +116,10 @@ void Pickup::checkCollisions(float deltaTime)
 	}
 
 	if (physics) {
-		collider->getBox()->y += currentVelocity.y * deltaTime;
-		currentPosition.y += currentVelocity.y * deltaTime;
+		collider->getBox()->y += velocity.y * deltaTime;
+		position.y += velocity.y * deltaTime;
 		if (currentState != GROUNDED) {
-			currentVelocity.y += physics->getGravity();
+			velocity.y += physics->getGravity();
 		}
 
 		for (Entity* ent : scene->getEntities()) {
@@ -128,7 +128,7 @@ void Pickup::checkCollisions(float deltaTime)
 					colliding = true;
 					resolveCollision(ent);
 
-					if (ent->getPosition().y > currentPosition.y) {
+					if (ent->getPosition().y > position.y) {
 						currentState = GROUNDED;
 					}
 					break;
@@ -144,13 +144,13 @@ void Pickup::checkCollisions(float deltaTime)
 void Pickup::resolveCollision(Entity* ent)
 {
 	// if collision below player and y velocity is positive
-	if (currentVelocity.y > 0 && ent->getPosition().y > currentPosition.y) {
-		currentPosition.y = ent->getPosition().y - scene->getTileSize();
-		currentVelocity.y = 0;
+	if (velocity.y > 0 && ent->getPosition().y > position.y) {
+		position.y = ent->getPosition().y - scene->getTileSize();
+		velocity.y = 0;
 	}
 	// if collision above player and y velocity is negative
-	if (currentVelocity.y < 0 && ent->getPosition().y < currentPosition.y) {
-		currentPosition.y = ent->getPosition().y + scene->getTileSize();
-		currentVelocity.y = 0;
+	if (velocity.y < 0 && ent->getPosition().y < position.y) {
+		position.y = ent->getPosition().y + scene->getTileSize();
+		velocity.y = 0;
 	}
 }

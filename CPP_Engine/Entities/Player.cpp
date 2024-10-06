@@ -6,6 +6,7 @@
 #include "../Components/Physics.h"
 #include "../Components/Collision.h"
 
+
 void Player::update(float deltaTime)
 {
 	checkForFloor();
@@ -18,16 +19,17 @@ void Player::handleEvent(SDL_Event& e)
 	if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
 		SDL_Keycode key = e.key.keysym.sym;
 		if (key == SDLK_a) {
-			currentVelocity.x = -1;
+			velocity.x = -runAccel;
 		}
 		if (key == SDLK_d) {
-			currentVelocity.x = 1;
+			velocity.x = runAccel;
 		}
 		if (key == SDLK_SPACE && currentState == GROUNDED) {
-			currentVelocity.y = -1 * jumpForce;
+			velocity.y = -1.0f * jumpForce;
 			currentState = AIRBORNE;
 		}
-		if (key == SDLK_LSHIFT && currentVelocity.x != 0) {
+		if (key == SDLK_LSHIFT && velocity.x != 0) {
+			maxSpeed = 2;
 			running = true;
 		}
 
@@ -35,17 +37,20 @@ void Player::handleEvent(SDL_Event& e)
 	if (e.type == SDL_KEYUP && e.key.repeat == 0) {
 		SDL_Keycode key = e.key.keysym.sym;
 		if (key == SDLK_a) {
-			if (currentVelocity.x < 0)
-				currentVelocity.x = 0;
+			if (velocity.x < 0) {
+				velocity.x = 0;
+			}
 		}
 		if (key == SDLK_d) {
-			if (currentVelocity.x > 0)
-				currentVelocity.x = 0;
+			if (velocity.x > 0) {
+				velocity.x = 0;
+			}
 		}
 		if (key == SDLK_SPACE) {
-			currentVelocity.y /= 2;
+			velocity.y /= 2;
 		}
 		if (key == SDLK_LSHIFT) {
+			maxSpeed = 1;
 			running = false;
 		}
 	}
@@ -55,8 +60,8 @@ void Player::checkForFloor()
 {
 	if (currentState == GROUNDED) {
 		for (Entity* ent : scene->getEntities()) {
-			if (ent->isSolid() && ent->getPosition().y - currentPosition.y == scene->getTileSize() &&
-				currentPosition.x + collider->getBox()->w >= ent->getPosition().x && currentPosition.x < ent->getPosition().x + ent->getCollider()->getBox()->w)
+			if (ent->isSolid() && ent->getPosition().y - actualPosition.y == scene->getTileSize() &&
+				actualPosition.x + collider->getBox()->w >= ent->getPosition().x && actualPosition.x < ent->getPosition().x + ent->getCollider()->getBox()->w)
 			{
 				return;
 			}
@@ -68,18 +73,18 @@ void Player::checkForFloor()
 // move collider where player will be next frame and check collisions.
 void Player::checkCollisions(float deltaTime)
 {
-	collider->getBox()->x += static_cast<int>(round(currentVelocity.x * deltaTime * groundSpeed));
-	collider->getBox()->y += static_cast<int>(round(currentVelocity.y * deltaTime));
+	collider->getBox()->x += static_cast<int>(round(velocity.x * deltaTime));
+	collider->getBox()->y += static_cast<int>(round(velocity.y * deltaTime));
 
 	if (currentState != GROUNDED) {
-		static_cast<int>(round(currentVelocity.y += physics->getGravity()));
+		static_cast<int>(round(velocity.y += physics->getGravity()));
 	}
 
 	for (Entity* ent : scene->getEntities()) {
 		if (ent->hasCollider() && ent != this) {
 			if (SDL_HasIntersection(collider->getBox(), ent->getCollider()->getBox()) && ent->isSolid()) {
 				colliding = true;
-				if (ent->getPosition().y > currentPosition.y) {
+				if (ent->getPosition().y > actualPosition.y) {
 					currentState = GROUNDED;
 				}
 				resolveCollision(ent);
@@ -97,71 +102,69 @@ void Player::checkCollisions(float deltaTime)
 void Player::resolveCollision(Entity* ent)
 {
 	// if collision below player and y velocity is positive
-	if (currentVelocity.y > 0 && ent->getPosition().y > currentPosition.y) {
-		currentPosition.y = ent->getPosition().y - scene->getTileSize();
-		currentVelocity.y = 0;
+	if (velocity.y > 0 && ent->getPosition().y > actualPosition.y) {
+		actualPosition.y = ent->getPosition().y - scene->getTileSize();
+		//currentVelocity.y = 0;
 	}
 	// if collision above player and y velocity is negative
-	if (currentVelocity.y < 0 && ent->getPosition().y < currentPosition.y) {
-		currentPosition.y = ent->getPosition().y + scene->getTileSize();
-		currentVelocity.y = 0;
+	if (velocity.y < 0 && ent->getPosition().y < actualPosition.y) {
+		actualPosition.y = ent->getPosition().y + scene->getTileSize();
+		velocity.y = 0;
 	}
 }
 
 void Player::move(float deltaTime)
 {
-	// Position += Velocity
-	// Velocity += Acceleration
-	static int currentDir;
-	float speedX = currentVelocity.x * deltaTime * groundSpeed;
-	float speedY = currentVelocity.y * deltaTime;
+	float speedY = velocity.y * deltaTime;
+
+	printf("%f\n", velocity.x);
 
 	if (!colliding) {
-		currentPosition.x += (int)round(speedX);
-		currentPosition.y += (int)round(speedY);
-
-		if (currentState != GROUNDED) {
-			currentVelocity.y += (int)round(physics->getGravity());
+		actualPosition.x += velocity.x;
+		if (abs(velocity.x) < maxSpeed) {
+			if (velocity.x > 0)
+				velocity.x += runAccel;
+			else if (velocity.x < 0)
+				velocity.x -= runAccel;
 		}
-
-	/*	if (running && abs(currentVelocity.x) < maxRunSpeed) {
-			currentVelocity.x += runAccel;
+		else if (abs(velocity.x)	 > maxSpeed) {
+			if (velocity.x > 0)		 
+				velocity.x -= runAccel;
+			else if (velocity.x < 0)	 
+				velocity.x += runAccel;
 		}
-		else if (!running && abs(currentVelocity.x) > minRunSpeed) {
-			currentVelocity.x -= runAccel;
-		}*/
 	}
 
-	collider->getBox()->x = currentPosition.x;
-	collider->getBox()->y = currentPosition.y;
+	if (currentState != GROUNDED) {
+		actualPosition.y += (int)round(speedY);
+		velocity.y += (int)round(physics->getGravity());
+	} else {
+		velocity.y = 0;
+	}
+
+
+	position.x = static_cast<int>(round((actualPosition.x)));
+	position.y = static_cast<int>(round((actualPosition.y)));
+	collider->getBox()->x = position.x;
+	collider->getBox()->y = position.y;
 
 	// kill player if falls below floor
-	if (currentPosition.y > 180) {
+	if (actualPosition.y > 180) {
 		scene->removeEntity(this);
 	}
-
-	//// reset groundSpeed if changing direction
-	//if (currentDir != currentVelocity.x) {
-	//	groundSpeed = minRunSpeed;
-	//}
-	//currentDir = currentVelocity.x;
 }
 
 void Player::setPowerLevel(int p)
 {
 	power += p;
-	if (texture != nullptr) {
-		delete texture;
-		texture = nullptr;
-	}
-
 	switch (power) {
 		case FLOWER:
-			texture = new Texture(scene->getRenderer(), "resources/textures/guy_flower.png");
-			// add some power logic
+			// TODO - add power-up animation
+			setTexture("resources/textures/guy_flower.png");
 			break;
 		case NONE:
-			texture = new Texture(scene->getRenderer(), "resources/textures/guy.png");
+			// TODO - add power-down animation
+			setTexture("resources/textures/guy.png");
 			break;
 		default:
 			scene->removeEntity(this);
