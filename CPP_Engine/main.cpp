@@ -30,6 +30,7 @@ const int SCREEN_WIDTH = 1920 / 2;
 const int SCREEN_HEIGHT = 1080 / 2;
 const int INTERNAL_SCREEN_WIDTH = 320;
 const int INTERNAL_SCREEN_HEIGHT = 180;
+const int INTERNAL_LEVEL_WIDTH = INTERNAL_SCREEN_WIDTH * 2;
 const int CENTER_X = INTERNAL_SCREEN_WIDTH / 2;
 const int CENTER_Y = INTERNAL_SCREEN_HEIGHT / 2;
 const int NUM_TILES_WIDE = INTERNAL_SCREEN_WIDTH / 8;
@@ -71,6 +72,7 @@ SDL_Window* window = nullptr;
 SDL_Surface* screenSurface = nullptr;
 
 SDL_Renderer* renderer = nullptr;
+
 
 
 bool changeScene(int scene)
@@ -118,7 +120,8 @@ void initMainMenu()
 
 void initLevelOne()
 {
-	Scene* level = new Scene(renderer);
+	SDL_Rect* camera = new SDL_Rect{ 0,0, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT };
+	Scene* level = new Scene(renderer, camera);
 
 	level->addEntity(new Player(level, "resources/textures/guy.png", { 7, NUM_TILES_HIGH - 4 }));
 
@@ -132,12 +135,13 @@ void initLevelOne()
 
 void initLevelTwo()
 {
-	Scene* level = new Scene(renderer);
+	SDL_Rect* camera = new SDL_Rect{ 0,0, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT };
+	Scene* level = new Scene(renderer, camera);
 
 	level->addEntity(new Player(level, "resources/textures/guy.png", { 7, NUM_TILES_HIGH - 4 }));
 
 	// add floor across bottom
-	for (int i = 0; i < NUM_TILES_WIDE; i++) {
+	for (int i = 0; i < NUM_TILES_WIDE * 2; i++) {
 		if (i > NUM_TILES_WIDE - 8 && i < NUM_TILES_WIDE - 2) {
 			continue;
 		}
@@ -163,7 +167,7 @@ void initLevelTwo()
 
 	level->addEntity(new Box(level, new Pickup(level, "flower", false), { 10, NUM_TILES_HIGH - 4 }));
 
-	level->addEntity(new Surface(level, "resources/textures/sign.png", { NUM_TILES_WIDE - 2, NUM_TILES_HIGH - 2 }, false));
+	level->addEntity(new Surface(level, "resources/textures/sign.png", { 4, NUM_TILES_HIGH - 2 }, false));
 
 
 	// TODO - Find better API for switches/blocks
@@ -186,11 +190,9 @@ void initLevelTwo()
 	for (int i = 0; i < 3; i++) {
 		greenSwitchBlocks.push_back(new Surface(level, "resources/textures/block_green.png", { NUM_TILES_WIDE - 6 + i, 5 }, true));
 	}
-	level->addEntity(new Switch(level, greenSwitchBlocks, "green", { 2, 3 }, true));
+	level->addEntity(new Switch(level, greenSwitchBlocks, "green", { NUM_TILES_WIDE + 4, NUM_TILES_HIGH - 4 }, true));
 
 	level->addEntity(new Pickup(level, "key", { NUM_TILES_WIDE - 5, 3 }, true));
-
-	level->addEntity(new Lift(level, "resources/textures/lift.png", { 0, NUM_TILES_HIGH - 5 }));
 
 	currentScene = level;
 }
@@ -259,6 +261,28 @@ void toggleDebug()
 	debug = !debug;
 }
 
+void renderCollider(Entity* ent)
+{
+	if (ent->isColliding()) {
+		SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
+	}
+	else {
+		SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
+	}
+	// camera correct collider
+	SDL_Rect* box = ent->getCollider()->getBox();
+	SDL_Rect* correctedBox = new SDL_Rect{ box->x - currentScene->getCamera()->x, box->y - currentScene->getCamera()->y, box->w, box->h};
+	SDL_RenderDrawRect(renderer, correctedBox);
+}
+
+void renderCameraBox() 
+{
+	SDL_Rect* wtf = currentScene->getCamera();
+	SDL_Rect* correctedBox = new SDL_Rect{ wtf->x - currentScene->getCamera()->x, wtf->y - currentScene->getCamera()->y, wtf->w, wtf->h };
+	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF);
+	SDL_RenderDrawRect(renderer, correctedBox);
+}
+
 int main( int argc, char* args[] )
 {
 	if (!init()) {
@@ -324,12 +348,17 @@ int main( int argc, char* args[] )
 
 				for (Entity* ent: currentScene->getEntities()) {
 					ent->update(deltaTime);
-					ent->draw();
+					if (ent->inView())
+						ent->draw();
 
 					if (debug) {
-						ent->getCollider()->render(ent->isColliding());
+						renderCollider(ent);
 					}
 				}
+				if (debug && currentScene->getCamera() != nullptr) {
+					renderCameraBox();
+				}
+				
 				currentScene->clearTrash();
 
 				SDL_RenderPresent(renderer);
@@ -337,7 +366,7 @@ int main( int argc, char* args[] )
 				totalTime = frameTimer.getTicks() / 1000.f;
 				deltaTime = deltaTimer.getTicks() / 1000.f;
 				fps = countedFrames / totalTime;
-				//printf("%.3g FPS\n", fps); // TODO - display frames on screen
+				printf("%.3g FPS\n", fps); // TODO - display frames on screen
 				countedFrames++;
 				deltaTimer.start();
 			}

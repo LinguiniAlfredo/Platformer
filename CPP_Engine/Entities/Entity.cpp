@@ -55,7 +55,7 @@ Entity::~Entity()
 
 void Entity::draw()
 {
-	texture->render(position.x, position.y);
+	texture->render(position.x - scene->getCamera()->x, position.y - scene->getCamera()->y);
 }
 
 void Entity::update(float deltaTime)
@@ -163,4 +163,10 @@ bool Entity::hasCollider()
 bool Entity::hasPhysics()
 {
 	return physics != nullptr;
+}
+
+bool Entity::inView()
+{
+	SDL_Rect* camera = scene->getCamera();
+	return position.x >= camera->x - scene->getTileSize() && position.x <= camera->x + camera->w + scene->getTileSize();
 }

@@ -39,6 +39,6 @@ private:
 	void checkForFloor();
 	void resolveCollision(Entity* ent);
 	void move(float deltaTime);
-
+	void moveCamera();
 };
 

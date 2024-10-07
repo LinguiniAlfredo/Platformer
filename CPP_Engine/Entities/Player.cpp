@@ -12,6 +12,7 @@ void Player::update(float deltaTime)
 	checkForFloor();
 	checkCollisions(deltaTime);
 	move(deltaTime);
+	moveCamera();
 }
 
 void Player::handleEvent(SDL_Event& e)
@@ -96,7 +97,6 @@ void Player::checkCollisions(float deltaTime)
 			}
 		}
 	}
-
 }
 
 void Player::resolveCollision(Entity* ent)
@@ -117,8 +117,6 @@ void Player::move(float deltaTime)
 {
 	float speedY = velocity.y * deltaTime;
 
-	printf("%f\n", velocity.x);
-
 	if (!colliding) {
 		actualPosition.x += velocity.x;
 		if (abs(velocity.x) < maxSpeed) {
@@ -127,7 +125,7 @@ void Player::move(float deltaTime)
 			else if (velocity.x < 0)
 				velocity.x -= runAccel;
 		}
-		else if (abs(velocity.x)	 > maxSpeed) {
+		else if (abs(velocity.x) > maxSpeed) {
 			if (velocity.x > 0)		 
 				velocity.x -= runAccel;
 			else if (velocity.x < 0)	 
@@ -151,6 +149,16 @@ void Player::move(float deltaTime)
 	// kill player if falls below floor
 	if (actualPosition.y > 180) {
 		scene->removeEntity(this);
+	}
+}
+
+void Player::moveCamera()
+{
+	SDL_Rect* camera = scene->getCamera();
+	int center = (camera->x + camera->w) / 2;
+	if (position.x > center) 
+	{
+		camera->x = position.x - camera->w / 2;
 	}
 }
 

@@ -39,6 +39,8 @@ public:
 	virtual bool hasCollider();
 	virtual bool hasPhysics();
 
+	virtual bool inView();
+
 protected:
 	Scene* scene;
 	Texture* texture;

@@ -7,11 +7,19 @@
 Scene::Scene() 
 {
 	renderer = nullptr;
+	camera = nullptr;
 }
 
 Scene::Scene(SDL_Renderer* r) 
 {
 	renderer = r;
+	camera = nullptr;
+}
+
+Scene::Scene(SDL_Renderer* r, SDL_Rect* c)
+{
+	renderer = r;
+	camera = c;
 }
 
 Scene::Scene(Scene& src)
@@ -36,6 +44,9 @@ Scene::~Scene()
 		ent = nullptr;
 	}
 	trashBin.clear();
+
+	delete camera;
+	camera = nullptr;
 }
 
 void Scene::addEntity(Entity* ent)
@@ -90,4 +101,8 @@ Entity* Scene::getPlayer()
 	return entities.at(0);
 }
 
+SDL_Rect* Scene::getCamera()
+{
+	return camera;
+}
 
