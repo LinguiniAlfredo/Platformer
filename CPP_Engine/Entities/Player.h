@@ -21,6 +21,7 @@ public:
 	void handleEvent(SDL_Event& e) override;
 
 	void setPowerLevel(int power);
+	void incrementCoinCount();
 
 private:
 	Vec2f actualPosition = { static_cast<float>(position.x), static_cast<float>(position.y) };
@@ -33,6 +34,8 @@ private:
 	int currentState = AIRBORNE;
 	int power        = NONE;
 	bool running	 = false;
+
+	int coinCount = 0;
 
 	void checkCollisions(float deltaTime) override;
 

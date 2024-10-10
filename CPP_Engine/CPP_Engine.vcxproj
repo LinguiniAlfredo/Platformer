@@ -30,6 +30,7 @@
     <ClCompile Include="Entities\Portal.cpp" />
     <ClCompile Include="Entities\Surface.cpp" />
     <ClCompile Include="Entities\Switch.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Utils\Timer.cpp" />
@@ -43,8 +44,10 @@
     <Image Include="Resources\Textures\block_red.png" />
     <Image Include="Resources\Textures\box.png" />
     <Image Include="Resources\Textures\box_empty.png" />
+    <Image Include="Resources\Textures\brick.png" />
     <Image Include="Resources\Textures\clock.png" />
     <Image Include="resources\textures\clouds.png" />
+    <Image Include="Resources\Textures\coin.png" />
     <Image Include="Resources\Textures\collision_green.png" />
     <Image Include="Resources\Textures\collision_red.png" />
     <Image Include="resources\textures\floor.png" />
@@ -82,10 +85,14 @@
     <ClInclude Include="Entities\Portal.h" />
     <ClInclude Include="Entities\Surface.h" />
     <ClInclude Include="Entities\Switch.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Utils\Timer.h" />
     <ClInclude Include="Utils\Utils.h" />
     <ClInclude Include="Utils\Vec2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resources\Fonts\nintendo-nes-font.ttf" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -140,8 +147,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\vclib\SDL2-2.30.7\include;C:\vclib\SDL2_image-2.8.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\vclib\SDL2-2.30.7\lib\x64;C:\vclib\SDL2_image-2.8.2\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\vclib\SDL2-2.30.7\include;C:\vclib\SDL2_image-2.8.2\include;C:\vclib\SDL2_ttf-2.22.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\vclib\SDL2-2.30.7\lib\x64;C:\vclib\SDL2_image-2.8.2\lib\x64;C:\vclib\SDL2_ttf-2.22.0\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -182,7 +189,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

@@ -34,6 +34,9 @@
     <Filter Include="Resource Files\Textures">
       <UniqueIdentifier>{35035cdc-cde0-472f-99cd-0cd577064ad7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Fonts">
+      <UniqueIdentifier>{51717228-13fd-4659-9cfe-c51cd890182f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scene.cpp">
@@ -83,6 +86,9 @@
     </ClCompile>
     <ClCompile Include="Entities\Entity.cpp">
       <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +188,12 @@
     <Image Include="Resources\Textures\portal.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
+    <Image Include="Resources\Textures\brick.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\coin.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -229,5 +241,13 @@
     <ClInclude Include="Entities\Portal.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Resources\Fonts\nintendo-nes-font.ttf">
+      <Filter>Resource Files\Fonts</Filter>
+    </Font>
   </ItemGroup>
 </Project>

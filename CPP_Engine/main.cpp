@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <stdio.h>
 #include <string>
 
@@ -14,16 +15,18 @@
 #include "Entities/Switch.h"
 #include "Entities/Lift.h"
 #include "Components/Collision.h"
+#include "Components/Texture.h"
+#include "HUD.h"
 
 /*
 	TODO:
-		Engine:
-			- Tilemap implementation
-			- Entity hashmap in scene with indexing
-			- Port to OpenGL for custom shaders
-			- Animation system
-			- Editor
-			- Refactor Scene to be entity manager and handle all memory allocations
+		- Text rendering, HUD 
+		- Animation system
+		- Tilemap implementation
+		- Editor
+		- Entity hashmap in scene with indexing
+		- Port to OpenGL for custom shaders
+		- Refactor Scene to be entity manager and handle all memory allocations
 */
 
 const int SCREEN_WIDTH = 1920 / 2;
@@ -159,7 +162,20 @@ void initLevelTwo()
 		}
 	}
 
-	level->addEntity(new Surface(level, "resources/textures/platform.png", { NUM_TILES_WIDE / 2, NUM_TILES_HIGH - 4 }));
+	// platform
+	for (int i = 0; i < 9; i++) {
+		level->addEntity(new Surface(level, "resources/textures/brick.png", { NUM_TILES_WIDE / 2 + i, NUM_TILES_HIGH - 4 }));
+	}
+
+	// coins
+	for (int i = 0; i < 5; i+=2) {
+		level->addEntity(new Pickup(level, "coin", { NUM_TILES_WIDE / 2 + 2 + i, NUM_TILES_HIGH - 2 }, false));
+	}
+
+	for (int i = 0; i < 5; i += 2) {
+		level->addEntity(new Pickup(level, "coin", { NUM_TILES_WIDE - 5, NUM_TILES_HIGH - 4 - i }, false));
+
+	}
 
 	for (int i = 0; i < 14; i++) {
 		level->addEntity(new Surface(level, "resources/textures/grass_1.png", { 18 + i, NUM_TILES_HIGH - 2 }, false));
@@ -177,6 +193,8 @@ void initLevelTwo()
 		blueSwitchBlocks.push_back(new Surface(level, "resources/textures/trans_block_blue.png", { NUM_TILES_WIDE - 7 + i, NUM_TILES_HIGH - 1 }, false));
 	}
 	level->addEntity(new Switch(level, blueSwitchBlocks, { NUM_TILES_WIDE / 2 + 11, NUM_TILES_HIGH - 10 }));
+
+
 
 	// create array of blocks to attach to switch object
 	std::vector<Surface*> redSwitchBlocks;
@@ -235,6 +253,7 @@ bool init()
 				}
 				else {
 					screenSurface = SDL_GetWindowSurface(window);
+					TTF_Init();
 				}
 			}
 		}
@@ -252,6 +271,7 @@ void close()
 	renderer = nullptr;
 	window = nullptr;
 
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
@@ -277,9 +297,9 @@ void renderCollider(Entity* ent)
 
 void renderCameraBox() 
 {
-	SDL_Rect* wtf = currentScene->getCamera();
-	SDL_Rect* correctedBox = new SDL_Rect{ wtf->x - currentScene->getCamera()->x, wtf->y - currentScene->getCamera()->y, wtf->w, wtf->h };
 	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF);
+	SDL_Rect* box = currentScene->getCamera();
+	SDL_Rect* correctedBox = new SDL_Rect{ box->x - currentScene->getCamera()->x, box->y - currentScene->getCamera()->y, box->w, box->h };
 	SDL_RenderDrawRect(renderer, correctedBox);
 }
 
@@ -307,7 +327,7 @@ int main( int argc, char* args[] )
 			frameTimer.start();
 			deltaTimer.start();
 
-
+			HUD* hud = new HUD(renderer);
 			while (!quit) {
 				while (SDL_PollEvent(&e) != 0) {
 					if (e.type == SDL_QUIT) {
@@ -355,6 +375,9 @@ int main( int argc, char* args[] )
 						renderCollider(ent);
 					}
 				}
+
+				hud->updateAndDraw(fps);
+
 				if (debug && currentScene->getCamera() != nullptr) {
 					renderCameraBox();
 				}

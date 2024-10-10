@@ -140,7 +140,6 @@ void Player::move(float deltaTime)
 		velocity.y = 0;
 	}
 
-
 	position.x = static_cast<int>(round((actualPosition.x)));
 	position.y = static_cast<int>(round((actualPosition.y)));
 	collider->getBox()->x = position.x;
@@ -179,4 +178,9 @@ void Player::setPowerLevel(int p)
 			//scene->respawnPlayer();
 			break;
 	}
+}
+
+void Player::incrementCoinCount()
+{
+	coinCount++;
 }

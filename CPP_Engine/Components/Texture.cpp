@@ -1,6 +1,7 @@
 #pragma once
 #include "Texture.h"
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 
 Texture::Texture()
 {
@@ -32,6 +33,14 @@ Texture::Texture(SDL_Renderer* r, string path, int w, int h)
 	width = w;
 	height = h;
 	texture = loadFromFile(path);
+}
+
+Texture::Texture(SDL_Renderer* r, string text, TTF_Font* font, SDL_Color color, int w, int h)
+{
+	renderer = r;
+	width = w;
+	height = h;
+	texture = loadFromRenderedText(text, font, color);
 }
 
 Texture::~Texture()
@@ -66,6 +75,34 @@ SDL_Texture* Texture::loadFromFile(string path)
 		}
 		SDL_FreeSurface(surface);
 	}
+	return newTexture;
+}
+
+SDL_Texture* Texture::loadFromRenderedText(string text, TTF_Font* font, SDL_Color color)
+{
+	free();
+
+	SDL_Texture* newTexture = nullptr;
+
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
+	if (textSurface == nullptr) {
+		printf("unable to render text %s\n", TTF_GetError());
+	}
+	else {
+		newTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+		if (newTexture == nullptr) {
+			printf("unable to create text texture");
+		}
+		else {
+			if (width == 0 && height == 0) {
+				width = textSurface->w;
+				height = textSurface->h;
+			}
+		}
+
+		SDL_FreeSurface(textSurface);
+	}
+
 	return newTexture;
 }
 

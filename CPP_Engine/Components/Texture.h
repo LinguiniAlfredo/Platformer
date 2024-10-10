@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <SDL.h>
+#include <SDL_ttf.h>
 
 using namespace std;
 
@@ -11,6 +12,7 @@ public:
 	Texture(SDL_Renderer* renderer);
 	Texture(SDL_Renderer* renderer, string path);
 	Texture(SDL_Renderer* renderer, string path, int width, int height);
+	Texture(SDL_Renderer* r, string text, TTF_Font* font, SDL_Color color, int w, int h);
 	~Texture();
 
 	void free();
@@ -24,8 +26,9 @@ public:
 private:
 	SDL_Texture* texture;
 	SDL_Renderer* renderer;
-	SDL_Texture* loadFromFile(string path);
 
+	SDL_Texture* loadFromFile(string path);
+	SDL_Texture*  loadFromRenderedText(string text, TTF_Font* font, SDL_Color color);
 	int width;
 	int height;
 

@@ -127,8 +127,7 @@ void Entity::setScene(Scene* scene)
 void Entity::setTexture(std::string path)
 {
 	if (texture != nullptr) {
-		delete texture;
-		texture = nullptr;
+		texture->free();
 	}
 	texture = new Texture(scene->getRenderer(), path);
 }

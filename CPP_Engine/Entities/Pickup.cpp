@@ -105,6 +105,9 @@ void Pickup::checkCollisions(float deltaTime)
 			if (type == "skull") {
 				player->setPowerLevel(-1);
 			}
+			if (type == "coin") {
+				player->incrementCoinCount();
+			}
 		}
 		else {
 			colliding = false;
