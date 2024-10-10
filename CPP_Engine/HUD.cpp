@@ -5,8 +5,8 @@
 HUD::HUD(SDL_Renderer* renderer)
 {
 	this->renderer = renderer;
-	this->font = TTF_OpenFont("resources/fonts/nintendo-nes-font.ttf", 7);
-	this->fps = new Texture(renderer, "0 FPS", font, color, 0,0);
+	this->font = TTF_OpenFont("resources/fonts/nintendo-nes-font.ttf", 28);
+	this->fps = new Texture(renderer, "0 FPS", font, color, 15,5);
 }
 
 HUD::~HUD()
@@ -21,7 +21,7 @@ HUD::~HUD()
 void HUD::updateAndDraw(float fps)
 {
 	updateFPS(fps);
-	this->fps->render(0, 0);
+	this->fps->render(1, 1);
 	//updateCoins()
 	//updateLife()
 	//this->coins->render
@@ -33,5 +33,5 @@ void HUD::updateFPS(float value)
 	if (fps != nullptr) {
 		fps->free();
 	}
-	fps = new Texture(renderer, std::to_string((int)round(value)) + " FPS", font, color, 0,0);
+	fps = new Texture(renderer, std::to_string((int)round(value)) + " FPS", font, color, 15,5);
 }

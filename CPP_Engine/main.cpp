@@ -167,15 +167,15 @@ void initLevelTwo()
 		level->addEntity(new Surface(level, "resources/textures/brick.png", { NUM_TILES_WIDE / 2 + i, NUM_TILES_HIGH - 4 }));
 	}
 
-	// coins
-	for (int i = 0; i < 5; i+=2) {
-		level->addEntity(new Pickup(level, "coin", { NUM_TILES_WIDE / 2 + 2 + i, NUM_TILES_HIGH - 2 }, false));
-	}
+	//// coins
+	//for (int i = 0; i < 5; i+=2) {
+	//	level->addEntity(new Pickup(level, "coin", { NUM_TILES_WIDE / 2 + 2 + i, NUM_TILES_HIGH - 2 }, false));
+	//}
 
-	for (int i = 0; i < 5; i += 2) {
-		level->addEntity(new Pickup(level, "coin", { NUM_TILES_WIDE - 5, NUM_TILES_HIGH - 4 - i }, false));
+	//for (int i = 0; i < 5; i += 2) {
+	//	level->addEntity(new Pickup(level, "coin", { NUM_TILES_WIDE - 5, NUM_TILES_HIGH - 4 - i }, false));
 
-	}
+	//}
 
 	for (int i = 0; i < 14; i++) {
 		level->addEntity(new Surface(level, "resources/textures/grass_1.png", { 18 + i, NUM_TILES_HIGH - 2 }, false));
@@ -389,7 +389,7 @@ int main( int argc, char* args[] )
 				totalTime = frameTimer.getTicks() / 1000.f;
 				deltaTime = deltaTimer.getTicks() / 1000.f;
 				fps = countedFrames / totalTime;
-				printf("%.3g FPS\n", fps); // TODO - display frames on screen
+				//printf("%.3g FPS\n", fps);
 				countedFrames++;
 				deltaTimer.start();
 			}

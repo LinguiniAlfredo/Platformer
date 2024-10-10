@@ -26,8 +26,8 @@ public:
 private:
 	Vec2f actualPosition = { static_cast<float>(position.x), static_cast<float>(position.y) };
 
-	const float runAccel = 0.0625; // 1/16th of a pixel accel
-	int maxSpeed = 1;
+	const float runAccel = 0.03125; // 1/32 of a pixel
+	float maxSpeed = 1.0;
 	int groundSpeed = 63;
 	int jumpForce	 = 250;
 

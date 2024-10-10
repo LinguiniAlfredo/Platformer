@@ -29,8 +29,8 @@ void Player::handleEvent(SDL_Event& e)
 			velocity.y = -1.0f * jumpForce;
 			currentState = AIRBORNE;
 		}
-		if (key == SDLK_LSHIFT && velocity.x != 0) {
-			maxSpeed = 2;
+		if (key == SDLK_LSHIFT) {
+			maxSpeed = 1.7;
 			running = true;
 		}
 
