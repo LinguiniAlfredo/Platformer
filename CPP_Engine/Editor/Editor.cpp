@@ -14,7 +14,7 @@ Editor::Editor(SDL_Renderer* renderer, Scene* scene)
 	this->mouse = new Mouse();
 	this->pallete = nullptr;
 	this->mousePosTexture = new Texture(renderer, "0, 0", font, fontColor, 15, 5);
-	this->initialCamPosition = { scene->getCamera()->x, scene->getCamera()->y };
+	this->initialCamPosition = { scene->getCamera()->x / 8, scene->getCamera()->y / 8 };
 	this->camMoveDir = 0;
 }
 
@@ -28,12 +28,12 @@ Editor::~Editor()
 		pallete = nullptr;
 	}
 	if (mousePosTexture != nullptr) {
-		delete mousePosTexture;
+		mousePosTexture->free();
 		mousePosTexture = nullptr;
 	}
-
 	scene->getCamera()->x = initialCamPosition.x;
 	scene->getCamera()->y = initialCamPosition.y;
+
 }
 
 void Editor::update() 
