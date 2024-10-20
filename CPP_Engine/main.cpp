@@ -16,8 +16,8 @@
 #include "Entities/Lift.h"
 #include "Components/Collision.h"
 #include "Components/Texture.h"
-#include "HUD.h"
 #include "Editor/Editor.h"
+#include "HUD.h"
 
 /*
 	TODO:
@@ -91,6 +91,9 @@ Editor* editor = nullptr;
 
 bool changeScene(int scene)
 {
+	if (editing) {
+		toggleEditor();
+	}
 	if (currentScene != nullptr) {
 		delete currentScene;
 		currentScene = nullptr;
@@ -294,7 +297,7 @@ void toggleEditor()
 {
 	editing = !editing;
 	if (editing) {
-		editor = new Editor(renderer);
+		editor = new Editor(renderer, currentScene);
 	}
 	else {
 		delete editor;

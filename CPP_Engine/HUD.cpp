@@ -1,6 +1,7 @@
 #include "HUD.h"
 #include <string>
 #include "Components/Texture.h"
+#include "Utils/Vec2.h"
 
 HUD::HUD(SDL_Renderer* renderer)
 {

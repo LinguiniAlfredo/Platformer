@@ -20,10 +20,10 @@ void Player::handleEvent(SDL_Event& e)
 	if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
 		SDL_Keycode key = e.key.keysym.sym;
 		if (key == SDLK_a) {
-			velocity.x = -runAccel;
+			velocity.x = -1; //-runAccel;
 		}
 		if (key == SDLK_d) {
-			velocity.x = runAccel;
+			velocity.x = 1; //runAccel;
 		}
 		if (key == SDLK_SPACE && currentState == GROUNDED) {
 			velocity.y = -1.0f * jumpForce;
@@ -119,7 +119,7 @@ void Player::move(float deltaTime)
 
 	if (!colliding) {
 		actualPosition.x += velocity.x;
-		if (abs(velocity.x) < maxSpeed) {
+		/*if (abs(velocity.x) < maxSpeed) {
 			if (velocity.x > 0)
 				velocity.x += runAccel;
 			else if (velocity.x < 0)
@@ -130,7 +130,7 @@ void Player::move(float deltaTime)
 				velocity.x -= runAccel;
 			else if (velocity.x < 0)	 
 				velocity.x += runAccel;
-		}
+		}*/
 	}
 
 	if (currentState != GROUNDED) {

@@ -1,11 +1,15 @@
 #include <SDL.h>
+#include <SDL_ttf.h>
+#include "Utils/Vec2.h"
+class Scene;
 class Pallete;
+class Texture;
 class Mouse;
 
 class Editor
 {
 public:
-	Editor(SDL_Renderer* renderer);
+	Editor(SDL_Renderer* renderer, Scene* scene);
 	~Editor();
 
 	void update();
@@ -17,11 +21,21 @@ public:
 	Mouse* getMouse();
 
 private:
+	Scene* scene;
 	SDL_Renderer* renderer;
 	Pallete* pallete;
+	TTF_Font* font;
 	Mouse* mouse;
+	Texture* mousePosTexture;
+	SDL_Color fontColor = { 255,255,255,255 };
 
 	bool palleteOpen = false;
+	Vec2 initialCamPosition;
+	int camMoveDir; 
 
 	void highlightHoveredTiles();
+	void renderMousePos();
+	void updatePosTexture(Vec2 position);
+	void moveCamera(int dir);
+
 };

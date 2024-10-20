@@ -2,6 +2,8 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <string>
+
+class Vec2;
 class Player;
 class Texture;
 
