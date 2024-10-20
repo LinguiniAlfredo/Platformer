@@ -21,7 +21,7 @@
 
 /*
 	TODO:
-		- Text rendering, HUD 
+		- Cleanup main function (refactor event polling & rendering)
 		- Animation system
 		- Tilemap implementation
 		- Editor
@@ -293,15 +293,13 @@ void toggleDebug()
 void toggleEditor() 
 {
 	editing = !editing;
-	if (editing == false) {
+	if (editing) {
+		editor = new Editor(renderer);
+	}
+	else {
 		delete editor;
 		editor = nullptr;
 	}
-}
-
-void initEditor()
-{
-	editor = new Editor(renderer);
 }
 
 void renderCollider(Entity* ent)
@@ -324,6 +322,8 @@ void renderCameraBox()
 	SDL_Rect* box = currentScene->getCamera();
 	SDL_Rect* correctedBox = new SDL_Rect{ box->x - currentScene->getCamera()->x, box->y - currentScene->getCamera()->y, box->w, box->h };
 	SDL_RenderDrawRect(renderer, correctedBox);
+	delete correctedBox;
+	correctedBox = nullptr;
 }
 
 int main( int argc, char* args[] )
@@ -387,8 +387,8 @@ int main( int argc, char* args[] )
 					for (Entity* ent : currentScene->getEntities()) {
 						ent->handleEvent(e);
 					}
-					if (editing && editor != nullptr) {
-						editor->getMouse()->handleEvent(e);
+					if (editing) {
+						editor->handleEvents(e);
 					}
 				}
 
@@ -417,9 +417,6 @@ int main( int argc, char* args[] )
 					}
 				}
 				else {
-					if (editor == nullptr) {
-						initEditor();
-					}
 					editor->update();
 				}
 				

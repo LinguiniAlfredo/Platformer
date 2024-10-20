@@ -24,6 +24,7 @@
     <ClCompile Include="Components\Texture.cpp" />
     <ClCompile Include="Editor\Editor.cpp" />
     <ClCompile Include="Editor\Mouse.cpp" />
+    <ClCompile Include="Editor\Pallete.cpp" />
     <ClCompile Include="Entities\Box.cpp" />
     <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="Entities\Lift.cpp" />
@@ -78,6 +79,7 @@
     <ClInclude Include="Components\Texture.h" />
     <ClInclude Include="Editor\Editor.h" />
     <ClInclude Include="Editor\Mouse.h" />
+    <ClInclude Include="Editor\Pallete.h" />
     <ClInclude Include="Entities\Box.h" />
     <ClInclude Include="Entities\Entity.h" />
     <ClInclude Include="Entities\Lift.h" />

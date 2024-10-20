@@ -102,6 +102,9 @@
     <ClCompile Include="Editor\Editor.cpp">
       <Filter>Source Files\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="Editor\Pallete.cpp">
+      <Filter>Source Files\Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\textures\bird.png">
@@ -251,6 +254,9 @@
       <Filter>Header Files\Editor</Filter>
     </ClInclude>
     <ClInclude Include="Editor\Editor.h">
+      <Filter>Header Files\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Pallete.h">
       <Filter>Header Files\Editor</Filter>
     </ClInclude>
   </ItemGroup>

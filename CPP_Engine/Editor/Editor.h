@@ -1,5 +1,6 @@
-#include "Mouse.h"
 #include <SDL.h>
+class Pallete;
+class Mouse;
 
 class Editor
 {
@@ -8,12 +9,19 @@ public:
 	~Editor();
 
 	void update();
-	void pollEvents(SDL_Event e);
+	void handleEvents(SDL_Event& e);
+	void togglePallete();
+
+	SDL_Renderer* getRenderer();
+	Pallete* getPallete();
 	Mouse* getMouse();
 
 private:
 	SDL_Renderer* renderer;
+	Pallete* pallete;
 	Mouse* mouse;
+
+	bool palleteOpen = false;
 
 	void highlightHoveredTiles();
 };
