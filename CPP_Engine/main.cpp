@@ -17,6 +17,7 @@
 #include "Components/Collision.h"
 #include "Components/Texture.h"
 #include "HUD.h"
+#include "Editor/Editor.h"
 
 /*
 	TODO:
@@ -40,6 +41,8 @@ const int NUM_TILES_WIDE = INTERNAL_SCREEN_WIDTH / 8;
 const int NUM_TILES_HIGH = INTERNAL_SCREEN_HEIGHT / 8;
 
 bool debug = false;
+bool editing = false;
+
 
 enum scene {
 	MAIN_MENU,
@@ -49,7 +52,6 @@ enum scene {
 	GAME_OVER,
 	TOTAL
 };
-Scene* currentScene;
 
 enum entityType {
 	PLAYER,
@@ -58,14 +60,20 @@ enum entityType {
 	BOX
 };
 
+
 bool init();
 
+bool changeScene(int scene);
 void initMainMenu();
 void initLevelOne();
 void initLevelTwo();
 void initLevelThree();
 
-bool changeScene(int scene);
+void toggleDebug();
+void toggleEditor();
+
+void renderCollider(Entity* ent);
+void renderCameraBox();
 
 void close();
 
@@ -76,6 +84,9 @@ SDL_Surface* screenSurface = nullptr;
 
 SDL_Renderer* renderer = nullptr;
 
+Scene* currentScene = nullptr;
+
+Editor* editor = nullptr;
 
 
 bool changeScene(int scene)
@@ -140,9 +151,10 @@ void initLevelTwo()
 {
 	SDL_Rect* camera = new SDL_Rect{ 0,0, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT };
 	Scene* level = new Scene(renderer, camera);
+	level->addEntity(new Surface(level, "resources/textures/sign.png", { 4, NUM_TILES_HIGH - 2 }, false));
 
 	level->addEntity(new Player(level, "resources/textures/guy.png", { 7, NUM_TILES_HIGH - 4 }));
-
+	
 	// add floor across bottom
 	for (int i = 0; i < NUM_TILES_WIDE * 2; i++) {
 		if (i > NUM_TILES_WIDE - 8 && i < NUM_TILES_WIDE - 2) {
@@ -153,12 +165,12 @@ void initLevelTwo()
 
 	// add steps up to platform
 	for (int i = 14; i < 17; i++) {
-		level->addEntity(new Surface(level, "resources/textures/ground_tile.png", { i, NUM_TILES_HIGH - 2 }));
+		level->addEntity(new Surface(level, "resources/textures/brick.png", { i, NUM_TILES_HIGH - 2 }));
 		if (i != 14) {
-			level->addEntity(new Surface(level, "resources/textures/ground_tile.png", { i, NUM_TILES_HIGH - 3 }));
+			level->addEntity(new Surface(level, "resources/textures/brick.png", { i, NUM_TILES_HIGH - 3 }));
 		}
 		if (i == 16) {
-			level->addEntity(new Surface(level, "resources/textures/ground_tile.png", { i, NUM_TILES_HIGH - 4 }));
+			level->addEntity(new Surface(level, "resources/textures/brick.png", { i, NUM_TILES_HIGH - 4 }));
 		}
 	}
 
@@ -182,9 +194,6 @@ void initLevelTwo()
 	}
 
 	level->addEntity(new Box(level, new Pickup(level, "flower", false), { 10, NUM_TILES_HIGH - 4 }));
-
-	level->addEntity(new Surface(level, "resources/textures/sign.png", { 4, NUM_TILES_HIGH - 2 }, false));
-
 
 	// TODO - Find better API for switches/blocks
 	// create array of blocks to attach to switch object
@@ -281,6 +290,20 @@ void toggleDebug()
 	debug = !debug;
 }
 
+void toggleEditor() 
+{
+	editing = !editing;
+	if (editing == false) {
+		delete editor;
+		editor = nullptr;
+	}
+}
+
+void initEditor()
+{
+	editor = new Editor(renderer);
+}
+
 void renderCollider(Entity* ent)
 {
 	if (ent->isColliding()) {
@@ -349,6 +372,9 @@ int main( int argc, char* args[] )
 								changeScene(LEVEL_3);
 								break;
 							case SDLK_BACKQUOTE:
+								toggleEditor();
+								break;
+							case SDLK_F9:
 								toggleDebug();
 								break;
 							case SDLK_ESCAPE:
@@ -358,16 +384,23 @@ int main( int argc, char* args[] )
 								break;
 						}
 					}
-					for (Entity* ent: currentScene->getEntities()) {
+					for (Entity* ent : currentScene->getEntities()) {
 						ent->handleEvent(e);
+					}
+					if (editing && editor != nullptr) {
+						editor->getMouse()->handleEvent(e);
 					}
 				}
 
 				SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
 				SDL_RenderClear(renderer);
 
+				// render map (background, tileset)
+
 				for (Entity* ent: currentScene->getEntities()) {
-					ent->update(deltaTime);
+					if (!editing) {
+						ent->update(deltaTime);
+					}
 					if (ent->inView())
 						ent->draw();
 
@@ -376,10 +409,18 @@ int main( int argc, char* args[] )
 					}
 				}
 
-				hud->updateAndDraw(fps);
+				if (!editing) {
+					hud->updateAndDraw(fps);
 
-				if (debug && currentScene->getCamera() != nullptr) {
-					renderCameraBox();
+					if (debug && currentScene->getCamera() != nullptr) {
+						renderCameraBox();
+					}
+				}
+				else {
+					if (editor == nullptr) {
+						initEditor();
+					}
+					editor->update();
 				}
 				
 				currentScene->clearTrash();
@@ -389,7 +430,6 @@ int main( int argc, char* args[] )
 				totalTime = frameTimer.getTicks() / 1000.f;
 				deltaTime = deltaTimer.getTicks() / 1000.f;
 				fps = countedFrames / totalTime;
-				//printf("%.3g FPS\n", fps);
 				countedFrames++;
 				deltaTimer.start();
 			}

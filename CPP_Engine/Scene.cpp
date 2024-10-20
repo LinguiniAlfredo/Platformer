@@ -98,7 +98,7 @@ Entity* Scene::getPlayer()
 	//		return ent->name == "player";
 	//	});
 	//int index = std::distance(entities.begin(), it);
-	return entities.at(0);
+	return entities.at(1);
 }
 
 SDL_Rect* Scene::getCamera()

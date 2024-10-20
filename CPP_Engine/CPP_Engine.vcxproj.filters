@@ -37,6 +37,12 @@
     <Filter Include="Resource Files\Fonts">
       <UniqueIdentifier>{51717228-13fd-4659-9cfe-c51cd890182f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Editor">
+      <UniqueIdentifier>{47a5a8fa-95a9-48f4-9038-89deb49609d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Editor">
+      <UniqueIdentifier>{3f237f3f-3c8c-45b8-89a8-04761d817973}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scene.cpp">
@@ -90,21 +96,18 @@
     <ClCompile Include="HUD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Editor\Mouse.cpp">
+      <Filter>Source Files\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Editor.cpp">
+      <Filter>Source Files\Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resources\textures\clouds.png">
-      <Filter>Resource Files\Textures</Filter>
-    </Image>
     <Image Include="resources\textures\bird.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
-    <Image Include="resources\textures\floor.png">
-      <Filter>Resource Files\Textures</Filter>
-    </Image>
     <Image Include="resources\textures\guy.png">
-      <Filter>Resource Files\Textures</Filter>
-    </Image>
-    <Image Include="resources\textures\platform.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="resources\textures\ground_tile.png">
@@ -176,9 +179,6 @@
     <Image Include="Resources\Textures\key.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
-    <Image Include="Resources\Textures\lift.png">
-      <Filter>Resource Files\Textures</Filter>
-    </Image>
     <Image Include="Resources\Textures\collision_red.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
@@ -192,6 +192,9 @@
       <Filter>Resource Files\Textures</Filter>
     </Image>
     <Image Include="Resources\Textures\coin.png">
+      <Filter>Resource Files\Textures</Filter>
+    </Image>
+    <Image Include="Resources\Textures\background.png">
       <Filter>Resource Files\Textures</Filter>
     </Image>
   </ItemGroup>
@@ -243,6 +246,12 @@
     </ClInclude>
     <ClInclude Include="HUD.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Mouse.h">
+      <Filter>Header Files\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Editor.h">
+      <Filter>Header Files\Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
