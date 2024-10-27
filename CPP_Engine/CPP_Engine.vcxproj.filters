@@ -43,6 +43,9 @@
     <Filter Include="Source Files\Editor">
       <UniqueIdentifier>{3f237f3f-3c8c-45b8-89a8-04761d817973}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Editor\Maps">
+      <UniqueIdentifier>{6d5c17fe-3eab-4e8d-af5a-f16c8f8af2c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scene.cpp">
@@ -103,6 +106,9 @@
       <Filter>Source Files\Editor</Filter>
     </ClCompile>
     <ClCompile Include="Editor\Pallete.cpp">
+      <Filter>Source Files\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Map.cpp">
       <Filter>Source Files\Editor</Filter>
     </ClCompile>
   </ItemGroup>
@@ -259,10 +265,18 @@
     <ClInclude Include="Editor\Pallete.h">
       <Filter>Header Files\Editor</Filter>
     </ClInclude>
+    <ClInclude Include="Editor\Map.h">
+      <Filter>Header Files\Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\nintendo-nes-font.ttf">
       <Filter>Resource Files\Fonts</Filter>
     </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Editor\Maps\level1.txt">
+      <Filter>Header Files\Editor\Maps</Filter>
+    </Text>
   </ItemGroup>
 </Project>

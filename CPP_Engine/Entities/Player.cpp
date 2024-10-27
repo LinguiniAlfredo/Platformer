@@ -78,7 +78,7 @@ void Player::checkCollisions(float deltaTime)
 	collider->getBox()->y += static_cast<int>(round(velocity.y * deltaTime));
 
 	if (currentState != GROUNDED) {
-		static_cast<int>(round(velocity.y += physics->getGravity()));
+		velocity.y += physics->getGravity();
 	}
 
 	for (Entity* ent : scene->getEntities()) {

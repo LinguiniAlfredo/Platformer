@@ -5,6 +5,7 @@
 #include "Components/Texture.h"
 #include "Utils/Vec2.h"
 #include "Scene.h"
+#include "Map.h"
 
 Editor::Editor(SDL_Renderer* renderer, Scene* scene)
 {
@@ -38,12 +39,20 @@ Editor::~Editor()
 
 void Editor::update() 
 {
-	renderMousePos();
-
+	mouse->update();
 	if (palleteOpen) {
 		pallete->update();
 	}
 
+	if (mouse->leftClickDown()) {
+		writeTileToFile(mouse->getTilePosition());
+	}
+	if (mouse->rightClickDown()) {
+		
+	}
+
+
+	renderMousePos();
 	highlightHoveredTiles();
 
 	moveCamera(camMoveDir);
@@ -56,12 +65,12 @@ void Editor::handleEvents(SDL_Event& e)
 			case SDLK_TAB:
 				togglePallete();
 				break;
-			case SDLK_a:
+			/*case SDLK_a:
 				camMoveDir = -1;
 				break;
 			case SDLK_d:
 				camMoveDir = 1;
-				break;
+				break;*/
 			default:
 				break;
 		}
@@ -149,4 +158,10 @@ void Editor::moveCamera(int dir)
 	else if (camera->x > 320) {
 		camera->x = 320;
 	}
+}
+
+void Editor::writeTileToFile(Vec2 tile)
+{
+	//Uint32* mapData = scene->getMap()->getData()
+	
 }

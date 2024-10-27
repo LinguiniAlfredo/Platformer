@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include "Entities/Entity.h"
+#include "Editor/Map.h"
 #include <algorithm>
 #include <iostream>
 
@@ -8,18 +9,28 @@ Scene::Scene()
 {
 	renderer = nullptr;
 	camera = nullptr;
+	map = nullptr;
 }
 
 Scene::Scene(SDL_Renderer* r) 
 {
 	renderer = r;
 	camera = nullptr;
+	map = nullptr;
 }
 
 Scene::Scene(SDL_Renderer* r, SDL_Rect* c)
 {
 	renderer = r;
 	camera = c;
+	map = nullptr;
+}
+
+Scene::Scene(SDL_Renderer* r, SDL_Rect* c, Map* m)
+{
+	renderer = r;
+	camera = c;
+	map = m;
 }
 
 Scene::Scene(Scene& src)
@@ -32,7 +43,6 @@ Scene::Scene(Scene& src)
 
 Scene::~Scene()
 {
-	//printf("destroying scene\n");
 	for (Entity* ent : entities) {
 		delete ent;
 		ent = nullptr;
@@ -106,3 +116,18 @@ SDL_Rect* Scene::getCamera()
 	return camera;
 }
 
+Map* Scene::getMap()
+{
+	return map;
+}
+
+void Scene::loadMap()
+{
+   // for (int i = 0; i < map.size(); i++) {
+        // if value = 1 
+        //      addEntity(new Player(this, "guy.png", {x,y})
+        // else if value = 2
+        //      addEntity(new Surface(this, "groundtile.png", {x,y})
+        //
+    // }
+}

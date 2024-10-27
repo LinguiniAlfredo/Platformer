@@ -23,6 +23,7 @@
     <ClCompile Include="Components\Physics.cpp" />
     <ClCompile Include="Components\Texture.cpp" />
     <ClCompile Include="Editor\Editor.cpp" />
+    <ClCompile Include="Editor\Map.cpp" />
     <ClCompile Include="Editor\Mouse.cpp" />
     <ClCompile Include="Editor\Pallete.cpp" />
     <ClCompile Include="Entities\Box.cpp" />
@@ -78,6 +79,7 @@
     <ClInclude Include="Components\Physics.h" />
     <ClInclude Include="Components\Texture.h" />
     <ClInclude Include="Editor\Editor.h" />
+    <ClInclude Include="Editor\Map.h" />
     <ClInclude Include="Editor\Mouse.h" />
     <ClInclude Include="Editor\Pallete.h" />
     <ClInclude Include="Entities\Box.h" />
@@ -96,6 +98,9 @@
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\nintendo-nes-font.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Editor\Maps\level1.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

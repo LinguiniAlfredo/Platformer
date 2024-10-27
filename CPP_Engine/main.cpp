@@ -101,7 +101,6 @@ bool changeScene(int scene)
 
 	switch (scene) {
 		case MAIN_MENU:
-			initMainMenu();
 			break;
 
 		case LEVEL_1:
@@ -113,7 +112,6 @@ bool changeScene(int scene)
 			break;
 
 		case LEVEL_3:
-			initLevelThree();
 			break;
 
 		case GAME_OVER:
@@ -137,17 +135,12 @@ void initMainMenu()
 
 void initLevelOne()
 {
-	SDL_Rect* camera = new SDL_Rect{ 0,0, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT };
-	Scene* level = new Scene(renderer, camera);
+	// map = new Map(level1.txt)
+	// camera = new Camera
+	// level = new Scene(renderer, camera, map);
+	// currentScene = level;
 
-	level->addEntity(new Player(level, "resources/textures/guy.png", { 7, NUM_TILES_HIGH - 4 }));
-
-	// add floor across bottom
-	for (int i = 0; i < NUM_TILES_WIDE; i++) {
-		level->addEntity(new Surface(level, "resources/textures/ground_tile.png", { i, NUM_TILES_HIGH - 1 }));
-	}
-
-	currentScene = level;
+    // currentScene.loadMap();
 }
 
 void initLevelTwo()
@@ -160,6 +153,7 @@ void initLevelTwo()
 	
 	// add floor across bottom
 	for (int i = 0; i < NUM_TILES_WIDE * 2; i++) {
+
 		if (i > NUM_TILES_WIDE - 8 && i < NUM_TILES_WIDE - 2) {
 			continue;
 		}
@@ -227,14 +221,6 @@ void initLevelTwo()
 	currentScene = level;
 }
 
-void initLevelThree()
-{
-	Scene* level3 = new Scene();
-
-	
-
-	currentScene = level3;
-}
 
 bool init()
 {
