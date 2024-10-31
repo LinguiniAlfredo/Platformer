@@ -30,7 +30,7 @@ void Player::handleEvent(SDL_Event& e)
 			currentState = AIRBORNE;
 		}
 		if (key == SDLK_LSHIFT) {
-			maxSpeed = 1.7;
+			maxSpeed = 1.7f;
 			running = true;
 		}
 
@@ -103,12 +103,14 @@ void Player::resolveCollision(Entity* ent)
 {
 	// if collision below player and y velocity is positive
 	if (velocity.y > 0 && ent->getPosition().y > actualPosition.y) {
-		actualPosition.y = ent->getPosition().y - scene->getTileSize();
+		actualPosition.y = static_cast<float>(
+                ent->getPosition().y - scene->getTileSize());
 		//currentVelocity.y = 0;
 	}
 	// if collision above player and y velocity is negative
 	if (velocity.y < 0 && ent->getPosition().y < actualPosition.y) {
-		actualPosition.y = ent->getPosition().y + scene->getTileSize();
+		actualPosition.y = static_cast<float>(
+                ent->getPosition().y + scene->getTileSize());
 		velocity.y = 0;
 	}
 }
