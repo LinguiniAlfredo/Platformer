@@ -36,7 +36,7 @@ private:
 	Texture* mousePosTexture;
 	SDL_Color fontColor = { 255,255,255,255 };
 
-	int activeTile = GROUND;
+	int activeBrush = GROUND;
 
 	bool palleteOpen = false;
 	Vec2 initialCamPosition;
@@ -46,6 +46,6 @@ private:
 	void renderMousePos();
 	void updatePosTexture(Vec2 position);
 	void moveCamera(int dir);
-	void writeTileToFile(Vec2 tile);
+	void writeTileToMap(Vec2 tile);
 
 };

@@ -1,10 +1,12 @@
 #include "Map.h"
 #include <iostream>
 #include <fstream>
+#include "Utils/Vec2.h"
 
-Map::Map(std::string file)
+Map::Map(std::string filename)
 {
-	load(file);
+    this->filename = filename;
+	load();
 }
 
 Map::~Map()
@@ -12,10 +14,10 @@ Map::~Map()
 
 }
 
-void Map::load(std::string file)
+void Map::load()
 {
 	std::string line;
-	std::ifstream input(file);
+	std::ifstream input(filename);
 	if (input.is_open()) {
 		for (int y = 0; y < height; y++) {
             int c = getchar();
@@ -32,6 +34,12 @@ void Map::load(std::string file)
 		input.close();
 	}
 }
+
+void Map::writeSingleTile(Vec2 pos)
+{
+
+}
+
 
 Uint32* Map::getData()
 {

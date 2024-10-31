@@ -123,6 +123,8 @@ Map* Scene::getMap()
 
 void Scene::loadMap()
 {
+    // only load non-existant tiles, so editor doest re-load everything
+
    // for (int i = 0; i < map.size(); i++) {
         // if value = 1 
         //      addEntity(new Player(this, "guy.png", {x,y})

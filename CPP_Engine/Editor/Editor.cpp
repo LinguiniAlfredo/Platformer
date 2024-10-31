@@ -45,7 +45,7 @@ void Editor::update()
 	}
 
 	if (mouse->leftClickDown()) {
-		writeTileToFile(mouse->getTilePosition());
+		writeTileToMap(mouse->getTilePosition());
 	}
 	if (mouse->rightClickDown()) {
 		
@@ -65,12 +65,12 @@ void Editor::handleEvents(SDL_Event& e)
 			case SDLK_TAB:
 				togglePallete();
 				break;
-			/*case SDLK_a:
+			case SDLK_a:
 				camMoveDir = -1;
 				break;
 			case SDLK_d:
 				camMoveDir = 1;
-				break;*/
+				break;
 			default:
 				break;
 		}
@@ -125,7 +125,8 @@ Mouse* Editor::getMouse()
 void Editor::highlightHoveredTiles()
 {
 	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_Rect* box = new SDL_Rect{ mouse->getPixelPosition().x, mouse->getPixelPosition().y, 8, 8};
+	SDL_Rect* box = new SDL_Rect{ mouse->getPixelPosition().x, 
+                                  mouse->getPixelPosition().y, 8, 8 };
 	SDL_RenderDrawRect(renderer, box);
 
 	delete box;
@@ -160,8 +161,6 @@ void Editor::moveCamera(int dir)
 	}
 }
 
-void Editor::writeTileToFile(Vec2 tile)
+void Editor::writeTileToMap(Vec2 tile)
 {
-	//Uint32* mapData = scene->getMap()->getData()
-	
 }

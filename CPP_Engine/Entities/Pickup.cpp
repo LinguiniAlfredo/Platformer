@@ -119,8 +119,8 @@ void Pickup::checkCollisions(float deltaTime)
 	}
 
 	if (physics) {
-		collider->getBox()->y += velocity.y * deltaTime;
-		position.y += velocity.y * deltaTime;
+		collider->getBox()->y += static_cast<int>(velocity.y * deltaTime);
+		position.y += static_cast<int>(velocity.y * deltaTime);
 		if (currentState != GROUNDED) {
 			velocity.y += physics->getGravity();
 		}
