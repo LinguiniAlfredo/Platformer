@@ -38,5 +38,7 @@ private:
 	Map* map;
 
 	const int TILESIZE = 8;
+
+    void tileToEntity(int tile, int x, int y);
 };
 

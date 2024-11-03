@@ -45,8 +45,15 @@ void Editor::update()
 	}
 
 	if (mouse->leftClickDown()) {
-		writeTileToMap(mouse->getTilePosition());
-	}
+        if (tileUpdateable) {
+            scene->getMap()->writeSingleTile(mouse->getTilePosition(), activeBrush);
+            scene->loadMap();
+            tileUpdateable = false;
+        }
+	} else {
+        tileUpdateable = true;
+    }
+
 	if (mouse->rightClickDown()) {
 		
 	}
@@ -135,8 +142,12 @@ void Editor::highlightHoveredTiles()
 
 void Editor::renderMousePos()
 {
-	updatePosTexture(mouse->getTilePosition());
-	mousePosTexture->render(1, 1);
+    if (mouse->getTilePosition() != currentTile) {
+        updatePosTexture(mouse->getTilePosition());
+        currentTile = mouse->getTilePosition();
+        tileUpdateable = true;
+    }
+    mousePosTexture->render(1, 1);
 }
 
 void Editor::updatePosTexture(Vec2 position)

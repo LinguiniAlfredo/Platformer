@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <string>
 
+#include "HUD.h"
+#include "Map.h"
 #include "Scene.h"
 #include "Utils/Timer.h"
 #include "Entities/Entity.h"
@@ -17,7 +19,6 @@
 #include "Components/Collision.h"
 #include "Components/Texture.h"
 #include "Editor/Editor.h"
-#include "HUD.h"
 
 /*
 	TODO:
@@ -135,18 +136,25 @@ void initMainMenu()
 
 void initLevelOne()
 {
-	// map = new Map(level1.txt)
-	// camera = new Camera
-	// level = new Scene(renderer, camera, map);
-	// currentScene = level;
-
-    // currentScene.loadMap();
+	Map* map = new Map("editor/maps/level1.txt");
+	SDL_Rect* camera = new SDL_Rect{ 0,0, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT };
+	Scene* level = new Scene(renderer, camera, map);
+	currentScene = level;
 }
+	//	writeTileToMap(mouse->getTilePosition());
+	//	writeTileToMap(mouse->getTilePosition());
+	//	writeTileToMap(mouse->getTilePosition());
+	//	writeTileToMap(mouse->getTilePosition());
+	//	writeTileToMap(mouse->getTilePosition());
+	//	writeTileToMap(mouse->getTilePosition());
+	//	writeTileToMap(mouse->getTilePosition());
+	//	writeTileToMap(mouse->getTilePosition());
+	//	writeTileToMap(mouse->getTilePosition());
 
 void initLevelTwo()
 {
 	SDL_Rect* camera = new SDL_Rect{ 0,0, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT };
-	Scene* level = new Scene(renderer, camera);
+	Scene* level = new Scene(renderer, camera); 
 	level->addEntity(new Surface(level, "resources/textures/sign.png", { 4, NUM_TILES_HIGH - 2 }, false));
 
 	level->addEntity(new Player(level, "resources/textures/guy.png", { 7, NUM_TILES_HIGH - 4 }));
@@ -348,9 +356,6 @@ int main( int argc, char* args[] )
 
 					if (e.type == SDL_KEYDOWN) {
 						switch (e.key.keysym.sym) {
-							case SDLK_0:
-								changeScene(MAIN_MENU);
-								break;
 							case SDLK_1:
 								changeScene(LEVEL_1);
 								break;

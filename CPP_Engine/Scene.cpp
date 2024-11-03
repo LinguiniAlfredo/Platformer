@@ -1,9 +1,11 @@
 #pragma once
-#include "Scene.h"
-#include "Entities/Entity.h"
-#include "Editor/Map.h"
 #include <algorithm>
-#include <iostream>
+#include "stdio.h"
+#include "Scene.h"
+#include "Editor/Map.h"
+#include "Entities/Entity.h"
+#include "Entities/Surface.h"
+#include "Entities/Player.h"
 
 Scene::Scene() 
 {
@@ -31,6 +33,8 @@ Scene::Scene(SDL_Renderer* r, SDL_Rect* c, Map* m)
 	renderer = r;
 	camera = c;
 	map = m;
+
+    loadMap();
 }
 
 Scene::Scene(Scene& src)
@@ -43,6 +47,12 @@ Scene::Scene(Scene& src)
 
 Scene::~Scene()
 {
+    delete map;
+    map = nullptr;
+    
+	delete camera;
+	camera = nullptr;
+
 	for (Entity* ent : entities) {
 		delete ent;
 		ent = nullptr;
@@ -54,9 +64,6 @@ Scene::~Scene()
 		ent = nullptr;
 	}
 	trashBin.clear();
-
-	delete camera;
-	camera = nullptr;
 }
 
 void Scene::addEntity(Entity* ent)
@@ -124,12 +131,29 @@ Map* Scene::getMap()
 void Scene::loadMap()
 {
     // only load non-existant tiles, so editor doest re-load everything
+    
+    std::vector<int> tiles = map->getData();
+    for (int i = 0; i < tiles.size(); i++) {
+           int y = static_cast<int>(i / 40);
+           int x = static_cast<int>(i - (y * 40)); 
 
-   // for (int i = 0; i < map.size(); i++) {
-        // if value = 1 
-        //      addEntity(new Player(this, "guy.png", {x,y})
-        // else if value = 2
-        //      addEntity(new Surface(this, "groundtile.png", {x,y})
-        //
-    // }
+           tileToEntity(tiles.at(i), x, y);
+    }
+}
+
+// maybe move this to Editor, will also have TileType enum available
+void Scene::tileToEntity(int tile, int x, int y)
+{
+    switch(tile) {
+        case 0:
+            break;
+        case 1:
+           addEntity(new Surface(this, "resources/textures/ground_tile.png", { x, y }));
+           break;
+        case 9:
+           addEntity(new Player(this, "resources/textures/guy.png", {x, y}));
+           break;
+        default:
+           break;
+    }
 }

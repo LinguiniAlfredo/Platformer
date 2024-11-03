@@ -13,7 +13,6 @@ public:
     Vec2 getPixelPosition();
     Vec2 getTilePosition();
     
-    int getState();
     bool leftClickDown();
     bool rightClickDown();
 

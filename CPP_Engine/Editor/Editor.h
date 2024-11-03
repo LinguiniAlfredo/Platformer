@@ -7,7 +7,6 @@ class Pallete;
 class Texture;
 class Mouse;
 
-
 enum Tile {
 	BLANK,
 	GROUND
@@ -36,7 +35,9 @@ private:
 	Texture* mousePosTexture;
 	SDL_Color fontColor = { 255,255,255,255 };
 
+    bool tileUpdateable = true;
 	int activeBrush = GROUND;
+    Vec2 currentTile;
 
 	bool palleteOpen = false;
 	Vec2 initialCamPosition;

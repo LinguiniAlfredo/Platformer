@@ -16,32 +16,26 @@ Map::~Map()
 
 void Map::load()
 {
-	std::string line;
-	std::ifstream input(filename);
-	if (input.is_open()) {
-		for (int y = 0; y < height; y++) {
-            int c = getchar();
-            for (int x = 0; c != '\n'; x++) {
-                if (c == ',') {
-                    continue;
-                } else {
-                    //fill data with value
-                }
-            }
-		}
+    std::string tile;
+    std::ifstream file(filename);
 
-
-		input.close();
-	}
+	while (getline(file, tile, ',')) {
+        if (file.eof()) {
+            break;
+        }
+        data.push_back(stoi(tile));
+    }
+    file.close();
 }
 
-void Map::writeSingleTile(Vec2 pos)
+void Map::writeSingleTile(Vec2 pos, int tileType)
 {
-
+    int index = pos.y * 40 + pos.x;
+    data.at(index) = tileType;
 }
 
 
-Uint32* Map::getData()
+std::vector<int> Map::getData()
 {
 	return data;
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL.h>
 #include <string>
+#include <vector>
 class Vec2;
 
 class Map
@@ -10,12 +11,12 @@ public:
 	~Map();
 
 	void load();
-    void writeSingleTile(Vec2 tile);
+    void writeSingleTile(Vec2 pos, int tileType);
 
-	Uint32* getData();
+    std::vector<int> getData();
 
 private:
-	Uint32* data;
+    std::vector<int> data;
     std::string filename;
     const int width = 40;
     const int height = 22;

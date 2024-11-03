@@ -12,6 +12,11 @@ Vec2::Vec2(int x, int y)
 	this->y = y * 8;
 }
 
+bool Vec2::operator!=(const Vec2& rhs) {
+
+    return x != rhs.x || y != rhs.y;
+}
+
 Vec2f::Vec2f()
 {
 	x = 0;
@@ -23,3 +28,4 @@ Vec2f::Vec2f(float x, float y)
 	this->x = x;
 	this->y = y;
 }
+

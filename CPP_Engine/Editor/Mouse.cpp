@@ -19,7 +19,7 @@ void Mouse::handleEvent(SDL_Event& e)
 {
     /*switch (e.type) {
         case SDL_MOUSEMOTION: 
-        case SDL_MOUSEBUTTONDOWN:
+        
                 int x, y;
                 updateAllCS(x, y);
                 break;
@@ -49,10 +49,6 @@ Vec2 Mouse::getPixelPosition()
 Vec2 Mouse::getTilePosition()
 {
     return tilePosition;
-}
-
-int Mouse::getState() {
-    return state;
 }
 
 bool Mouse::leftClickDown()
