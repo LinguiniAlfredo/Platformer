@@ -46,18 +46,27 @@ void Editor::update()
 
 	if (mouse->leftClickDown()) {
         if (tileUpdateable) {
-            scene->getMap()->writeSingleTile(mouse->getTilePosition(), activeBrush);
-            scene->loadMap();
+            
+            std::vector<int> prevData = scene->getMap()->getData();
+            scene->getMap()->addTile(mouse->getTilePosition(), activeBrush);
+            if (prevData != scene->getMap()->getData()) {
+                scene->loadMap();
+            }
             tileUpdateable = false;
         }
-	} else {
+    } else if (mouse->rightClickDown()) {
+        if (tileUpdateable) {
+            
+            std::vector<int> prevData = scene->getMap()->getData();
+            scene->getMap()->removeTile(mouse->getTilePosition());
+            if (prevData != scene->getMap()->getData()) {
+                scene->loadMap();
+            }
+            tileUpdateable = false;
+        }
+    } else {
         tileUpdateable = true;
     }
-
-	if (mouse->rightClickDown()) {
-		
-	}
-
 
 	renderMousePos();
 	highlightHoveredTiles();

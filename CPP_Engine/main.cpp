@@ -294,6 +294,8 @@ void toggleEditor()
 		editor = new Editor(renderer, currentScene);
 	}
 	else {
+        currentScene->getMap()->writeTileMapFile();
+
 		delete editor;
 		editor = nullptr;
 	}
@@ -388,8 +390,6 @@ int main( int argc, char* args[] )
 
 				SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
 				SDL_RenderClear(renderer);
-
-				// render map (background, tileset)
 
 				for (Entity* ent: currentScene->getEntities()) {
 					if (!editing) {

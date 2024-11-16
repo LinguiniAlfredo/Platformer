@@ -18,6 +18,7 @@ public:
 	void addEntity(Entity* ent);
 	void removeEntity(Entity* ent);
 	void binIt(Entity* ent);
+    void clearEntities();
 	void clearTrash();
 
 	std::vector<Entity*> getEntities();

@@ -83,6 +83,13 @@ void Scene::binIt(Entity* ent)
 	trashBin.push_back(ent);
 }
 
+void Scene::clearEntities()
+{
+    for (Entity* ent : entities) {
+        removeEntity(ent);
+    }
+}
+
 void Scene::clearTrash()
 {
 	for (Entity* ent : trashBin) {
@@ -130,8 +137,7 @@ Map* Scene::getMap()
 
 void Scene::loadMap()
 {
-    // only load non-existant tiles, so editor doest re-load everything
-    
+    //clearEntities();
     std::vector<int> tiles = map->getData();
     for (int i = 0; i < tiles.size(); i++) {
            int y = static_cast<int>(i / 40);
@@ -151,9 +157,10 @@ void Scene::tileToEntity(int tile, int x, int y)
            addEntity(new Surface(this, "resources/textures/ground_tile.png", { x, y }));
            break;
         case 9:
-           addEntity(new Player(this, "resources/textures/guy.png", {x, y}));
+           addEntity(new Player(this, "resources/textures/guy.png", { x, y }));
            break;
         default:
            break;
     }
 }
+

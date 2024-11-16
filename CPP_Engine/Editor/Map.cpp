@@ -14,6 +14,11 @@ Map::~Map()
 
 }
 
+std::vector<int> Map::getData()
+{
+	return data;
+}
+
 void Map::load()
 {
     std::string tile;
@@ -28,14 +33,27 @@ void Map::load()
     file.close();
 }
 
-void Map::writeSingleTile(Vec2 pos, int tileType)
+void Map::addTile(Vec2 pos, int tileType)
 {
     int index = pos.y * 40 + pos.x;
-    data.at(index) = tileType;
+    if (data.at(index) != tileType) {
+        data.at(index) = tileType;
+    }
 }
 
-
-std::vector<int> Map::getData()
+void Map::removeTile(Vec2 pos)
 {
-	return data;
+    int index = pos.y * 40 + pos.x;
+    printf("%d", data.at(index));
+    if (data.at(index) != 0) {
+        data.at(index) = 0;
+    }
+    printf("%d", data.at(index));
 }
+
+void Map::writeTileMapFile()
+{
+   // call after exiting editor mode 
+}
+
+
