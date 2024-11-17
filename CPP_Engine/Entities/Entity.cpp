@@ -38,7 +38,7 @@ Entity::Entity(Scene* scene, std::string textureFile, Vec2 position, bool solid)
 
 Entity::~Entity()
 {
-	//printf("destroying entity\n");
+//	printf("destroying entity\n");
 	if (texture != nullptr) {
 		delete texture;
 		texture = nullptr;

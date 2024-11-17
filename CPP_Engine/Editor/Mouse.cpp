@@ -17,15 +17,6 @@ void Mouse::update()
 
 void Mouse::handleEvent(SDL_Event& e)
 {
-    /*switch (e.type) {
-        case SDL_MOUSEMOTION: 
-        
-                int x, y;
-                updateAllCS(x, y);
-                break;
-        default:
-            break;
-    }*/
 }
 
 void Mouse::updateAllCS(int x, int y)

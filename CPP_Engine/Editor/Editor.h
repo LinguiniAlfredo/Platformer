@@ -50,6 +50,8 @@ private:
 	SDL_Color fontColor = { 255,255,255,255 };
 
     bool tileUpdateable = true;
+    bool brushUpdateable = true;
+
     Vec2 currentTile;
 
 	bool palleteOpen = false;
@@ -64,4 +66,6 @@ private:
 
     bool mapChanged(int action);
     bool insidePallete();
+
+    int getSelectedBrush();
 };

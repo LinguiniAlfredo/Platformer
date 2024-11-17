@@ -48,8 +48,10 @@ void Editor::update()
         if (palleteOpen && insidePallete()) {
 
             // select a tile brush
-
-            
+            if (brushUpdateable) {
+                activeBrush = getSelectedBrush();
+                brushUpdateable = false;
+            }
 
         } else {
             if (tileUpdateable) {
@@ -72,12 +74,14 @@ void Editor::update()
                     scene->loadMap(mouse->getTilePosition());
                 }
                 tileUpdateable = false;
+                brushUpdateable = false;
             }
             highlightHoveredTiles(2);
         }
 
     } else {
         tileUpdateable = true;
+        brushUpdateable = true;
         highlightHoveredTiles(0);
     }
 
@@ -167,8 +171,8 @@ void Editor::highlightHoveredTiles(int color)
             break;
     }
 
-	SDL_Rect* box = new SDL_Rect{ mouse->getPixelPosition().x, 
-                                  mouse->getPixelPosition().y, 8, 8 };
+	SDL_Rect* box = new SDL_Rect{ mouse->pixelPosition.x, 
+                                  mouse->pixelPosition.y, 8, 8 };
 	SDL_RenderDrawRect(renderer, box);
 
 	delete box;
@@ -177,9 +181,9 @@ void Editor::highlightHoveredTiles(int color)
 
 void Editor::renderMousePos()
 {
-    if (mouse->getTilePosition() != currentTile) {
-        updatePosTexture(mouse->getTilePosition());
-        currentTile = mouse->getTilePosition();
+    if (mouse->tilePosition != currentTile) {
+        updatePosTexture(mouse->tilePosition);
+        currentTile = mouse->tilePosition;
         tileUpdateable = true;
     }
     mousePosTexture->render(1, 1);
@@ -234,4 +238,14 @@ bool Editor::insidePallete()
         return xBounded && yBounded;
     }
     return false;
+}
+
+int Editor::getSelectedBrush()
+{
+    Vec2 palleteTile;
+    palleteTile.x = mouse->tilePosition.x;
+    palleteTile.y = mouse->tilePosition.y - (pallete->yPos / 8);
+
+    printf("%d %d", pallete->yPos, mouse->tilePosition.y);
+    return (palleteTile.y * 4) + mouse->tilePosition.x;
 }
