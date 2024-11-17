@@ -4,6 +4,7 @@
 class Entity;
 class Player;
 class Map;
+class Vec2;
 
 class Scene
 {
@@ -29,6 +30,7 @@ public:
 
 	Map* getMap();
     void loadMap();
+    void loadMap(Vec2 targetTile);
 
 private:
 	std::vector<Entity*> entities;
@@ -40,6 +42,8 @@ private:
 
 	const int TILESIZE = 8;
 
-    void tileToEntity(int tile, int x, int y);
+    void tileDataToEntity(int tile, int x, int y);
+
+    Entity* entityAtLocation(Vec2 location);
 };
 

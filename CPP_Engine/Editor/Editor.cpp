@@ -47,29 +47,30 @@ void Editor::update()
 	if (mouse->leftClickDown()) {
         if (tileUpdateable) {
             
-            std::vector<int> prevData = scene->getMap()->getData();
-            scene->getMap()->addTile(mouse->getTilePosition(), activeBrush);
-            if (prevData != scene->getMap()->getData()) {
-                scene->loadMap();
+            // TODO - dont use mapChanged, poor naming and confusing useage
+            if (mapChanged(1)) {
+                scene->loadMap(mouse->getTilePosition());
             }
             tileUpdateable = false;
         }
+        highlightHoveredTiles(1);
+
     } else if (mouse->rightClickDown()) {
         if (tileUpdateable) {
             
-            std::vector<int> prevData = scene->getMap()->getData();
-            scene->getMap()->removeTile(mouse->getTilePosition());
-            if (prevData != scene->getMap()->getData()) {
-                scene->loadMap();
+            if (mapChanged(0)) {
+                scene->loadMap(mouse->getTilePosition());
             }
             tileUpdateable = false;
         }
+        highlightHoveredTiles(2);
+        
     } else {
         tileUpdateable = true;
+        highlightHoveredTiles(0);
     }
 
 	renderMousePos();
-	highlightHoveredTiles();
 
 	moveCamera(camMoveDir);
 }
@@ -138,9 +139,23 @@ Mouse* Editor::getMouse()
 }
 
 
-void Editor::highlightHoveredTiles()
+void Editor::highlightHoveredTiles(int color)
 {
-	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    switch(color) {
+        case 0:
+            SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+            break;
+        case 1:
+            SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
+            break;
+        case 2:
+            SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
+            break;
+        default:
+            SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+            break;
+    }
+
 	SDL_Rect* box = new SDL_Rect{ mouse->getPixelPosition().x, 
                                   mouse->getPixelPosition().y, 8, 8 };
 	SDL_RenderDrawRect(renderer, box);
@@ -181,6 +196,16 @@ void Editor::moveCamera(int dir)
 	}
 }
 
-void Editor::writeTileToMap(Vec2 tile)
+bool Editor::mapChanged(int action) 
 {
+    std::vector<int> prevData = scene->getMap()->getData();
+    if (action) {
+        scene->getMap()->addTile(mouse->getTilePosition(), activeBrush);
+    } else {
+        scene->getMap()->removeTile(mouse->getTilePosition());
+    }
+    if (prevData != scene->getMap()->getData()) {
+        return true;
+    }
+    return false;
 }

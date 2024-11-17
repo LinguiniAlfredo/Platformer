@@ -43,10 +43,11 @@ private:
 	Vec2 initialCamPosition;
 	int camMoveDir; 
 
-	void highlightHoveredTiles();
+	void highlightHoveredTiles(int color);
 	void renderMousePos();
 	void updatePosTexture(Vec2 position);
 	void moveCamera(int dir);
 	void writeTileToMap(Vec2 tile);
 
+    bool mapChanged(int action);
 };

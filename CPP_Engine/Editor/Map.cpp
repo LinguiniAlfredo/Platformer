@@ -33,6 +33,11 @@ void Map::load()
     file.close();
 }
 
+void Map::write()
+{
+   // call after exiting editor mode 
+}
+
 void Map::addTile(Vec2 pos, int tileType)
 {
     int index = pos.y * 40 + pos.x;
@@ -44,16 +49,10 @@ void Map::addTile(Vec2 pos, int tileType)
 void Map::removeTile(Vec2 pos)
 {
     int index = pos.y * 40 + pos.x;
-    printf("%d", data.at(index));
     if (data.at(index) != 0) {
         data.at(index) = 0;
     }
-    printf("%d", data.at(index));
 }
 
-void Map::writeTileMapFile()
-{
-   // call after exiting editor mode 
-}
 
 

@@ -11,9 +11,9 @@ public:
 	~Map();
 
 	void load();
+    void write();
     void addTile(Vec2 pos, int tileType);
     void removeTile(Vec2 pos);
-    void writeTileMapFile();
 
     std::vector<int> getData();
 

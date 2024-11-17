@@ -6,6 +6,7 @@ public:
 	Vec2(int x, int y);
 
     bool operator!=(const Vec2& rhs);
+    bool operator==(const Vec2& rhs);
 
 	int x;
 	int y;

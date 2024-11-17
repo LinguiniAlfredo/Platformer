@@ -143,24 +143,49 @@ void Scene::loadMap()
            int y = static_cast<int>(i / 40);
            int x = static_cast<int>(i - (y * 40)); 
 
-           tileToEntity(tiles.at(i), x, y);
+           tileDataToEntity(tiles.at(i), x, y);
     }
 }
 
+void Scene::loadMap(Vec2 targetTile)
+{
+    std::vector<int> tiles = map->getData();
+
+    int index = (targetTile.y * 40) + targetTile.x;
+    tileDataToEntity(tiles.at(index), targetTile.x, targetTile.y);
+}
+
 // maybe move this to Editor, will also have TileType enum available
-void Scene::tileToEntity(int tile, int x, int y)
+void Scene::tileDataToEntity(int tile, int x, int y)
 {
     switch(tile) {
         case 0:
-            break;
+        {
+            Entity* ent = entityAtLocation({ x, y });
+            if (ent != nullptr) {
+                removeEntity(ent);
+            }
+        } break;
+
         case 1:
            addEntity(new Surface(this, "resources/textures/ground_tile.png", { x, y }));
            break;
+           
         case 9:
            addEntity(new Player(this, "resources/textures/guy.png", { x, y }));
            break;
+
         default:
            break;
     }
 }
 
+Entity* Scene::entityAtLocation(Vec2 location)
+{
+    for (Entity* ent : entities) {
+        if (ent->getPosition() == location) {
+            return ent;
+        }
+    }
+    return nullptr;
+}

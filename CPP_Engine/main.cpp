@@ -141,15 +141,6 @@ void initLevelOne()
 	Scene* level = new Scene(renderer, camera, map);
 	currentScene = level;
 }
-	//	writeTileToMap(mouse->getTilePosition());
-	//	writeTileToMap(mouse->getTilePosition());
-	//	writeTileToMap(mouse->getTilePosition());
-	//	writeTileToMap(mouse->getTilePosition());
-	//	writeTileToMap(mouse->getTilePosition());
-	//	writeTileToMap(mouse->getTilePosition());
-	//	writeTileToMap(mouse->getTilePosition());
-	//	writeTileToMap(mouse->getTilePosition());
-	//	writeTileToMap(mouse->getTilePosition());
 
 void initLevelTwo()
 {
@@ -294,7 +285,7 @@ void toggleEditor()
 		editor = new Editor(renderer, currentScene);
 	}
 	else {
-        currentScene->getMap()->writeTileMapFile();
+        currentScene->getMap()->write();
 
 		delete editor;
 		editor = nullptr;

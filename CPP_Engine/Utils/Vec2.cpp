@@ -17,6 +17,11 @@ bool Vec2::operator!=(const Vec2& rhs) {
     return x != rhs.x || y != rhs.y;
 }
 
+bool Vec2::operator==(const Vec2& rhs) {
+
+    return x == rhs.x && y == rhs.y;
+}
+
 Vec2f::Vec2f()
 {
 	x = 0;
