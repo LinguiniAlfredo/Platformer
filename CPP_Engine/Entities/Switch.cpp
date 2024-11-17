@@ -62,7 +62,7 @@ Switch::~Switch()
 
 void Switch::checkCollisions(float deltaTime)
 {
-	// Check player leaving collision box for switch so it doesn't happen each frame
+    // Check player leaving collision box for switch so it doesn't happen each frame
 	Player* player = dynamic_cast<Player*>(scene->getPlayer());
 	if (player != nullptr) {
 
@@ -93,17 +93,17 @@ void Switch::onOff()
 	if (on) {
 		setTexture(onTexture);
         for (Entity* ent : scene->getEntities()){
-           if (ent->getTexture()->name == "resources/textures/block_" + color + ".png") {
+           if (ent->getTexture()->name == "resources/textures/trans_block_" + color + ".png") {
             ent->setSolid(true);
-            ent->setTexture("resources/textures/trans_block_" + color + ".png");
+            ent->setTexture("resources/textures/block_" + color + ".png");
            }
         }
 	}
 	else {
         for (Entity* ent : scene->getEntities()){
-           if (ent->getTexture()->name == "resources/textures/trans_block_" + color + ".png") {
-            ent->setSolid(true);
-            ent->setTexture("resources/textures/block_" + color + ".png");
+           if (ent->getTexture()->name == "resources/textures/block_" + color + ".png") {
+            ent->setSolid(false);
+            ent->setTexture("resources/textures/trans_block_" + color + ".png");
            }
         }
 	}
