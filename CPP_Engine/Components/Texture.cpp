@@ -25,6 +25,7 @@ Texture::Texture(SDL_Renderer* r, string path)
 	width = 0;
 	height = 0;
 	texture = loadFromFile(path);
+    name = path;
 }
 
 Texture::Texture(SDL_Renderer* r, string path, int w, int h)
@@ -33,6 +34,7 @@ Texture::Texture(SDL_Renderer* r, string path, int w, int h)
 	width = w;
 	height = h;
 	texture = loadFromFile(path);
+    name = path;
 }
 
 Texture::Texture(SDL_Renderer* r, string text, TTF_Font* font, SDL_Color color, int w, int h)

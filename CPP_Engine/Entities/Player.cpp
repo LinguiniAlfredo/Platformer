@@ -167,11 +167,11 @@ void Player::setPowerLevel(int p)
 {
 	power += p;
 	switch (power) {
-		case FLOWER:
+		case P_FLOWER:
 			// TODO - add power-up animation
 			setTexture("resources/textures/guy_flower.png");
 			break;
-		case NONE:
+		case P_NONE:
 			// TODO - add power-down animation
 			setTexture("resources/textures/guy.png");
 			break;

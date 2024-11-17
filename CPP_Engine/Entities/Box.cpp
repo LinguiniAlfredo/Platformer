@@ -10,21 +10,23 @@
 
 Box::Box(Scene* s, Pickup* i, Vec2 pos)
 {
-	//std::cout << "creating box \n";
 	scene = s;
 	position = pos;
 	item = i;
 	texture = new Texture(scene->getRenderer(), textureFile);
-	collider = new Collision(scene->getRenderer(), position.x, position.y + 1, texture->getWidth(), texture->getHeight());
+
+	collider = new Collision(scene->getRenderer(), 
+            position.x, position.y + 1, 
+            texture->getWidth(), texture->getHeight());
 
 	currentState = item == nullptr;
 }
 
 Box::~Box()
 {
-	//std::cout << "destroying box\n";
 	delete texture;
 	delete collider;
+
 	texture = nullptr;
 	collider = nullptr;
 
@@ -39,7 +41,9 @@ void Box::checkCollisions(float deltaTime)
 	// Check collisions on player from bottom
 	for (Entity* ent : scene->getEntities()) {
 		if (ent->hasCollider() && ent->hasPhysics()) {
-			if (SDL_HasIntersection(collider->getBox(), ent->getCollider()->getBox()) && ent->getPosition().y > position.y) {
+			if (SDL_HasIntersection(collider->getBox(), ent->getCollider()->getBox()) 
+                    && ent->getPosition().y > position.y) {
+
 				colliding = true;
 				if (currentState == FULL) {
 					openBox();

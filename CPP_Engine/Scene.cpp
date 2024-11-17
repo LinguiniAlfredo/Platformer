@@ -3,10 +3,13 @@
 #include "stdio.h"
 #include "Scene.h"
 #include "Editor/Map.h"
+#include "Editor/Editor.h"
 #include "Entities/Entity.h"
 #include "Entities/Surface.h"
 #include "Entities/Player.h"
 #include "Entities/Pickup.h"
+#include "Entities/Switch.h"
+#include "Entities/Box.h"
 
 Scene::Scene() 
 {
@@ -123,7 +126,7 @@ Entity* Scene::getPlayer()
 	//		return ent->name == "player";
 	//	});
 	//int index = std::distance(entities.begin(), it);
-	return entities.at(1);
+	return entities.at(0);
 }
 
 SDL_Rect* Scene::getCamera()
@@ -136,9 +139,9 @@ Map* Scene::getMap()
 	return map;
 }
 
+// loads entire map
 void Scene::loadMap()
 {
-    //clearEntities();
     std::vector<int> tiles = map->getData();
     for (int i = 0; i < tiles.size(); i++) {
            int y = static_cast<int>(i / 40);
@@ -148,6 +151,7 @@ void Scene::loadMap()
     }
 }
 
+// only loads a single target tile
 void Scene::loadMap(Vec2 targetTile)
 {
     std::vector<int> tiles = map->getData();
@@ -156,11 +160,10 @@ void Scene::loadMap(Vec2 targetTile)
     tileDataToEntity(tiles.at(index), targetTile.x, targetTile.y);
 }
 
-// maybe move this to Editor, will also have TileType enum available
 void Scene::tileDataToEntity(int tile, int x, int y)
 {
     switch(tile) {
-        case 0:
+        case BLANK:
         {
             Entity* ent = entityAtLocation({ x, y });
             if (ent != nullptr) {
@@ -168,21 +171,59 @@ void Scene::tileDataToEntity(int tile, int x, int y)
             }
         } break;
 
-        case 1:
+        case GUY:
+           addEntity(new Player(this, "resources/textures/guy.png", { x, y }));
+           break;
+
+        case GROUND:
            addEntity(new Surface(this, "resources/textures/ground_tile.png", { x, y }));
            break;
            
-        case 2:
+        case GRASS:
             addEntity(new Surface(this, "resources/textures/grass_1.png", { x, y }, false));
             break;
 
-        case 3:
+        case COIN:
+            addEntity(new Pickup(this, "coin", { x, y }, false));
+            break;
+
+        case FLOWER:
             addEntity(new Pickup(this, "flower", { x, y }, false));
             break;
 
-        case 9:
-           addEntity(new Player(this, "resources/textures/guy.png", { x, y }));
-           break;
+        case BLOCK_RED:
+            addEntity(new Surface(this, "resources/textures/trans_block_red.png", { x, y }, false));
+            break;
+        
+        case BLOCK_GREEN:
+            addEntity(new Surface(this, "resources/textures/trans_block_green.png", { x, y }, false));
+            break;
+
+        case BLOCK_BLUE:
+            addEntity(new Surface(this, "resources/textures/trans_block_blue.png", { x, y }, false));
+            break;
+        
+        case SWITCH_RED:
+            addEntity(new Switch(this, "red", { x, y }));
+            break;
+
+        case SWITCH_GREEN:
+            addEntity(new Switch(this, "green", { x, y }));
+            break;
+
+        case SWITCH_BLUE:
+            addEntity(new Switch(this, "blue", { x, y }));
+            break;
+
+        case SIGN:
+            addEntity(new Surface(this, "resources/textures/sign.png", { x, y }, false));
+            break;
+
+        case BOX:
+        {
+            Pickup* flower = new Pickup(this, "flower", { x, y }, false);
+            addEntity(new Box(this, flower, { x, y }));
+        } break;
 
         default:
            break;

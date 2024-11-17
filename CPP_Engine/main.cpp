@@ -54,14 +54,6 @@ enum scene {
 	TOTAL
 };
 
-enum entityType {
-	PLAYER,
-	PICKUP,
-	SURFACE,
-	BOX
-};
-
-
 bool init();
 
 bool changeScene(int scene);
@@ -109,7 +101,6 @@ bool changeScene(int scene)
 			break;
 
 		case LEVEL_2:
-			initLevelTwo();
 			break;
 
 		case LEVEL_3:
@@ -127,11 +118,6 @@ bool changeScene(int scene)
 
 void initMainMenu()
 {
-	Scene* mainMenu = new Scene();
-	////mainMenu->addGameObject(title);
-	////mainMenu->addGameObject(menu);
-	currentScene = mainMenu;
-	
 }
 
 void initLevelOne()
@@ -144,80 +130,6 @@ void initLevelOne()
 
 void initLevelTwo()
 {
-	SDL_Rect* camera = new SDL_Rect{ 0,0, INTERNAL_SCREEN_WIDTH, INTERNAL_SCREEN_HEIGHT };
-	Scene* level = new Scene(renderer, camera); 
-	level->addEntity(new Surface(level, "resources/textures/sign.png", { 4, NUM_TILES_HIGH - 2 }, false));
-
-	level->addEntity(new Player(level, "resources/textures/guy.png", { 7, NUM_TILES_HIGH - 4 }));
-	
-	// add floor across bottom
-	for (int i = 0; i < NUM_TILES_WIDE * 2; i++) {
-
-		if (i > NUM_TILES_WIDE - 8 && i < NUM_TILES_WIDE - 2) {
-			continue;
-		}
-		level->addEntity(new Surface(level, "resources/textures/ground_tile.png", { i, NUM_TILES_HIGH - 1 }));
-	}
-
-	// add steps up to platform
-	for (int i = 14; i < 17; i++) {
-		level->addEntity(new Surface(level, "resources/textures/brick.png", { i, NUM_TILES_HIGH - 2 }));
-		if (i != 14) {
-			level->addEntity(new Surface(level, "resources/textures/brick.png", { i, NUM_TILES_HIGH - 3 }));
-		}
-		if (i == 16) {
-			level->addEntity(new Surface(level, "resources/textures/brick.png", { i, NUM_TILES_HIGH - 4 }));
-		}
-	}
-
-	// platform
-	for (int i = 0; i < 9; i++) {
-		level->addEntity(new Surface(level, "resources/textures/brick.png", { NUM_TILES_WIDE / 2 + i, NUM_TILES_HIGH - 4 }));
-	}
-
-	//// coins
-	//for (int i = 0; i < 5; i+=2) {
-	//	level->addEntity(new Pickup(level, "coin", { NUM_TILES_WIDE / 2 + 2 + i, NUM_TILES_HIGH - 2 }, false));
-	//}
-
-	//for (int i = 0; i < 5; i += 2) {
-	//	level->addEntity(new Pickup(level, "coin", { NUM_TILES_WIDE - 5, NUM_TILES_HIGH - 4 - i }, false));
-
-	//}
-
-	for (int i = 0; i < 14; i++) {
-		level->addEntity(new Surface(level, "resources/textures/grass_1.png", { 18 + i, NUM_TILES_HIGH - 2 }, false));
-	}
-
-	level->addEntity(new Box(level, new Pickup(level, "flower", false), { 10, NUM_TILES_HIGH - 4 }));
-
-	// TODO - Find better API for switches/blocks
-	// create array of blocks to attach to switch object
-	std::vector<Surface*> blueSwitchBlocks;
-	for (int i = 0; i < 5; i++) {
-		blueSwitchBlocks.push_back(new Surface(level, "resources/textures/trans_block_blue.png", { NUM_TILES_WIDE - 7 + i, NUM_TILES_HIGH - 1 }, false));
-	}
-	level->addEntity(new Switch(level, blueSwitchBlocks, { NUM_TILES_WIDE / 2 + 11, NUM_TILES_HIGH - 10 }));
-
-
-
-	// create array of blocks to attach to switch object
-	std::vector<Surface*> redSwitchBlocks;
-	for (int i = 0; i < 3; i++) {
-		redSwitchBlocks.push_back(new Surface(level, "resources/textures/trans_block_red.png", { NUM_TILES_WIDE / 2 + 10 + i, NUM_TILES_HIGH - 7 }, false));
-	}
-	level->addEntity(new Switch(level, redSwitchBlocks, "red", { NUM_TILES_WIDE / 2 + 4, NUM_TILES_HIGH - 7 }));
-
-	// create array of blocks to attach to switch object
-	std::vector<Surface*> greenSwitchBlocks;
-	for (int i = 0; i < 3; i++) {
-		greenSwitchBlocks.push_back(new Surface(level, "resources/textures/block_green.png", { NUM_TILES_WIDE - 6 + i, 5 }, true));
-	}
-	level->addEntity(new Switch(level, greenSwitchBlocks, "green", { NUM_TILES_WIDE + 4, NUM_TILES_HIGH - 4 }, true));
-
-	level->addEntity(new Pickup(level, "key", { NUM_TILES_WIDE - 5, 3 }, true));
-
-	currentScene = level;
 }
 
 
@@ -322,7 +234,7 @@ int main( int argc, char* args[] )
 		printf("failed to init");
 	}
 	else {
-		if (!changeScene(LEVEL_2)) {
+		if (!changeScene(LEVEL_1)) {
 			printf("failed to load entities");
 		}
 		else {

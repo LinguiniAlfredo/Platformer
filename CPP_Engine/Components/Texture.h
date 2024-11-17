@@ -23,6 +23,9 @@ public:
 
 	SDL_Texture* getTexture();
 
+    string name = "";
+
+
 private:
 	SDL_Texture* texture;
 	SDL_Renderer* renderer;

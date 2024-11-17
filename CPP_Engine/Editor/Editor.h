@@ -9,7 +9,19 @@ class Mouse;
 
 enum Tile {
 	BLANK,
-	GROUND
+    GUY,
+	GROUND,
+    GRASS,
+    COIN,
+    FLOWER,
+    BLOCK_RED,
+    BLOCK_GREEN,
+    BLOCK_BLUE,
+    SWITCH_RED,
+    SWITCH_GREEN,
+    SWITCH_BLUE,
+    SIGN,
+    BOX
 };
 
 class Editor
@@ -26,6 +38,8 @@ public:
 	Pallete* getPallete();
 	Mouse* getMouse();
 
+	int activeBrush = GROUND;
+
 private:
 	Scene* scene;
 	SDL_Renderer* renderer;
@@ -36,7 +50,6 @@ private:
 	SDL_Color fontColor = { 255,255,255,255 };
 
     bool tileUpdateable = true;
-	int activeBrush = GROUND;
     Vec2 currentTile;
 
 	bool palleteOpen = false;

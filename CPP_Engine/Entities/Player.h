@@ -7,8 +7,8 @@ enum playerState {
 };
 
 enum power {
-	NONE,
-	FLOWER
+	P_NONE,
+	P_FLOWER
 };
 
 class Player : 
@@ -32,7 +32,7 @@ private:
 	int jumpForce	 = 250;
 
 	int currentState = AIRBORNE;
-	int power        = NONE;
+	int power        = P_NONE;
 	bool running	 = false;
 
 	int coinCount = 0;

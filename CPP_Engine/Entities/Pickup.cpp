@@ -15,11 +15,17 @@ Pickup::Pickup(Scene* scene, std::string itemType, bool physics)
 	this->type = itemType;
 	this->position = { 0,0 };
 	this->texture = new Texture(scene->getRenderer(), "resources/textures/" + itemType + ".png");
-	this->collider = new Collision(scene->getRenderer(), position.x, position.y, texture->getWidth(), texture->getHeight());
+
+	this->collider = new Collision(scene->getRenderer(), 
+            position.x, position.y, 
+            texture->getWidth(), texture->getHeight());
+
 	this->physics = nullptr;
+
 	if (physics) {
 		this->physics = new Physics();
 	}
+
 	this->solid = false;
 }
 
@@ -30,20 +36,25 @@ Pickup::Pickup(Scene* scene, std::string itemType, Vec2 pos, bool physics)
 	this->type = itemType;
 	this->position = pos;
 	this->texture = new Texture(scene->getRenderer(), "resources/textures/" + itemType + ".png");
-	this->collider = new Collision(scene->getRenderer(), position.x, position.y, texture->getWidth(), texture->getHeight());
+
+	this->collider = new Collision(scene->getRenderer(), 
+            position.x, position.y, 
+            texture->getWidth(), texture->getHeight());
+
 	this->physics = nullptr;
+
 	if (physics) {
 		this->physics = new Physics();
 	}
-	this->solid = false;
 
+	this->solid = false;
 }
 
 Pickup::~Pickup()
 {
-	//std::cout << "destroying pickup\n";
 	delete texture;
 	delete collider;
+
 	texture = nullptr;
 	collider = nullptr;
 
