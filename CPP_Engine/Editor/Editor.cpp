@@ -45,26 +45,35 @@ void Editor::update()
 	}
 
 	if (mouse->leftClickDown()) {
-        if (tileUpdateable) {
-            
-            // TODO - dont use mapChanged, poor naming and confusing useage
-            if (mapChanged(1)) {
-                scene->loadMap(mouse->getTilePosition());
+        if (palleteOpen && insidePallete()) {
+
+            // select a tile brush
+
+        } else {
+            if (tileUpdateable) {
+                
+                // TODO - dont use mapChanged, poor naming and confusing useage
+                if (mapChanged(1)) {
+                    scene->loadMap(mouse->getTilePosition());
+                }
+                tileUpdateable = false;
             }
-            tileUpdateable = false;
+            highlightHoveredTiles(1);
         }
-        highlightHoveredTiles(1);
 
     } else if (mouse->rightClickDown()) {
-        if (tileUpdateable) {
-            
-            if (mapChanged(0)) {
-                scene->loadMap(mouse->getTilePosition());
+        if (!insidePallete()) {
+
+            if (tileUpdateable) {
+                
+                if (mapChanged(0)) {
+                    scene->loadMap(mouse->getTilePosition());
+                }
+                tileUpdateable = false;
             }
-            tileUpdateable = false;
+            highlightHoveredTiles(2);
         }
-        highlightHoveredTiles(2);
-        
+
     } else {
         tileUpdateable = true;
         highlightHoveredTiles(0);
@@ -206,6 +215,21 @@ bool Editor::mapChanged(int action)
     }
     if (prevData != scene->getMap()->getData()) {
         return true;
+    }
+    return false;
+}
+
+bool Editor::insidePallete()
+{
+    if (pallete != nullptr) {
+        
+        bool xBounded = mouse->pixelPosition.x >= pallete->xPos && 
+            mouse->pixelPosition.x < pallete->xPos + pallete->width;
+
+        bool yBounded = mouse->pixelPosition.y >= pallete->yPos &&
+            mouse->pixelPosition.y < pallete->yPos + pallete->height;
+
+        return xBounded && yBounded;
     }
     return false;
 }

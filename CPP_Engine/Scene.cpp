@@ -6,6 +6,7 @@
 #include "Entities/Entity.h"
 #include "Entities/Surface.h"
 #include "Entities/Player.h"
+#include "Entities/Pickup.h"
 
 Scene::Scene() 
 {
@@ -171,6 +172,14 @@ void Scene::tileDataToEntity(int tile, int x, int y)
            addEntity(new Surface(this, "resources/textures/ground_tile.png", { x, y }));
            break;
            
+        case 2:
+            addEntity(new Surface(this, "resources/textures/grass_1.png", { x, y }, false));
+            break;
+
+        case 3:
+            addEntity(new Pickup(this, "flower", { x, y }, false));
+            break;
+
         case 9:
            addEntity(new Player(this, "resources/textures/guy.png", { x, y }));
            break;

@@ -5,7 +5,7 @@
 Pallete::Pallete(SDL_Renderer* renderer)
 {
 	this->renderer = renderer;
-	this->box = new SDL_Rect{ 0, 32, 32, 64 };
+	this->box = new SDL_Rect{ xPos, yPos, width, height };
 }
 
 Pallete::~Pallete()

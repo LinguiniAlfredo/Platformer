@@ -50,4 +50,5 @@ private:
 	void writeTileToMap(Vec2 tile);
 
     bool mapChanged(int action);
+    bool insidePallete();
 };

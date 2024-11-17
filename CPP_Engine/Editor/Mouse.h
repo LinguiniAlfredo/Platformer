@@ -16,10 +16,11 @@ public:
     bool leftClickDown();
     bool rightClickDown();
 
-private:
     Vec2 position;
     Vec2 pixelPosition;
     Vec2 tilePosition;
+
+private:
 
     int state;
     int unitsToPixels = 192; // TODO - replace with a sane constant, resolution independent
