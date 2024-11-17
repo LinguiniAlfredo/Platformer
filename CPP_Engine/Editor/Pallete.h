@@ -1,11 +1,14 @@
 #pragma once
 #include <SDL.h>
+class Texture;
 
 class Pallete
 {
 public:
 	Pallete(SDL_Renderer* renderer);
 	~Pallete();
+
+    Texture* texture;
 
 	void update();
 	void handleEvent(SDL_Event& e);

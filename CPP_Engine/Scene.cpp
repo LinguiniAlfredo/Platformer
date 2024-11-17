@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "Editor/Map.h"
 #include "Editor/Editor.h"
+#include "Editor/Pallete.h"
 #include "Entities/Entity.h"
 #include "Entities/Surface.h"
 #include "Entities/Player.h"
@@ -184,22 +185,22 @@ void Scene::tileDataToEntity(int tile, int x, int y)
             break;
 
         case COIN:
-            addEntity(new Pickup(this, "coin", { x, y }, false));
+            addEntity(new Pickup(this, "coin", { x, y }, true));
             break;
 
         case FLOWER:
-            addEntity(new Pickup(this, "flower", { x, y }, false));
+            addEntity(new Pickup(this, "flower", { x, y }, true));
             break;
 
-        case BLOCK_RED:
+        case SWBLOCK_RED:
             addEntity(new Surface(this, "resources/textures/trans_block_red.png", { x, y }, false));
             break;
         
-        case BLOCK_GREEN:
+        case SWBLOCK_GREEN:
             addEntity(new Surface(this, "resources/textures/trans_block_green.png", { x, y }, false));
             break;
 
-        case BLOCK_BLUE:
+        case SWBLOCK_BLUE:
             addEntity(new Surface(this, "resources/textures/trans_block_blue.png", { x, y }, false));
             break;
         
@@ -239,3 +240,4 @@ Entity* Scene::entityAtLocation(Vec2 location)
     }
     return nullptr;
 }
+

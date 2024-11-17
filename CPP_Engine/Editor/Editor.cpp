@@ -29,7 +29,7 @@ Editor::~Editor()
 		pallete = nullptr;
 	}
 	if (mousePosTexture != nullptr) {
-		mousePosTexture->free();
+        delete mousePosTexture;
 		mousePosTexture = nullptr;
 	}
 	scene->getCamera()->x = initialCamPosition.x;
@@ -246,6 +246,5 @@ int Editor::getSelectedBrush()
     palleteTile.x = mouse->tilePosition.x;
     palleteTile.y = mouse->tilePosition.y - (pallete->yPos / 8);
 
-    printf("%d %d", pallete->yPos, mouse->tilePosition.y);
     return (palleteTile.y * 4) + mouse->tilePosition.x;
 }

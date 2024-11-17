@@ -13,15 +13,16 @@ enum Tile {
 	GROUND,
     GRASS,
     COIN,
+    SWBLOCK_RED,
+    SWBLOCK_GREEN,
+    SWBLOCK_BLUE,
     FLOWER,
-    BLOCK_RED,
-    BLOCK_GREEN,
-    BLOCK_BLUE,
     SWITCH_RED,
     SWITCH_GREEN,
     SWITCH_BLUE,
     SIGN,
-    BOX
+    BOX,
+    KEY
 };
 
 class Editor
