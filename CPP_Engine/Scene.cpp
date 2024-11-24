@@ -145,8 +145,8 @@ void Scene::loadMap()
 {
     std::vector<int> tiles = map->getData();
     for (int i = 0; i < tiles.size(); i++) {
-           int y = static_cast<int>(i / 40);
-           int x = static_cast<int>(i - (y * 40)); 
+           int y = static_cast<int>(i / map->width);
+           int x = static_cast<int>(i - (y * map->width)); 
 
            tileDataToEntity(tiles.at(i), x, y);
     }
@@ -157,7 +157,7 @@ void Scene::loadMap(Vec2 targetTile)
 {
     std::vector<int> tiles = map->getData();
 
-    int index = (targetTile.y * 40) + targetTile.x;
+    int index = (targetTile.y * map->width) + targetTile.x;
     tileDataToEntity(tiles.at(index), targetTile.x, targetTile.y);
 }
 
@@ -166,7 +166,7 @@ void Scene::tileDataToEntity(int tile, int x, int y)
     switch(tile) {
         case BLANK:
         {
-            Entity* ent = entityAtLocation({ x, y });
+            Entity* ent = getEntityAtLocation({ x, y });
             if (ent != nullptr) {
                 removeEntity(ent);
             }
@@ -231,7 +231,7 @@ void Scene::tileDataToEntity(int tile, int x, int y)
     }
 }
 
-Entity* Scene::entityAtLocation(Vec2 location)
+Entity* Scene::getEntityAtLocation(Vec2 location)
 {
     for (Entity* ent : entities) {
         if (ent->getPosition() == location) {

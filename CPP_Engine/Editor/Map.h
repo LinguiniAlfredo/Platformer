@@ -17,9 +17,9 @@ public:
 
     std::vector<int> getData();
 
+    const int width = 40;
+    const int height = 22;
 private:
     std::vector<int> data;
     std::string filename;
-    const int width = 40;
-    const int height = 22;
 };

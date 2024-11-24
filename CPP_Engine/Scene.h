@@ -44,7 +44,7 @@ private:
 
     void tileDataToEntity(int tile, int x, int y);
 
-    Entity* entityAtLocation(Vec2 location);
+    Entity* getEntityAtLocation(Vec2 location);
 
 };
 

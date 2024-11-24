@@ -214,7 +214,8 @@ void renderCollider(Entity* ent)
 	}
 	// camera correct collider
 	SDL_Rect* box = ent->getCollider()->getBox();
-	SDL_Rect* correctedBox = new SDL_Rect{ box->x - currentScene->getCamera()->x, box->y - currentScene->getCamera()->y, box->w, box->h};
+	SDL_Rect* correctedBox = new SDL_Rect{ box->x - currentScene->getCamera()->x, 
+        box->y - currentScene->getCamera()->y, box->w, box->h};
 	SDL_RenderDrawRect(renderer, correctedBox);
 }
 
@@ -222,7 +223,8 @@ void renderCameraBox()
 {
 	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF);
 	SDL_Rect* box = currentScene->getCamera();
-	SDL_Rect* correctedBox = new SDL_Rect{ box->x - currentScene->getCamera()->x, box->y - currentScene->getCamera()->y, box->w, box->h };
+	SDL_Rect* correctedBox = new SDL_Rect{ box->x - currentScene->getCamera()->x, 
+        box->y - currentScene->getCamera()->y, box->w, box->h };
 	SDL_RenderDrawRect(renderer, correctedBox);
 	delete correctedBox;
 	correctedBox = nullptr;

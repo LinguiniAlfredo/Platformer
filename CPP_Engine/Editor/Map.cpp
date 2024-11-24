@@ -35,12 +35,23 @@ void Map::load()
 
 void Map::write()
 {
-   // call after exiting editor mode 
+    std::string tile;
+    std::ofstream file(filename);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            file << data.at((y * width) + x);
+            file << ',';
+        }
+        file << "\n";
+    }
+
+    file.close();
 }
 
 void Map::addTile(Vec2 pos, int tileType)
 {
-    int index = pos.y * 40 + pos.x;
+    int index = pos.y * width + pos.x;
     if (data.at(index) != tileType) {
         data.at(index) = tileType;
     }
@@ -48,7 +59,7 @@ void Map::addTile(Vec2 pos, int tileType)
 
 void Map::removeTile(Vec2 pos)
 {
-    int index = pos.y * 40 + pos.x;
+    int index = pos.y * width + pos.x;
     if (data.at(index) != 0) {
         data.at(index) = 0;
     }
