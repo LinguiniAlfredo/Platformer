@@ -293,7 +293,7 @@ int main( int argc, char* args[] )
 					}
 				}
 
-				SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+				SDL_SetRenderDrawColor(renderer, 0x87, 0xCE, 0xEB, 0xFF);
 				SDL_RenderClear(renderer);
 
 				for (Entity* ent: currentScene->getEntities()) {

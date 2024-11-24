@@ -20,9 +20,16 @@ Pallete::~Pallete()
 
 void Pallete::update()
 {
-	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0xFF);
-	SDL_RenderDrawRect(renderer, box);
+	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+	SDL_RenderFillRect(renderer, box);
+
+    SDL_Rect* outline = new SDL_Rect{xPos-1, yPos-1, width+2, height+2};
+	SDL_SetRenderDrawColor(renderer, 0xFF, 0xD7, 0x00, 0xFF);
+    SDL_RenderDrawRect(renderer, outline);
     texture->render(xPos, yPos);
+
+    delete outline;
+    outline = nullptr;
 }
 
 void Pallete::handleEvent(SDL_Event& e)
