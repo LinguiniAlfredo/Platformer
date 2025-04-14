@@ -1,5 +1,7 @@
 # Platformer
 
+<img src="https://github.com/user-attachments/assets/9b270c93-0ef4-4a1a-b83d-0fb993feaef6" width=50% height=50%>
+
 This is an unfinished platformer game with a concept of a level editor and a few rudimentary entities (blocks, switches, coins, etc.)
 Perhaps I will return to this at some point...
 
