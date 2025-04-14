@@ -5,23 +5,23 @@ pushd .\build
 
 cl /EHsc /JMC /GS /W3 /ZI /Gd /sdl /MDd /FC /Od /fp:precise /WX- /Zc:wchar_t ^
     /Zc:forScope /RTC1 ^
-            ..\CPP_Engine\main.cpp ^
+            ..\Platformer\main.cpp ^
             ^
-            ..\CPP_Engine\HUD.cpp ^
-            ..\CPP_Engine\Scene.cpp ^
-            ..\CPP_Engine\Entities\*.cpp ^
-            ..\CPP_Engine\Components\*.cpp ^
-            ..\CPP_Engine\Editor\*.cpp ^
-            ..\CPP_Engine\Utils\*.cpp ^
+            ..\Platformer\HUD.cpp ^
+            ..\Platformer\Scene.cpp ^
+            ..\Platformer\Entities\*.cpp ^
+            ..\Platformer\Components\*.cpp ^
+            ..\Platformer\Editor\*.cpp ^
+            ..\Platformer\Utils\*.cpp ^
             ^
             /I C:\vclib\SDL2-2.30.7\include ^
             /I C:\vclib\SDL2_image-2.8.2\include ^
             /I C:\vclib\SDL2_ttf-2.22.0\include ^
-            /I ..\CPP_Engine ^
-            /I ..\CPP_Engine\Entities ^
-            /I ..\CPP_Engine\Components ^
-            /I ..\CPP_Engine\Editor ^
-            /I ..\CPP_Engine\Utils ^
+            /I ..\Platformer ^
+            /I ..\Platformer\Entities ^
+            /I ..\Platformer\Components ^
+            /I ..\Platformer\Editor ^
+            /I ..\Platformer\Utils ^
             ^
             /link ^
                 /LIBPATH:C:\vclib\SDL2-2.30.7\lib\x64 ^
@@ -45,5 +45,5 @@ cl /EHsc /JMC /GS /W3 /ZI /Gd /sdl /MDd /FC /Od /fp:precise /WX- /Zc:wchar_t ^
                     odbccp32.lib ^
             /DYNAMICBASE ^
             /SUBSYSTEM:CONSOLE ^
-            /out:..\CPP_Engine\main.exe
+            /out:..\Platformer\main.exe
 popd
