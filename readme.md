@@ -1,5 +1,8 @@
 # Platformer
 
+This is an unfinished platformer game with a concept of a level editor and a few rudimentary entities (blocks, switches, coins, etc.)
+Perhaps I will return to this at some point...
+
 ## Installation (Windows)
 > SDL2, SDL2-image, & SDL2-ttf must be installed.
 
